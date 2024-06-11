@@ -76,6 +76,7 @@ model VerificationToken {
 
 model Standard {
   id                  String    @id @default(uuid())
+  standard_id         String?
   practice            String
   requirements        String[]
   artefactsList       String[]
@@ -84,18 +85,18 @@ model Standard {
 }
 
 model Artefact {
-  artefact_id              String                @id @default(uuid())
+  artefact_id              String                 @id @default(uuid())
   artefact_name            String
   artefact_area_id         String
   stage                    String
   description              String
   in_project               Boolean?
-  origin_standard          Boolean
-  origin_practice          Boolean
-  origin_literature_review Boolean
+  origin_standard          Boolean?
+  origin_practice          Boolean?
+  origin_literature_review Boolean?
   automation               String
   standards                Standard[]
-  area                     Area                  @relation(fields: [artefact_area_id], references: [area_id])
+  area                     Area                   @relation(fields: [artefact_area_id], references: [area_id])
   projectArtefactScores    ProjectArtefactScore[]
 }
 
