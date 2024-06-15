@@ -32,6 +32,7 @@ export default function Header({ session }: { session: Session | null }) {
 					Projects
 				</Link>
 				<Link
+					prefetch
 					href="/refa"
 					className={cn(pathname.startsWith('/refa') ? 'text-foreground' : 'text-muted-foreground', "transition-colors hover:text-foreground text-lg font-medium min-w-fit")}
 				>
@@ -61,6 +62,7 @@ export default function Header({ session }: { session: Session | null }) {
 							Projects
 						</Link>
 						<Link
+							prefetch
 							href="/refa"
 							className="text-muted-foreground hover:text-foreground"
 						>
