@@ -1,7 +1,6 @@
-import React from 'react'
+import { redirect } from "next/navigation";
+
 
 export default function Page() {
-  return (
-    <div className='px-6'>ReFA</div>
-  )
+    redirect('/refa/stages/1')
 }
