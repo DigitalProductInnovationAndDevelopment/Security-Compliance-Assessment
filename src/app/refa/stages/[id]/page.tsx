@@ -49,7 +49,7 @@ export default async function Page({ params }: Readonly<{ params: { id: string }
                   </div>
                   <ul>
                     {area.people_practices.map((practice) => (
-                      <li>{practice}</li>
+                      <li key={practice}>{practice}</li>
                     ))}
                   </ul>
                   <Separator className='my-4' />
@@ -59,8 +59,8 @@ export default async function Page({ params }: Readonly<{ params: { id: string }
                   </div>
                   <ul>
                     {area.process_practices.map((practice) => (
-                      <li>{practice}</li>
-                    ))}
+                      <li key={practice}>{practice}</li>
+                    ))} 
                   </ul>
                   <Separator className='my-4' />
                   <div className='flex my-4'>
@@ -69,7 +69,7 @@ export default async function Page({ params }: Readonly<{ params: { id: string }
                   </div>
                   <ul>
                     {area.technology_practices.map((practice) => (
-                      <li>{practice}</li>
+                      <li key={practice}>{practice}</li>
                     ))}
                   </ul>
                 </SheetDescription>
