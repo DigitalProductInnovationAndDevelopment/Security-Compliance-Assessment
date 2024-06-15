@@ -33,13 +33,13 @@ async function seed() {
 }
 
 async function handleStageData(data: any) {
-  const { stage, areas } = data;
+  const { stage, areas, stageNumber } = data;
 
   // Upsert the stage
   const stageModel = await prisma.stage.upsert({
     where: { stage: stage },
-    create: { stage: stage },
-    update: { stage: stage },
+    create: { stage: stage, stageNumber: stageNumber },
+    update: { stage: stage, stageNumber: stageNumber },
   });
 
   for (const area of areas) {
