@@ -16,7 +16,7 @@ import { Session } from 'next-auth'
 export default function Header({ session }: { session: Session | null }) {
 	const pathname = usePathname();
 	return (
-		<header className="sticky top-0 flex h-16 items-center gap-4 bg-background px-4 md:px-6">
+		<header className="sticky top-0 flex h-16 items-center gap-4 bg-white px-4 md:px-6 md:py-10">
 			<nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center w-full md:gap-5 md:text-sm lg:gap-6">
 				<Link
 					href="#"
@@ -27,13 +27,13 @@ export default function Header({ session }: { session: Session | null }) {
 				</Link>
 				<Link
 					href="/projects"
-					className={cn(pathname === '/projects' ? 'text-foreground' : 'text-muted-foreground', "transition-colors hover:text-foreground text-md font-semibold")}
+					className={cn(pathname.startsWith('/projects') ? 'text-foreground' : 'text-muted-foreground', "transition-colors hover:text-foreground text-lg font-medium")}
 				>
 					Projects
 				</Link>
 				<Link
 					href="/refa"
-					className={cn(pathname === '/refa' ? 'text-foreground' : 'text-muted-foreground', "transition-colors hover:text-foreground text-md font-semibold")}
+					className={cn(pathname.startsWith('/refa') ? 'text-foreground' : 'text-muted-foreground', "transition-colors hover:text-foreground text-lg font-medium min-w-fit")}
 				>
 					Reference Model
 				</Link>
