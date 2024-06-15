@@ -15,7 +15,6 @@ import { Separator } from '~/components/ui/separator'
 
 export default async function Page({ params }: Readonly<{ params: { id: string } }>) {
   const areas = await api.refa.areasByStage({ stageNumber: parseInt(params.id) })
-  console.log("AREAAAAS", areas)
   // if the link is not something like refa/stages/1 or refa/stages/2
   // redirect to the first stage
 
@@ -42,7 +41,7 @@ export default async function Page({ params }: Readonly<{ params: { id: string }
                   <div>Area Details: </div>
                   {area.area_name}
                 </SheetTitle>
-                <SheetDescription>
+                <SheetDescription className='text-left'>
                   <div className='flex my-4'>
                     <SheetTitle>People</SheetTitle>
                     <Badge variant={area.people === 'High' ? 'destructive' : area.technology === 'Medium' ? 'secondary' : 'default'} className='ml-2'>{area.people}</Badge>
