@@ -115,11 +115,14 @@ model Area {
   question             String
   assessors_guide      String
   stageRelation        Stage      @relation(fields: [stage], references: [stage])
+
+  @@unique([area_id, stage])
 }
 
 model Stage {
-  stage String @id
-  areas Area[]
+  stage       String @id
+  stageNumber Int?
+  areas       Area[]
 }
 
 model Project {
