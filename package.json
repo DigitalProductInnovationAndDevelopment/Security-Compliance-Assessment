@@ -39,7 +39,6 @@
     "next-auth": "^4.24.7",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
-    "react-icons\n": "link:@radix-ui/react-icons\n",
     "server-only": "^0.0.1",
     "superjson": "^2.2.1",
     "tailwind-merge": "^2.3.0",
