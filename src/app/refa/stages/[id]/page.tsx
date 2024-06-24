@@ -26,16 +26,16 @@ export default async function Page({
       <div className="flex min-w-full flex-wrap gap-4">
         {areasWithArtefacts?.areas.map((area) => (
           <Sheet key={area.area_id}>
-            <SheetTrigger>
-              <CardWrapper
-                artifactsView={true}
-                area={{ id: area.area_id, name: area.area_name }}
-                artifacts={area.artefacts.map((artefact) => ({
-                  id: artefact.artefact_id,
-                  name: artefact.artefact_name,
-                }))}
-              ></CardWrapper>
-            </SheetTrigger>
+            <CardWrapper
+              artifactsView={false}
+              area={{ id: area.area_id, name: area.area_name }}
+              artifacts={area.artefacts.map((artefact) => ({
+                id: artefact.artefact_id,
+                name: artefact.artefact_name,
+              }))}
+              // SheetTrigger is in a Area Card now.
+              // TODO: Change the logic for sheet trigger and sheet content be in one file
+            ></CardWrapper>
             <SheetContent className="lg:min-w-[40vw]">
               <SheetHeader>
                 <SheetTitle className="text-center">

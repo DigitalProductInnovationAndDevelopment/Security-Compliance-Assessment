@@ -8,13 +8,15 @@ export type ArtifactProps = {
   name: string;
 };
 
-const ArtifactCard: React.FC<ArtifactProps> = (artifact) => {
-  return (
-    <div className="mb-2 rounded-xl border bg-card text-card-foreground">
-      <CardHeader>{artifact.name}</CardHeader>
-    </div>
-  );
-};
+const ArtifactCard = React.forwardRef<HTMLDivElement, ArtifactProps>(
+  (artifact) => {
+    return (
+      <div className="mb-2 rounded-xl border bg-card text-card-foreground">
+        <CardHeader>{artifact.name}</CardHeader>
+      </div>
+    );
+  },
+);
 ArtifactCard.displayName = "ArtifactCard";
 
 export { ArtifactCard };

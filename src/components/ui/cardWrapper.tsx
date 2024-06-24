@@ -14,39 +14,25 @@ type CardWrapperProps = {
   className?: string;
 };
 
-const CardWrapper: React.FC<CardWrapperProps> = ({
-  className,
-  area,
-  artifacts,
-  artifactsView,
-}) => {
-  //   const [showArtifacts, setShowArtifacts] = useState(artifactsView);
-
-  //   const toggleArtifacts = () => {
-  //     setShowArtifacts(!showArtifacts);
-  //   };
-
-  return (
-    <div className={className}>
-      {artifactsView ? (
-        // Show Artifact Cards
-        <div>
-          {artifacts.map((artifact, index) => (
-            <ArtifactCard id={artifact.id} name={artifact.name} />
-          ))}
-        </div>
-      ) : (
-        // Show Area Card
-        <AreaCard id={area.id} name={area.name}></AreaCard>
-        // <div className="cursor-pointer" onClick={toggleArtifacts}>
-        //   <div className="rounded-xl border bg-card p-4 text-card-foreground">
-        //     Click to Show Artifacts
-        //   </div>
-        // </div>
-      )}
-    </div>
-  );
-};
+const CardWrapper = React.forwardRef<HTMLDivElement, CardWrapperProps>(
+  ({ className, area, artifacts, artifactsView }, ref) => {
+    return (
+      <div className={className}>
+        {artifactsView ? (
+          // Show Artifact Cards
+          <div>
+            {artifacts.map((artifact, index) => (
+              <ArtifactCard id={artifact.id} name={artifact.name} />
+            ))}
+          </div>
+        ) : (
+          // Show Area Card
+          <AreaCard id={area.id} name={area.name}></AreaCard>
+        )}
+      </div>
+    );
+  },
+);
 CardWrapper.displayName = "CardWrapper";
 
 export { CardWrapper };
