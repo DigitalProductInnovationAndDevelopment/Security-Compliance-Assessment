@@ -4,16 +4,25 @@ import { cn } from "~/lib/utils";
 import { CardHeader } from "./card";
 
 export type ArtifactProps = {
-  id: string;
-  name: string;
+  id?: string;
+  name?: string;
+  isEmpty?: boolean;
 };
 
 const ArtifactCard = React.forwardRef<HTMLDivElement, ArtifactProps>(
-  (artifact) => {
+  ({ id, name, isEmpty = false }) => {
     return (
-      <div className="mb-2 rounded-xl border bg-card text-card-foreground">
-        <CardHeader>{artifact.name}</CardHeader>
-      </div>
+      <>
+        {isEmpty ? (
+          <div className="mb-2 rounded-xl bg-card text-card-foreground">
+            <CardHeader>No Artifacts</CardHeader>
+          </div>
+        ) : (
+          <div className="mb-2 rounded-xl border bg-card text-card-foreground">
+            <CardHeader>{name}</CardHeader>
+          </div>
+        )}
+      </>
     );
   },
 );

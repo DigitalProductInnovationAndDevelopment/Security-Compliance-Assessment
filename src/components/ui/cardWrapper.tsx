@@ -4,8 +4,6 @@ import * as React from "react";
 
 import { cn } from "~/lib/utils";
 import { ArtifactCard } from "./artifactCard";
-import { Card } from "./card";
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { AreaCard, AreaProps } from "./areaCard";
 import { ArtifactProps } from "./artifactCard";
 
@@ -31,13 +29,17 @@ const CardWrapper = React.forwardRef<HTMLDivElement, CardWrapperProps>(
     return (
       <div className={cn("relative", className)}>
         <div className={artifactClasses}>
-          {artifacts.map((artifact) => (
-            <ArtifactCard
-              key={artifact.id}
-              id={artifact.id}
-              name={artifact.name}
-            />
-          ))}
+          {artifacts.length === 0 ? (
+            <ArtifactCard isEmpty />
+          ) : (
+            artifacts.map((artifact) => (
+              <ArtifactCard
+                key={artifact.id}
+                id={artifact.id}
+                name={artifact.name}
+              />
+            ))
+          )}
         </div>
         <div className={areaClasses}>
           <AreaCard id={area.id} name={area.name} />
