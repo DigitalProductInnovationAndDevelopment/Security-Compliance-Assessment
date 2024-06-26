@@ -11,7 +11,10 @@ export interface AreaProps {
 
 const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
   return (
-    <Card title={area.name} className="m-2 min-w-fit p-2">
+    <Card
+      title={area.name}
+      className="flex h-full w-full flex-col items-center justify-center"
+    >
       <SheetTrigger>
         <Button
           variant="icon"

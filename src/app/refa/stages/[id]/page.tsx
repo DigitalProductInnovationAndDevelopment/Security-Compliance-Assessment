@@ -10,7 +10,7 @@ import {
 } from "~/components/ui/sheet";
 import { Badge } from "~/components/ui/badge";
 import { Separator } from "~/components/ui/separator";
-import { CardWrapper } from "~/components/ui/cardWrapper";
+import CardWrapper from "~/components/ui/cardWrapper";
 
 export default async function Page({
   params,
