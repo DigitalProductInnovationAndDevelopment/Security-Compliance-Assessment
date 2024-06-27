@@ -6,16 +6,20 @@ import { cn } from "~/lib/utils";
 import { ArtifactCard } from "./artifactCard";
 import { AreaCard, AreaProps } from "./areaCard";
 import { ArtifactProps } from "./artifactCard";
+import { useSearchParams } from "next/navigation";
 
 type CardWrapperProps = {
   area: AreaProps;
   artifacts: ArtifactProps[];
-  artifactsView: boolean;
   className?: string;
 };
 
 const CardWrapper = React.forwardRef<HTMLDivElement, CardWrapperProps>(
-  ({ className, area, artifacts, artifactsView }, ref) => {
+  ({ className, area, artifacts }, ref) => {
+    const searchParams = useSearchParams();
+    const view = searchParams.get("view"); // values "areas" | "artefacts"
+    const artifactsView = view === "artefacts";
+
     const artifactClasses = cn("relative m-2", {
       "z-1": artifactsView,
       "z-[-1]": !artifactsView,
