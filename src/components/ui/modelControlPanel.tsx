@@ -5,6 +5,7 @@ import * as React from "react";
 import { Button } from "~/components/ui/button";
 import { useEffect, useState } from "react";
 import { cn } from "~/lib/utils";
+import { SwitchValue, ViewSwitch } from "./viewSwitch";
 
 export interface ModelControlPanelProps {
   stages: { number: number; name: string }[];
@@ -34,7 +35,7 @@ const ModelControlPanel = React.forwardRef<
 
   return (
     <div className="flex items-center justify-between">
-      <div className="-ml-3 -mr-20 flex min-w-full">
+      <div className="-ml-3 -mr-40 flex min-w-full">
         {stages.map((stage) => (
           <div key={stage.name} className="border-gray-200 py-4">
             <div className="flex flex-row">
@@ -54,9 +55,10 @@ const ModelControlPanel = React.forwardRef<
           </div>
         ))}
       </div>
-      <Button variant="outline" onClick={handleToggle}>
-        {isAreaView ? "Areas" : "Artefacts"}
-      </Button>
+      <ViewSwitch
+        value={isAreaView ? SwitchValue.Areas : SwitchValue.Artefacts}
+        onChange={handleToggle}
+      ></ViewSwitch>
     </div>
   );
 });
