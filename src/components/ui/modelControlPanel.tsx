@@ -34,7 +34,7 @@ const ModelControlPanel = React.forwardRef<
 
   return (
     <div className="flex items-center justify-between">
-      <div className="-ml-3 -mr-20 flex min-w-full">
+      <div className="-ml-3 -mr-40 flex min-w-full">
         {stages.map((stage) => (
           <div key={stage.name} className="border-gray-200 py-4">
             <div className="flex flex-row">
@@ -55,7 +55,7 @@ const ModelControlPanel = React.forwardRef<
         ))}
       </div>
       <Button variant="outline" onClick={handleToggle}>
-        {isAreaView ? "Areas" : "Artefacts"}
+        Change to {isAreaView ? "Artefacts" : "Areas"}
       </Button>
     </div>
   );
