@@ -7,17 +7,16 @@ import {
 } from "~/server/api/trpc";
 
 export const refaRouter = createTRPCRouter({
-  stages: publicProcedure
-    .query(({ input, ctx }) => {
-        return ctx.db.stage.findMany({
-            orderBy: { stageNumber: "asc" },
-        });
-    }),
+  stages: publicProcedure.query(({ input, ctx }) => {
+    return ctx.db.stage.findMany({
+      orderBy: { stageNumber: "asc" },
+    });
+  }),
   areasByStage: publicProcedure
     .input(
       z.object({
         stageNumber: z.number(),
-      })
+      }),
     )
     .query(({ input, ctx }) => {
       return ctx.db.stage.findFirst({
@@ -26,6 +25,26 @@ export const refaRouter = createTRPCRouter({
         },
         include: {
           areas: true,
+        },
+      });
+    }),
+  artifactsByStage: publicProcedure
+    .input(
+      z.object({
+        stageNumber: z.number(),
+      }),
+    )
+    .query(({ input, ctx }) => {
+      return ctx.db.stage.findFirst({
+        where: {
+          stageNumber: input.stageNumber,
+        },
+        include: {
+          areas: {
+            include: {
+              artefacts: true,
+            },
+          },
         },
       });
     }),
