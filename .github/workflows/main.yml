@@ -34,7 +34,7 @@ jobs:
 
             if git show-ref --verify --quiet refs/heads/$branch_name; then
               git checkout $branch_name
-              git pull --ff-only upstream $branch_name
+              git merge upstream/$branch_name --no-ff
             else
               git checkout -b $branch_name $branch
               git push origin $branch_name
