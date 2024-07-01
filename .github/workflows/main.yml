@@ -34,12 +34,11 @@ jobs:
 
             if git show-ref --verify --quiet refs/heads/$branch_name; then
               git checkout $branch_name
-              git pull upstream $branch_name
+              git pull --ff-only upstream $branch_name
             else
               git checkout -b $branch_name $branch
+              git push origin $branch_name
             fi
-
-            git push origin $branch_name
           done
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
