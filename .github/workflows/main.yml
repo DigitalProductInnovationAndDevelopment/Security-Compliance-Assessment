@@ -17,7 +17,7 @@ jobs:
           token: ${{ secrets.PAT }}
       
       - name: Add upstream repository
-        run: git remote add upstream https://github.com/org/original-repo.git
+        run: git remote add upstream https://github.com/DigitalProductInnovationAndDevelopment/Security-Compliance-Assessment.git
 
       - name: Fetch all branches from upstream
         run: git fetch upstream
