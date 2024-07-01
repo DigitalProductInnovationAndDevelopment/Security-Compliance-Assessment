@@ -27,17 +27,21 @@ jobs:
           git config --global user.email "mourabitiziyad@gmail.com"
           git config --global user.name "Ziyad Mourabiti"
 
-      - name: Merge upstream changes into fork
+      - name: Merge and push all branches
         run: |
           for branch in $(git branch -r | grep upstream | grep -v '\->'); do
             branch_name=${branch#*/} # Remove 'upstream/' prefix
-            if git show-ref --verify --quiet "refs/heads/$branch_name"; then
+
+            if git show-ref --verify --quiet refs/heads/$branch_name; then
               git checkout $branch_name
-              git merge upstream/$branch_name --allow-unrelated-histories
+              git merge upstream/$branch_name --no-ff
             else
-              git checkout -b $branch_name upstream/$branch_name
+              git checkout -b $branch_name $branch
+              git push origin $branch_name
             fi
           done
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
 
       - name: Push changes to fork
         run: git push --all
