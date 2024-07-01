@@ -1,0 +1,40 @@
+name: Sync Fork
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs every day at midnight
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the fork repository
+        uses: actions/checkout@v3
+        with:
+          ref: main
+          token: ${{ secrets.PAT }}
+      
+      - name: Add upstream repository
+        run: git remote add upstream https://github.com/org/original-repo.git
+
+      - name: Fetch all branches from upstream
+        run: git fetch upstream
+
+      - name: Merge upstream changes into fork
+        run: |
+          for branch in $(git branch -r | grep upstream | grep -v '\->'); do
+            branch_name=${branch#*/} # Remove 'upstream/' prefix
+            if git show-ref --verify --quiet "refs/heads/$branch_name"; then
+              git checkout $branch_name
+              git merge upstream/$branch_name
+            else
+              git checkout -b $branch_name upstream/$branch_name
+            fi
+          done
+
+      - name: Push changes to fork
+        run: git push --all
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
