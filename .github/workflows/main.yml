@@ -31,7 +31,14 @@ jobs:
         run: |
           for branch in $(git branch -r | grep upstream | grep -v '\->'); do
             branch_name=${branch#*/} # Remove 'upstream/' prefix
-            git checkout --track $branch || git checkout -b $branch_name $branch
+
+            if git show-ref --verify --quiet refs/heads/$branch_name; then
+              git checkout $branch_name
+              git pull upstream $branch_name
+            else
+              git checkout -b $branch_name $branch
+            fi
+
             git push origin $branch_name
           done
         env:
