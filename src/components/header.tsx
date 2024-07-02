@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { Button } from "./ui/button";
-import { Menu } from "lucide-react";
+import { LockKeyhole, LockKeyholeOpen, Menu } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,15 +26,13 @@ export default function Header({ session }: { session: Session | null }) {
       <nav className="hidden w-full flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
         <Link
           href="#"
-          className="mr-12 flex w-44 items-center gap-2 text-lg font-semibold md:text-base"
+          className="flex items-center gap-2 text-lg font-semibold md:text-base"
         >
-          <Image
-            src={SiemensLogo}
-            height={500}
-            width={500}
-            alt="Siemens Logo"
-          />
-          <span className="sr-only">Siemens</span>
+          {session ? (
+            <LockKeyholeOpen className="h-8 w-8 text-muted-foreground" />
+          ) : (
+            <LockKeyhole className="h-8 w-8 text-muted-foreground" />
+          )}
         </Link>
         <Link
           href="/projects"
@@ -62,7 +60,7 @@ export default function Header({ session }: { session: Session | null }) {
       </nav>
       <Sheet>
         <SheetTrigger asChild>
-          <Button variant="outline" size="image" className="shrink-0 md:hidden">
+          <Button variant="outline" size="icon" className="shrink-0 md:hidden">
             <Menu className="h-5 w-5" />
           </Button>
         </SheetTrigger>
