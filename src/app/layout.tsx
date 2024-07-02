@@ -1,5 +1,4 @@
 import "~/styles/globals.css";
-import "@radix-ui/themes/styles.css";
 
 import { GeistSans } from "geist/font/sans";
 
@@ -10,7 +9,6 @@ import Header from "~/components/header";
 import { NextAuthProvider } from "./providers/NextAuthProvider";
 import { get } from "http";
 import { getServerAuthSession } from "~/server/auth";
-import { Theme } from "@radix-ui/themes";
 
 export const metadata = {
   title: "Security Compliance Assessment",
@@ -38,14 +36,12 @@ export default async function RootLayout({
           fontSans.variable,
         )}
       >
-        <Theme>
-          <NextAuthProvider>
-            <TRPCReactProvider>
-              <Header session={session} />
-              {children}
-            </TRPCReactProvider>
-          </NextAuthProvider>
-        </Theme>
+        <NextAuthProvider>
+          <TRPCReactProvider>
+            <Header session={session} />
+            {children}
+          </TRPCReactProvider>
+        </NextAuthProvider>
       </body>
     </html>
   );
