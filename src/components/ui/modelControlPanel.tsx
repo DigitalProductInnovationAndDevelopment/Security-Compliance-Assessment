@@ -1,12 +1,12 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import * as React from "react";
 import { Button } from "~/components/ui/button";
-import { useEffect, useState } from "react";
 import { cn } from "~/lib/utils";
 import useViewStore from "~/stores/useViewStore";
 import { AREA_VIEW } from "~/stores/viewTypes";
+import Link from "next/link";
 
 export interface ModelControlPanelProps {
   stages: { number: number; name: string }[];
@@ -16,18 +16,11 @@ const ModelControlPanel = React.forwardRef<
   HTMLDivElement,
   ModelControlPanelProps
 >(({ stages }, ref) => {
-  const [currentStageNumber, setCurrentStageNumber] = useState(1);
   const currentView = useViewStore((state) => state.currentView);
   const toggleView = useViewStore((state) => state.toggleView);
-  const router = useRouter();
 
-  useEffect(() => {
-    router.push(`/refa/stages/${currentStageNumber}`);
-  }, [currentStageNumber, router]);
-
-  const handleStageClick = (stageNumber: number) => {
-    setCurrentStageNumber(stageNumber);
-  };
+  const pathname = usePathname();
+  const selectedStage = parseInt(pathname.match(/\d+$/)?.[0] ?? "1");
 
   return (
     <div className="flex items-center justify-between">
@@ -36,16 +29,17 @@ const ModelControlPanel = React.forwardRef<
           <div key={stage.name} className="border-gray-200 py-4">
             <div className="flex flex-row">
               <span className="inline-flex items-center">
-                <Button
-                  variant={"link"}
-                  onClick={() => handleStageClick(stage.number)}
-                  className={cn(
-                    "text-md font-medium",
-                    currentStageNumber === stage.number ? "underline" : "",
-                  )}
-                >
-                  {stage.name}
-                </Button>
+                <Link href={`/refa/stages/${stage.number}`}>
+                  <Button
+                    variant={"link"}
+                    className={cn(
+                      "text-md font-medium",
+                      selectedStage === stage.number ? "underline" : "",
+                    )}
+                  >
+                    {stage.name}
+                  </Button>
+                </Link>
               </span>
             </div>
           </div>
