@@ -24,14 +24,17 @@ const CardWrapper = React.forwardRef<HTMLDivElement, CardWrapperProps>(
       "relative flex flex-col items-center gap-4 p-2",
       {
         "z-1": artifactsView,
-        "z-[-1]": !artifactsView,
+        "z-0": !artifactsView,
       },
     );
 
-    const areaClasses = cn("absolute w-full h-full inset-0 bg-white", {
-      "z-1": !artifactsView,
-      "z-[-1]": artifactsView,
-    });
+    const areaClasses = cn(
+      "absolute w-full h-full inset-0 bg-white hover:opacity-50",
+      {
+        "z-1": !artifactsView,
+        "z-[-1]": artifactsView,
+      },
+    );
 
     return (
       <div
