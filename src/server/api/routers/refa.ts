@@ -28,7 +28,7 @@ export const refaRouter = createTRPCRouter({
         },
       });
     }),
-  artifactsByStage: publicProcedure
+  areasWithArtefactsByStage: publicProcedure
     .input(
       z.object({
         stageNumber: z.number(),

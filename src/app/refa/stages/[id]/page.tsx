@@ -15,7 +15,7 @@ import CardWrapper from "~/components/ui/cardWrapper";
 export default async function Page({
   params,
 }: Readonly<{ params: { id: string } }>) {
-  const areasWithArtefacts = await api.refa.artifactsByStage({
+  const areasWithArtefacts = await api.refa.areasWithArtefactsByStage({
     stageNumber: parseInt(params.id),
   });
   // if the link is not something like refa/stages/1 or refa/stages/2
