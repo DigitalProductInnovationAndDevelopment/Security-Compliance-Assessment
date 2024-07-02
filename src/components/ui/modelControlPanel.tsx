@@ -5,6 +5,8 @@ import * as React from "react";
 import { Button } from "~/components/ui/button";
 import { useEffect, useState } from "react";
 import { cn } from "~/lib/utils";
+import useViewStore from "~/stores/useViewStore";
+import { AREA_VIEW } from "~/stores/viewTypes";
 
 export interface ModelControlPanelProps {
   stages: { number: number; name: string }[];
@@ -15,18 +17,13 @@ const ModelControlPanel = React.forwardRef<
   ModelControlPanelProps
 >(({ stages }, ref) => {
   const [currentStageNumber, setCurrentStageNumber] = useState(1);
-  const [isAreaView, setIsAreaView] = useState(true);
+  const currentView = useViewStore((state) => state.currentView);
+  const toggleView = useViewStore((state) => state.toggleView);
   const router = useRouter();
 
   useEffect(() => {
-    router.push(
-      `/refa/stages/${currentStageNumber}?view=${isAreaView ? "areas" : "artefacts"}`,
-    );
-  }, [currentStageNumber, isAreaView, router]);
-
-  const handleToggle = () => {
-    setIsAreaView(!isAreaView);
-  };
+    router.push(`/refa/stages/${currentStageNumber}`);
+  }, [currentStageNumber, router]);
 
   const handleStageClick = (stageNumber: number) => {
     setCurrentStageNumber(stageNumber);
@@ -54,8 +51,8 @@ const ModelControlPanel = React.forwardRef<
           </div>
         ))}
       </div>
-      <Button variant="outline" onClick={handleToggle}>
-        Change to {isAreaView ? "Artefacts" : "Areas"}
+      <Button variant="outline" onClick={toggleView}>
+        Change to {currentView === AREA_VIEW ? "Artefacts" : "Areas"}
       </Button>
     </div>
   );

@@ -6,7 +6,8 @@ import { cn } from "~/lib/utils";
 import { ArtifactCard } from "./artifactCard";
 import { AreaCard, AreaProps } from "./areaCard";
 import { ArtifactProps } from "./artifactCard";
-import { useSearchParams } from "next/navigation";
+import useViewStore from "../../stores/useViewStore";
+import { ARTEFACT_VIEW } from "~/stores/viewTypes";
 
 type CardWrapperProps = {
   area: AreaProps;
@@ -16,9 +17,8 @@ type CardWrapperProps = {
 
 const CardWrapper = React.forwardRef<HTMLDivElement, CardWrapperProps>(
   ({ className, area, artifacts }, ref) => {
-    const searchParams = useSearchParams();
-    const view = searchParams.get("view"); // values "areas" | "artefacts"
-    const artifactsView = view === "artefacts";
+    const currentView = useViewStore((state) => state.currentView);
+    const artifactsView = currentView === ARTEFACT_VIEW;
 
     const artifactClasses = cn("relative m-2", {
       "z-1": artifactsView,
