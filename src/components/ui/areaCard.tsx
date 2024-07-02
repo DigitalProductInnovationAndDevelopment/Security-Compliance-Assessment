@@ -16,13 +16,9 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
       className="flex h-full w-full flex-col items-center justify-center"
     >
       <SheetTrigger>
-        <Button
-          variant="icon"
-          size="icon"
-          className="absolute right-2 top-2 shrink-0"
-        >
+        <div className="absolute right-2 top-2 h-6 w-6 shrink-0 rounded-full hover:bg-accent hover:text-accent-foreground">
           <Icons.info />
-        </Button>
+        </div>
       </SheetTrigger>
       <CardHeader
         className="flex flex-col items-center justify-center"
