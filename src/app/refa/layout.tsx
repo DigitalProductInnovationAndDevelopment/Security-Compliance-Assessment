@@ -14,7 +14,7 @@ export default async function Layout({
       <ModelControlPanel
         stages={stages.map((stage) => ({
           number: stage.stageNumber,
-          name: stage.stage,
+          name: stage.name,
         }))}
       />
       {children}
