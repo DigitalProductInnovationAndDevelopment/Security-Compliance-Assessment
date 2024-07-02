@@ -14,11 +14,11 @@ const ArtifactCard = React.forwardRef<HTMLDivElement, ArtifactProps>(
     return (
       <>
         {isEmpty ? (
-          <div className="mb-2 rounded-xl bg-card text-card-foreground">
+          <div className="rounded-xl bg-card text-card-foreground">
             <CardHeader>No Artifacts</CardHeader>
           </div>
         ) : (
-          <div className="mb-2 rounded-xl border bg-card text-card-foreground">
+          <div className="rounded-xl border bg-card text-card-foreground">
             <CardHeader>{name}</CardHeader>
           </div>
         )}

@@ -20,10 +20,13 @@ const CardWrapper = React.forwardRef<HTMLDivElement, CardWrapperProps>(
     const currentView = useViewStore((state) => state.currentView);
     const artifactsView = currentView === ARTEFACT_VIEW;
 
-    const artifactClasses = cn("relative m-2", {
-      "z-1": artifactsView,
-      "z-[-1]": !artifactsView,
-    });
+    const artifactClasses = cn(
+      "relative flex flex-col items-center gap-4 p-2",
+      {
+        "z-1": artifactsView,
+        "z-[-1]": !artifactsView,
+      },
+    );
 
     const areaClasses = cn("absolute w-full h-full inset-0 bg-white", {
       "z-1": !artifactsView,
@@ -31,7 +34,12 @@ const CardWrapper = React.forwardRef<HTMLDivElement, CardWrapperProps>(
     });
 
     return (
-      <div className={cn("relative", className)}>
+      <div
+        className={cn(
+          `relative flex-grow ${artifactsView ? "rounded-xl border-2 border-dashed" : ""}`,
+          className,
+        )}
+      >
         <div className={artifactClasses}>
           {artifacts.length === 0 ? (
             <ArtifactCard isEmpty />
