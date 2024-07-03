@@ -19,7 +19,7 @@ const ViewSwitch = React.forwardRef<HTMLDivElement, SwitchProps>(
             type="checkbox"
             value=""
             checked={value === SwitchValue.Artefacts ? true : false}
-            onChange={() => onChange()}
+            onChange={onChange}
             className="peer sr-only"
           />
           <div className="after: peer flex h-8 items-center gap-8 rounded-full bg-white px-4 text-sm after:absolute after:left-1 after:h-6 after:w-20 after:rounded-full after:bg-black/10 after:transition-all after:content-[''] peer-checked:bg-white peer-checked:after:translate-x-full peer-focus:outline-none dark:border-slate-600 dark:bg-slate-700">
