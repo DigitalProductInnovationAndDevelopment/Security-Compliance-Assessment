@@ -21,7 +21,7 @@ const CardWrapper = React.forwardRef<HTMLDivElement, CardWrapperProps>(
     const artifactsView = currentView === ARTEFACT_VIEW;
 
     const artifactClasses = cn(
-      "relative flex flex-col items-center gap-4 p-2",
+      "relative flex flex-col items-center gap-2 p-2",
       {
         "z-1": artifactsView,
         "z-0": !artifactsView,
