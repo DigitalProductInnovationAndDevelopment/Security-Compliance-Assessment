@@ -7,6 +7,8 @@ import { Icons } from "../icons";
 export interface AreaProps {
   id: string;
   name: string;
+  visible: boolean;
+  toggleVisibility: () => void;
 }
 
 const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
@@ -15,6 +17,16 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
       title={area.name}
       className="flex h-full w-full flex-col items-center justify-center"
     >
+      <Button
+        variant="icon"
+        size="icon"
+        className="absolute right-8 top-2"
+        onClick={area.toggleVisibility}
+      >
+        <div className="h-6 w-6 shrink-0 rounded-full">
+          {area.visible ? <Icons.show /> : <Icons.hide />}
+        </div>
+      </Button>
       <SheetTrigger>
         <div className="absolute right-2 top-2 h-6 w-6 shrink-0 rounded-full hover:bg-accent hover:text-accent-foreground">
           <Icons.info />
