@@ -1,7 +1,6 @@
 import * as React from "react";
 
-import { cn } from "~/lib/utils";
-import { CardContent, CardHeader } from "./card";
+import { CardDescription, CardHeader } from "./card";
 
 export type ArtifactProps = {
   id?: string;
@@ -18,8 +17,9 @@ const ArtifactCard = React.forwardRef<HTMLDivElement, ArtifactProps>(
             <CardHeader>No Artifacts</CardHeader>
           </div>
         ) : (
-          <div className="rounded-xl border bg-card text-card-foreground w-full text-center">
-            <CardHeader>{name}</CardHeader>
+          <div className="w-full rounded-xl border bg-card text-center text-card-foreground">
+            <CardHeader className="p-3">{name}</CardHeader>
+            <CardDescription className="pb-2">{id}</CardDescription>
           </div>
         )}
       </>
