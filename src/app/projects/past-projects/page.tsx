@@ -117,67 +117,6 @@ export default async function Page() {
           </SheetContent>
         </Sheet>
 
-        {/* Sheet for Active Projects */}
-        <Sheet>
-          <SheetTrigger>
-            <Card className="m-2 min-w-fit p-2">
-              <CardHeader className="flex flex-col items-center justify-center">
-                <CardTitle className="text-center">Active Projects</CardTitle>
-              </CardHeader>
-            </Card>
-          </SheetTrigger>
-          <SheetContent>
-            <div className="p-4">
-              {activeProjects.map((project) => (
-                <Card
-                  key={project.project_id}
-                  title={project.project_name}
-                  className="m-2 min-w-fit p-2"
-                >
-                  <CardHeader className="flex flex-col items-center justify-center">
-                    <CardTitle className="text-center">
-                      {project.project_name}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="flex flex-col items-center justify-center">
-                    <div className="text-center">
-                      <p className="text-sm text-gray-500">
-                        Compliance Score Overview
-                      </p>
-                      <div className="h-2.5 w-full rounded-full bg-gray-200">
-                        <div
-                          className="h-2.5 rounded-full bg-blue-600"
-                          style={{
-                            width: `${project.overall_compliance_score}%`,
-                          }}
-                        ></div>
-                      </div>
-                      <p className="text-sm text-gray-500">
-                        {project.overall_compliance_score}%
-                      </p>
-                    </div>
-                    <div className="text-center">
-                      <p className="text-sm text-gray-500">Action Required:</p>
-                      <p className="text-sm text-gray-500">
-                        Code Phase: {project.code_phase_score}%
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        Build Phase: {project.build_phase_score}%
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        Deploy Phase: {project.deploy_phase_score}%
-                      </p>
-                    </div>
-                    <button className="mt-4 rounded bg-blue-600 px-4 py-2 text-white">
-                      Assess Project
-                    </button>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </SheetContent>
-        </Sheet>
-
         {/* Add Project Button */}
         <div className="m-2 flex min-w-fit items-center justify-center border-2 border-dashed p-2">
           <button className="flex flex-col items-center justify-center">

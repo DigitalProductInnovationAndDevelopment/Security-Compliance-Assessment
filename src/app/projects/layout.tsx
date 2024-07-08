@@ -1,7 +1,6 @@
 import Link from "next/link";
 import React from "react";
 import { Button } from "~/components/ui/button";
-import { api } from "~/trpc/server";
 
 export default async function Layout({
   children,
@@ -9,6 +8,10 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const project_statuses = ["past-projects", "active-projects"];
+  const displayNames: Record<string, string> = {
+    "past-projects": "Past Projects",
+    "active-projects": "Active Projects",
+  };
 
   return (
     <div className="relative w-full px-6">
@@ -19,7 +22,7 @@ export default async function Layout({
               <span className="inline-flex items-center">
                 <Link href={"/projects/" + project_status}>
                   <Button variant={"link"} className="text-md font-medium">
-                    {project_status}
+                    {displayNames[project_status]}
                   </Button>
                 </Link>
               </span>
