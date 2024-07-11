@@ -16,9 +16,9 @@ export type ArtifactProps = {
 
 const ArtifactCard = React.forwardRef<HTMLDivElement, ArtifactProps>(
   ({ id, name, isEmpty = false }, ref) => {
-    const { data, loading, error } = api.refa.artefactById.useQuery({
-      artefact_id: id,
-    });
+    const { data, loading } = id
+      ? api.refa.artefactById.useQuery({ artefact_id: id })
+      : { data: null, loading: false };
 
     return (
       <>
