@@ -96,7 +96,7 @@ export default function Header({ session }: { session: Session | null }) {
         {session && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="default" size="icon" className="rounded-full">
+              <Button variant="default" size="image" className="rounded-full">
                 {session?.user?.image && (
                   <img
                     src={session?.user?.image}
