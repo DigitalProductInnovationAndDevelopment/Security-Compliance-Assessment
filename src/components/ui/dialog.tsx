@@ -15,7 +15,7 @@ export const DialogContent = React.forwardRef<
   <DialogPrimitive.Portal>
     <DialogPrimitive.Overlay className="fixed inset-0 z-20 bg-black opacity-30" />
     <DialogPrimitive.Content
-      className="fixed left-1/2 top-1/2 z-50 min-h-[10rem] min-w-[25rem] -translate-x-1/2 -translate-y-1/2 transform rounded-md border-2 bg-white p-2 p-3 shadow-lg"
+      className="fixed left-1/2 top-1/2 z-50 min-h-[10rem] min-w-[25rem] max-w-[40rem] -translate-x-1/2 -translate-y-1/2 transform rounded-md border-2 bg-white p-4 shadow-lg"
       {...props}
       ref={forwardedRef}
     >
@@ -40,7 +40,7 @@ export const DialogTitle = React.forwardRef<
     <DialogPrimitive.Title
       ref={ref}
       className={cn(
-        "space-beetween flex p-1 text-center text-lg font-medium sm:text-left",
+        "space-beetween flex p-1 pr-6 text-center text-lg font-medium sm:text-left",
         className,
       )}
       {...props}
