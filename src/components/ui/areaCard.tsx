@@ -7,8 +7,8 @@ import { Icons } from "../icons";
 export interface AreaProps {
   id: string;
   name: string;
-  visible: boolean;
-  toggleVisibility: () => void;
+  visible?: boolean;
+  toggleVisibility?: () => void;
 }
 
 const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
