@@ -3,10 +3,10 @@
 import * as React from "react";
 
 import { CardDescription, CardHeader } from "./card";
-import { Icons } from "../icons";
 import { Dialog, DialogTrigger, DialogContent, DialogTitle } from "./dialog";
 import { api } from "~/trpc/react";
-import Loading from "~/app/refa/stages/loading";
+import Spinner from "./spinner";
+import { skipToken } from "@tanstack/react-query";
 
 export type ArtifactProps = {
   id?: string;
@@ -16,9 +16,9 @@ export type ArtifactProps = {
 
 const ArtifactCard = React.forwardRef<HTMLDivElement, ArtifactProps>(
   ({ id, name, isEmpty = false }, ref) => {
-    const { data, loading } = id
-      ? api.refa.artefactById.useQuery({ artefact_id: id })
-      : { data: null, loading: false };
+    const { data, isLoading } = api.refa.artefactById.useQuery(
+      id ? { artefact_id: id } : skipToken,
+    );
 
     return (
       <>
@@ -27,38 +27,35 @@ const ArtifactCard = React.forwardRef<HTMLDivElement, ArtifactProps>(
             <CardHeader>No Artifacts</CardHeader>
           </div>
         ) : (
-          <div className="relative w-full rounded-xl border bg-card text-center text-card-foreground">
-            <CardHeader className="p-3">
-              <span className="mr-5">{name}</span>
-              <Dialog>
-                <DialogTrigger>
-                  <div className="absolute right-1 top-2 h-6 w-6">
-                    <Icons.expand />
-                  </div>
-                </DialogTrigger>
+          <Dialog>
+            <DialogTrigger className="relative w-full rounded-xl border bg-card text-center text-card-foreground opacity-100 transition-opacity hover:opacity-50">
+              <div className="">
+                <CardHeader className="p-3">
+                  <span className="text-sm font-bold">{name}</span>
+                </CardHeader>
 
-                <DialogContent>
-                  <DialogTitle>{data?.artefact_name}</DialogTitle>
-                  {loading ? (
-                    <Loading />
-                  ) : (
-                    <div className="p-3">
-                      <div>{data?.description}</div>
-                      <div className="py-3">
-                        <span className="font-medium">Artefact Id</span>:{" "}
-                        {data?.artefact_id}
-                      </div>
-                      <div>
-                        <span className="font-medium">Automation</span>:{" "}
-                        {data?.automation}
-                      </div>
-                    </div>
-                  )}
-                </DialogContent>
-              </Dialog>
-            </CardHeader>
-            <CardDescription className="pb-2">{id}</CardDescription>
-          </div>
+                <CardDescription className="pb-2">{id}</CardDescription>
+              </div>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogTitle>{data?.artefact_name}</DialogTitle>
+              {isLoading ? (
+                <Spinner />
+              ) : (
+                <div className="p-3">
+                  <div>{data?.description}</div>
+                  <div className="py-3">
+                    <span className="font-medium">Artefact Id</span>:{" "}
+                    {data?.artefact_id}
+                  </div>
+                  <div>
+                    <span className="font-medium">Automation</span>:{" "}
+                    {data?.automation}
+                  </div>
+                </div>
+              )}
+            </DialogContent>
+          </Dialog>
         )}
       </>
     );
