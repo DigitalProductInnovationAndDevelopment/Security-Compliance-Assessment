@@ -48,4 +48,17 @@ export const refaRouter = createTRPCRouter({
         },
       });
     }),
+  artefactById: publicProcedure
+    .input(
+      z.object({
+        artefact_id: z.string(),
+      }),
+    )
+    .query(({ input, ctx }) => {
+      return ctx.db.artefact.findFirst({
+        where: {
+          artefact_id: input.artefact_id,
+        },
+      });
+    }),
 });
