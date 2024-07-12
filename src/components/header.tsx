@@ -22,7 +22,7 @@ import { Session } from "next-auth";
 export default function Header({ session }: { session: Session | null }) {
   const pathname = usePathname();
   return (
-    <header className="sticky top-0 flex h-16 items-center gap-4 bg-white px-4 md:px-6 md:py-10">
+    <header className="sticky top-0 z-50 flex h-16 items-center gap-4 bg-white px-4 shadow-sm md:px-6 md:py-10">
       <nav className="hidden w-full flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
         <Link
           href="#"
@@ -96,7 +96,7 @@ export default function Header({ session }: { session: Session | null }) {
         {session && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="default" size="icon" className="rounded-full">
+              <Button variant="default" size="image" className="rounded-full">
                 {session?.user?.image && (
                   <img
                     src={session?.user?.image}
