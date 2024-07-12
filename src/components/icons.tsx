@@ -333,4 +333,44 @@ export const Icons = {
       </g>
     </svg>
   ),
+  expand: (props: IconProps) => (
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="none">
+      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></g>
+      <g id="SVGRepo_iconCarrier">
+        {" "}
+        <path
+          stroke="#535358"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 20l7 7 7-7M23 12l-7-7-7 7"
+        ></path>{" "}
+      </g>
+    </svg>
+  ),
+  collapse: (props: IconProps) => (
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="none">
+      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></g>
+      <g id="SVGRepo_iconCarrier">
+        {" "}
+        <path
+          stroke="#535358"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M23 26l-7-7-7 7M9 6l7 7 7-7"
+        ></path>{" "}
+      </g>
+    </svg>
+  ),
 };
