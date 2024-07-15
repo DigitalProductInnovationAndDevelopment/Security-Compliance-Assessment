@@ -3,7 +3,6 @@ import Unauthorised from "~/components/unauthorised";
 
 import React from "react";
 import ProjectCard from "~/components/ui/projectCard";
-import AddProjectCard from "~/components/ui/addProjectCard";
 
 export default async function Page() {
   const session = await getServerAuthSession();

@@ -33,7 +33,7 @@ export default function Header({ session }: { session: Session | null }) {
   const handleMouseLeave = () => {
     timeoutRef.current = setTimeout(() => {
       setIsHovered(false);
-    }, 600);
+    }, 200);
   };
 
   return (
