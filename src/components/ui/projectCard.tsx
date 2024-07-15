@@ -5,17 +5,15 @@ import { Button } from "~/components/ui/button";
 interface ProjectCardProps {
   project_name: string;
   compliance_score: number;
-  code_phase: number;
-  build_phase: number;
-  deploy_phase: number;
+  areas_score: number;
+  artifacts_score: number;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
   project_name,
   compliance_score,
-  code_phase,
-  build_phase,
-  deploy_phase,
+  areas_score,
+  artifacts_score,
 }) => {
   return (
     <Card className="m-2 min-w-fit p-2">
@@ -34,12 +32,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             </div>
             <span className="text-xs text-gray-600">{compliance_score}%</span>
           </div>
-          <p className="mt-2 text-sm text-gray-500">Action Required:</p>
-          <p className="text-sm text-gray-600">Code Phase: {code_phase}%</p>
-          <p className="text-sm text-gray-600">Build Phase: {build_phase}%</p>
-          <p className="text-sm text-gray-600">Deploy Phase: {deploy_phase}%</p>
+          <p className="mt-2 text-sm text-gray-500">Progress:</p>
+          <p className="text-sm text-gray-600">Areas: {areas_score}%</p>
+          <p className="text-sm text-gray-600">Artifacts: {artifacts_score}%</p>
         </div>
-        <Button className="mt-2">Assess Project</Button>
+        <Button className="mt-2 bg-purple-500">Assess Project</Button>
+        <Button className="mt-2 bg-purple-500">Assessment Result</Button>
       </CardContent>
     </Card>
   );
