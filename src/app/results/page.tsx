@@ -1,3 +1,4 @@
+//"use client";
 import { getServerAuthSession } from "~/server/auth";
 import Unauthorised from "~/components/unauthorised";
 
@@ -87,14 +88,15 @@ const projects = [
 
 export default async function Page() {
   const session = await getServerAuthSession();
-  const [selectedProject, setSelectedProject] = useState(projects[0]);
+  /*const [selectedProject, setSelectedProject] = useState(projects[0]);
   const handleProjectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const projectId = parseInt(e.target.value);
     const project = projects.find(
       (project) => project.project_id === projectId,
     );
     setSelectedProject(project ?? projects[0]);
-  };
+  };*/
+  const selectedProject = projects[2];
 
   if (!session) {
     return (
@@ -115,7 +117,7 @@ export default async function Page() {
             <select
               className="w-full rounded border p-2"
               value={selectedProject!.project_id}
-              onChange={handleProjectChange}
+              //onChange={handleProjectChange}
             >
               {projects.map((project) => (
                 <option key={project.project_id} value={project.project_id}>

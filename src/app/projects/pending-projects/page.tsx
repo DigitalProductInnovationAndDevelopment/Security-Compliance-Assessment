@@ -16,6 +16,11 @@ export default async function Page() {
       overall_compliance_score: 100,
       areas_score: 100,
       artifacts_score: 100,
+      team_name: "Team Alpha",
+      team_members: [
+        { name: "Alice", email: "alice@project1.dev" },
+        { name: "Bob", email: "bob@project1.dev" },
+      ],
     },
     {
       project_id: 2,
@@ -24,6 +29,11 @@ export default async function Page() {
       overall_compliance_score: 60,
       areas_score: 50,
       artifacts_score: 40,
+      team_name: "Team Beta",
+      team_members: [
+        { name: "Charlie", email: "charlie@project2.dev" },
+        { name: "Dave", email: "dave@project2.dev" },
+      ],
     },
     {
       project_id: 3,
@@ -32,6 +42,11 @@ export default async function Page() {
       overall_compliance_score: 40,
       areas_score: 20,
       artifacts_score: 10,
+      team_name: "Team Gamma",
+      team_members: [
+        { name: "Eve", email: "eve@project3.dev" },
+        { name: "Frank", email: "frank@project3.dev" },
+      ],
     },
     {
       project_id: 4,
@@ -40,6 +55,11 @@ export default async function Page() {
       overall_compliance_score: 0,
       areas_score: 0,
       artifacts_score: 0,
+      team_name: "Team Delta",
+      team_members: [
+        { name: "Grace", email: "grace@project4.dev" },
+        { name: "Heidi", email: "heidi@project4.dev" },
+      ],
     },
   ];
   const pendingProjects = projects.filter(
