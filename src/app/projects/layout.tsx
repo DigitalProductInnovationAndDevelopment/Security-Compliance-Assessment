@@ -8,11 +8,13 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const project_statuses = [
+    "all-projects",
     "pending-projects",
     "inprogress-projects",
     "done-projects",
   ];
   const displayNames: Record<string, string> = {
+    "all-projects": "All",
     "pending-projects": "Pending",
     "inprogress-projects": "In Progress",
     "done-projects": "Done",
