@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
-import React, { useState, useRef } from "react";
+import React from "react";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { Button } from "./ui/button";
-import { LockKeyhole, LockKeyholeOpen, Menu } from "lucide-react";
+import { ArrowDown, LockKeyhole, LockKeyholeOpen, Menu } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,20 +21,6 @@ import { Session } from "next-auth";
 
 export default function Header({ session }: { session: Session | null }) {
   const pathname = usePathname();
-  const [isHovered, setIsHovered] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  const handleMouseEnter = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-    setIsHovered(true);
-  };
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setIsHovered(false);
-    }, 200);
-  };
 
   return (
     <header className="sticky top-0 z-50 flex h-16 items-center gap-4 bg-white px-4 shadow-sm md:px-6 md:py-10">
@@ -51,30 +37,23 @@ export default function Header({ session }: { session: Session | null }) {
         </Link>
 
         {/* Drop-down menu for Project */}
-        <DropdownMenu open={isHovered}>
+        <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <div
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              className="relative"
-            >
-              <Link
-                href="/projects"
+            <div className="relative">
+              <span
                 className={cn(
                   pathname.startsWith("/projects")
                     ? "text-foreground"
                     : "text-muted-foreground",
-                  "text-lg font-medium transition-colors hover:text-foreground",
+                  "text-lg font-medium transition-colors hover:text-foreground flex items-center gap-[0.2rem]",
                 )}
               >
-                Projects
-              </Link>
+                Projects <ArrowDown className="h-4 w-4" />
+              </span>
               <DropdownMenuContent
                 align="start"
                 side="bottom"
                 className="absolute mt-2"
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
               >
                 <DropdownMenuItem asChild>
                   <Link href="/assess">Assess</Link>
