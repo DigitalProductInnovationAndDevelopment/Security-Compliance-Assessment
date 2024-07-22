@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { Button } from "./ui/button";
-import { LockKeyhole, LockKeyholeOpen, Menu } from "lucide-react";
+import { ArrowDown, LockKeyhole, LockKeyholeOpen, Menu } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,6 +21,7 @@ import { Session } from "next-auth";
 
 export default function Header({ session }: { session: Session | null }) {
   const pathname = usePathname();
+
   return (
     <header className="sticky top-0 z-50 flex h-16 items-center gap-4 bg-white px-4 shadow-sm md:px-6 md:py-10">
       <nav className="hidden w-full flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
@@ -34,17 +35,37 @@ export default function Header({ session }: { session: Session | null }) {
             <LockKeyhole className="h-8 w-8 text-muted-foreground" />
           )}
         </Link>
-        <Link
-          href="/projects"
-          className={cn(
-            pathname.startsWith("/projects")
-              ? "text-foreground"
-              : "text-muted-foreground",
-            "text-lg font-medium transition-colors hover:text-foreground",
-          )}
-        >
-          Projects
-        </Link>
+
+        {/* Drop-down menu for Project */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className="relative">
+              <span
+                className={cn(
+                  pathname.startsWith("/projects")
+                    ? "text-foreground"
+                    : "text-muted-foreground",
+                  "text-lg font-medium transition-colors hover:text-foreground flex items-center gap-[0.2rem]",
+                )}
+              >
+                Projects <ArrowDown className="h-4 w-4" />
+              </span>
+              <DropdownMenuContent
+                align="start"
+                side="bottom"
+                className="absolute mt-2"
+              >
+                <DropdownMenuItem asChild>
+                  <Link href="/assess">Assess</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/results">Results</Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </div>
+          </DropdownMenuTrigger>
+        </DropdownMenu>
+
         <Link
           prefetch
           href="/refa"
