@@ -19,7 +19,7 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
     >
       <div className="absolute right-2 top-2 space-x-1">
         <Button
-          variant="icon"
+          variant="outline"
           size="icon"
           className="h-4 w-4 opacity-50 shrink-0 rounded-full hover:bg-accent hover:text-accent-foreground"
           onClick={area.toggleVisibility}
