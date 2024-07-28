@@ -182,7 +182,7 @@ model AssessmentAreaQuestion {
   id               Int            @id @default(autoincrement())
   assessmentAreaId Int
   question         String
-  answer           String?
+  answer           Int?
   assessmentArea   AssessmentArea @relation(fields: [assessmentAreaId], references: [id], onDelete: Cascade)
 }
 
