@@ -37,34 +37,18 @@ export default function Header({ session }: { session: Session | null }) {
         </Link>
 
         {/* Drop-down menu for Project */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <div className="relative">
-              <span
-                className={cn(
-                  pathname.startsWith("/projects")
-                    ? "text-foreground"
-                    : "text-muted-foreground",
-                  "text-lg font-medium transition-colors hover:text-foreground flex items-center gap-[0.2rem]",
-                )}
-              >
-                Projects <ArrowDown className="h-4 w-4" />
-              </span>
-              <DropdownMenuContent
-                align="start"
-                side="bottom"
-                className="absolute mt-2"
-              >
-                <DropdownMenuItem asChild>
-                  <Link href="/assess">Assess</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/results">Results</Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </div>
-          </DropdownMenuTrigger>
-        </DropdownMenu>
+        <Link
+          prefetch
+          href="/projects"
+          className={cn(
+            pathname.startsWith("/projects")
+              ? "text-foreground"
+              : "text-muted-foreground",
+            "flex items-center gap-[0.2rem] text-lg font-medium transition-colors hover:text-foreground",
+          )}
+        >
+          Projects
+        </Link>
 
         <Link
           prefetch
@@ -122,7 +106,7 @@ export default function Header({ session }: { session: Session | null }) {
                   <img
                     src={session?.user?.image}
                     alt="User profile"
-                    className="rounded-full h-10 w-10"
+                    className="h-10 w-10 rounded-full"
                   />
                 )}
               </Button>
