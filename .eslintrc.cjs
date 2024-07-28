@@ -15,7 +15,14 @@ const config = {
   "rules": {
     "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/array-type": "off",
+    "@typescript-eslint/prefer-nullish-coalescing": "off",
+    "@typescript-eslint/restrict-template-expressions": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-unnecessary-type-assertion": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
+    "@typescript-eslint/no-unsafe-argument": "off",
     "@typescript-eslint/consistent-type-imports": [
       "warn",
       {
