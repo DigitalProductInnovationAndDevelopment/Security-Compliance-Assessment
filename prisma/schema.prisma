@@ -51,14 +51,16 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String        @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?       @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   posts         Post[]
   sessions      Session[]
+  assessments   Assessment[]
+  projects      UserProject[]
 }
 
 model VerificationToken {
@@ -126,28 +128,41 @@ model Area {
 
 model Stage {
   stageNumber Int
-  id          Int    @id @default(autoincrement())
-  name        String @unique
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
   areas       Area[]
+  Score       Score[]
 }
 
 // New Models
 
 model Project {
-  id          Int          @id @default(autoincrement())
-  projectId   String       @unique
+  id          Int           @id @default(autoincrement())
+  projectId   String        @unique
   name        String
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
   assessments Assessment[]
+  users       UserProject[]
+}
+
+model UserProject {
+  userId    String
+  projectId Int
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@id([userId, projectId])
 }
 
 model Assessment {
   id        Int                  @id @default(autoincrement())
   projectId Int
+  userId    String
   createdAt DateTime             @default(now())
   updatedAt DateTime             @updatedAt
   project   Project              @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user      User                 @relation(fields: [userId], references: [id])
   artefacts AssessmentArtefact[]
   areas     AssessmentArea[]
   Score     Score[]
@@ -191,10 +206,12 @@ model Score {
   assessmentId Int
   areaId       Int?
   artefactId   Int?
+  stageId      Int?
   score        Float
   assessment   Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
   area         Area?      @relation(fields: [areaId], references: [id])
   artefact     Artefact?  @relation(fields: [artefactId], references: [id])
+  stage        Stage?     @relation(fields: [stageId], references: [id])
 
-  @@unique([assessmentId, areaId, artefactId])
+  @@unique([assessmentId, areaId, artefactId, stageId])
 }
