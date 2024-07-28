@@ -82,7 +82,7 @@ model Standard {
 }
 
 model Artefact {
-  id                       Int        @id @default(autoincrement())
+  id                       Int                  @id @default(autoincrement())
   artefact_id              String
   artefact_name            String
   stage                    String
@@ -94,15 +94,16 @@ model Artefact {
   automation               String
   artefact_area_id         String
   areaId                   Int
-  artefact_area            Area       @relation(fields: [areaId], references: [id])
+  artefact_area            Area                 @relation(fields: [areaId], references: [id])
   standards                Standard[]
+  AssessmentArtefact       AssessmentArtefact[]
+  Score                    Score[]
 
   @@unique([artefact_id, artefact_name, stage])
 }
 
-
 model Area {
-  id                   Int        @id @default(autoincrement())
+  id                   Int              @id @default(autoincrement())
   area_id              String
   area_name            String
   people               String
@@ -115,16 +116,85 @@ model Area {
   question             String?
   assessors_guide      String?
   stageId              Int
-  stage                Stage      @relation(fields: [stageId], references: [id])
+  stage                Stage            @relation(fields: [stageId], references: [id])
   artefacts            Artefact[]
+  AssessmentArea       AssessmentArea[]
+  Score                Score[]
 
   @@unique([area_id, area_name, stageId])
 }
-
 
 model Stage {
   stageNumber Int
   id          Int    @id @default(autoincrement())
   name        String @unique
   areas       Area[]
+}
+
+// New Models
+
+model Project {
+  id          Int          @id @default(autoincrement())
+  projectId   String       @unique
+  name        String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  assessments Assessment[]
+}
+
+model Assessment {
+  id        Int                  @id @default(autoincrement())
+  projectId Int
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+  project   Project              @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  artefacts AssessmentArtefact[]
+  areas     AssessmentArea[]
+  Score     Score[]
+}
+
+model AssessmentArtefact {
+  id           Int        @id @default(autoincrement())
+  artefactId   Int
+  assessmentId Int
+  checkmark    Boolean
+  comment      String?
+  artefact     Artefact   @relation(fields: [artefactId], references: [id])
+  assessment   Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+
+  @@unique([artefactId, assessmentId])
+}
+
+model AssessmentArea {
+  id           Int                      @id @default(autoincrement())
+  areaId       Int
+  assessmentId Int
+  comment      String?
+  score        Float
+  area         Area                     @relation(fields: [areaId], references: [id])
+  assessment   Assessment               @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  questions    AssessmentAreaQuestion[]
+
+  @@unique([areaId, assessmentId])
+}
+
+model AssessmentAreaQuestion {
+  id               Int            @id @default(autoincrement())
+  assessmentAreaId Int
+  question         String
+  answer           String?
+  assessmentArea   AssessmentArea @relation(fields: [assessmentAreaId], references: [id], onDelete: Cascade)
+}
+
+model Score {
+  id           Int        @id @default(autoincrement())
+  assessmentId Int
+  areaId       Int?
+  artefactId   Int?
+  score        Float
+  assessment   Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  area         Area?      @relation(fields: [areaId], references: [id])
+  artefact     Artefact?  @relation(fields: [artefactId], references: [id])
+
+  @@unique([assessmentId, areaId, artefactId])
 }
