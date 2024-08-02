@@ -373,4 +373,26 @@ export const Icons = {
       </g>
     </svg>
   ),
+  edit: (props: IconProps) => (
+    <svg
+      width="19"
+      height="19"
+      viewBox="0 0 19 19"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M13.0985 7.23843L11.7616 5.9015L3.58609 14.077L2.94342 16.0566L4.92302 15.4139L13.0985 7.23843ZM5.93881 17.072L0 19L1.92802 13.0612L11.7616 3.22764L15.7723 7.23843L5.93881 17.072Z"
+        fill="white"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M17.1093 0.553775C16.3709 -0.184591 15.1738 -0.184591 14.4354 0.553775L13.0985 1.8907L17.1093 5.90149L18.4462 4.56456C19.1846 3.8262 19.1846 2.62907 18.4462 1.8907L17.1093 0.553775Z"
+        fill="white"
+      />
+    </svg>
+  ),
 };

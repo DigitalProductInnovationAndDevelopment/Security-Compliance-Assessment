@@ -1,4 +1,4 @@
-import AddNewProjectCard from "~/components/addnewprojectcard";
+import AddNewProjectCard from "~/components/addNewProjectCard";
 import { ProjectCompletion } from "~/components/charts/ProjectCompletion";
 import { Button } from "~/components/ui/button";
 import {
