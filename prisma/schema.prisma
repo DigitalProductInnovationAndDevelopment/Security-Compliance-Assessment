@@ -56,6 +56,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  role          String    @default("assessee")
   accounts      Account[]
   posts         Post[]
   sessions      Session[]
@@ -100,7 +101,6 @@ model Artefact {
   @@unique([artefact_id, artefact_name, stage])
 }
 
-
 model Area {
   id                   Int        @id @default(autoincrement())
   area_id              String
@@ -120,7 +120,6 @@ model Area {
 
   @@unique([area_id, area_name, stageId])
 }
-
 
 model Stage {
   stageNumber Int
