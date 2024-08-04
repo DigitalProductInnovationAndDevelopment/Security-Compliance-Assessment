@@ -24,6 +24,7 @@ const CardWrapper = React.forwardRef<HTMLDivElement, CardWrapperProps>(
     const artifactsView = currentView === ARTEFACT_VIEW;
     const [isAreaVisible, setIsAreaVisible] = useState(true);
     const [isHovered, setIsHovered] = useState(false);
+
     const { data: session } = useSession();
     const userLoggedIn = !!session;
 

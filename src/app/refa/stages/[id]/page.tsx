@@ -41,90 +41,91 @@ export default async function Page({
             ></CardWrapper>
             <SheetContent className="lg:min-w-[40vw]">
               <SheetHeader>
-                {/* Conditionally render sheet content based on login status */}
-                {userLoggedIn ? (
-                  <>
-                    <SheetTitle className="text-center">
-                      <div>Assess Area: </div>
-                      {area.area_name}
-                    </SheetTitle>
-                    <SheetDescription className="text-left">
+                {/* Render info sheet based on data-sheet-trigger attribute */}
+                <SheetTitle className="text-center" data-sheet-trigger="info">
+                  <div>Area Details: </div>
+                  {area.area_name}
+                </SheetTitle>
+                <SheetDescription className="text-left">
+                  <div className="my-4 flex">
+                    <SheetTitle>People</SheetTitle>
+                    <Badge
+                      variant={
+                        area.people === "High"
+                          ? "destructive"
+                          : area.people === "Medium"
+                            ? "secondary"
+                            : "default"
+                      }
+                      className="ml-2"
+                    >
+                      {area.people}
+                    </Badge>
+                  </div>
+                  <ul>
+                    {area.people_practices.map((practice) => (
+                      <li key={practice}>{practice}</li>
+                    ))}
+                  </ul>
+                  <Separator className="my-4" />
+                  <div className="my-4 flex">
+                    <SheetTitle>Process</SheetTitle>
+                    <Badge
+                      variant={
+                        area.process === "High"
+                          ? "destructive"
+                          : area.process === "Medium"
+                            ? "secondary"
+                            : "default"
+                      }
+                      className="ml-2"
+                    >
+                      {area.process}
+                    </Badge>
+                  </div>
+                  <ul>
+                    {area.process_practices.map((practice) => (
+                      <li key={practice}>{practice}</li>
+                    ))}
+                  </ul>
+                  <Separator className="my-4" />
+                  <div className="my-4 flex">
+                    <SheetTitle>Technology</SheetTitle>
+                    <Badge
+                      variant={
+                        area.technology === "High"
+                          ? "destructive"
+                          : area.technology === "Medium"
+                            ? "secondary"
+                            : "default"
+                      }
+                      className="ml-2"
+                    >
+                      {area.technology}
+                    </Badge>
+                  </div>
+                  <ul>
+                    {area.technology_practices.map((practice) => (
+                      <li key={practice}>{practice}</li>
+                    ))}
+                  </ul>
+                  <Separator className="my-4" />
+                </SheetDescription>
+                {/* Render assess sheet if user is logged in */}
+                {userLoggedIn && (
+                  <SheetDescription
+                    className="text-left"
+                    data-sheet-trigger="assess"
+                  >
+                    <div className="my-4">
+                      <SheetTitle className="text-center">
+                        <div>Assess Area: </div>
+                        {area.area_name}
+                      </SheetTitle>
                       <p>Edit assessment about this area.</p>
                       {/* Implement assessment component here */}
-                    </SheetDescription>
-                  </>
-                ) : (
-                  <>
-                    <SheetTitle className="text-center">
-                      <div>Area Details: </div>
-                      {area.area_name}
-                    </SheetTitle>
-                    <SheetDescription className="text-left">
-                      <div className="my-4 flex">
-                        <SheetTitle>People</SheetTitle>
-                        <Badge
-                          variant={
-                            area.people === "High"
-                              ? "destructive"
-                              : area.people === "Medium"
-                                ? "secondary"
-                                : "default"
-                          }
-                          className="ml-2"
-                        >
-                          {area.people}
-                        </Badge>
-                      </div>
-                      <ul>
-                        {area.people_practices.map((practice) => (
-                          <li key={practice}>{practice}</li>
-                        ))}
-                      </ul>
-                      <Separator className="my-4" />
-                      <div className="my-4 flex">
-                        <SheetTitle>Process</SheetTitle>
-                        <Badge
-                          variant={
-                            area.process === "High"
-                              ? "destructive"
-                              : area.process === "Medium"
-                                ? "secondary"
-                                : "default"
-                          }
-                          className="ml-2"
-                        >
-                          {area.process}
-                        </Badge>
-                      </div>
-                      <ul>
-                        {area.process_practices.map((practice) => (
-                          <li key={practice}>{practice}</li>
-                        ))}
-                      </ul>
-                      <Separator className="my-4" />
-                      <div className="my-4 flex">
-                        <SheetTitle>Technology</SheetTitle>
-                        <Badge
-                          variant={
-                            area.technology === "High"
-                              ? "destructive"
-                              : area.technology === "Medium"
-                                ? "secondary"
-                                : "default"
-                          }
-                          className="ml-2"
-                        >
-                          {area.technology}
-                        </Badge>
-                      </div>
-                      <ul>
-                        {area.technology_practices.map((practice) => (
-                          <li key={practice}>{practice}</li>
-                        ))}
-                      </ul>
-                      <Separator className="my-4" />
-                    </SheetDescription>
-                  </>
+                    </div>
+                  </SheetDescription>
                 )}
               </SheetHeader>
             </SheetContent>

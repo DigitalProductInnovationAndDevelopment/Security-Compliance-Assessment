@@ -27,22 +27,15 @@ const AreaCardAssessment = React.forwardRef<HTMLDivElement, AreaProps>(
           >
             {area.visible ? <Icons.show /> : <Icons.hide />}
           </Button>
-          {/* Assign unique identifiers for sheet triggers */}
-          {/* SheetTrigger for info icon */}
-          <SheetTrigger asChild>
-            <div
-              className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground"
-              data-sheet-trigger="info"
-            >
+          {/* Info icon to trigger info sheet */}
+          <SheetTrigger data-sheet-trigger="info">
+            <div className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground">
               <Icons.info />
             </div>
           </SheetTrigger>
-          {/* SheetTrigger for edit icon */}
-          <SheetTrigger asChild>
-            <div
-              className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground"
-              data-sheet-trigger="assess"
-            >
+          {/* Edit icon to trigger assess sheet */}
+          <SheetTrigger data-sheet-trigger="assess">
+            <div className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground">
               <Icons.edit />
             </div>
           </SheetTrigger>
