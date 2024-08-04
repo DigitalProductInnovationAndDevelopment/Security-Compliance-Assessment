@@ -6,10 +6,10 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "./ui/card";
-import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+} from "./card";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
 import { PlusCircleIcon } from "lucide-react";
-import { Label } from "./ui/label";
+import { Label } from "./label";
 
 export default function AddNewProjectCard() {
   return (
