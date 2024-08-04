@@ -50,6 +50,7 @@ export function AreaSheet({
 }>) {
   return (
     <Sheet key={area.area_id}>
+      {/* SheetTrigger is the component that will be rendered in the main page */}
       <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent className="lg:min-w-[40vw]">
         <SheetHeader>
