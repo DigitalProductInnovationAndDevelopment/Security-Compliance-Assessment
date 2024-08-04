@@ -113,9 +113,12 @@ export default async function Page({
                   {/* Conditionally render the edit section if logged in */}
                   {userLoggedIn && (
                     <div className="my-4">
-                      <SheetTitle>Edit Area</SheetTitle>
-                      <p>Edit information about this area.</p>
-                      {/* Implement edit form or component here */}
+                      <SheetTitle className="text-center">
+                        <div>Assess Area: </div>
+                        {area.area_name}
+                      </SheetTitle>
+                      <p>Edit assessment about this area.</p>
+                      {/* Implement assessment component here */}
                     </div>
                   )}
                 </SheetDescription>
