@@ -1,14 +1,29 @@
 import * as React from "react";
-import { SheetTrigger } from "~/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "~/components/ui/sheet";
 import { Card, CardContent, CardHeader, CardTitle } from "./card";
 import { Button } from "./button";
 import { Icons } from "../icons";
+import { Badge } from "~/components/ui/badge";
+import { Separator } from "~/components/ui/separator";
 
 export interface AreaProps {
   id: string;
   name: string;
   visible?: boolean;
   toggleVisibility?: () => void;
+  people: string;
+  process: string;
+  technology: string;
+  people_practices: string[];
+  process_practices: string[];
+  technology_practices: string[];
 }
 
 const AreaCardAssessment = React.forwardRef<HTMLDivElement, AreaProps>(
@@ -16,7 +31,8 @@ const AreaCardAssessment = React.forwardRef<HTMLDivElement, AreaProps>(
     return (
       <Card
         title={area.name}
-        className="flex h-full w-full flex-col items-center justify-center"
+        className="relative flex h-full w-full flex-col items-center justify-center"
+        ref={ref}
       >
         <div className="absolute right-2 top-2 space-x-1">
           <Button
@@ -27,19 +43,119 @@ const AreaCardAssessment = React.forwardRef<HTMLDivElement, AreaProps>(
           >
             {area.visible ? <Icons.show /> : <Icons.hide />}
           </Button>
+
           {/* Info icon to trigger info sheet */}
-          <SheetTrigger data-sheet-trigger="info">
-            <div className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground">
-              <Icons.info />
-            </div>
-          </SheetTrigger>
+          <Sheet>
+            <SheetTrigger>
+              <Button
+                variant="outline"
+                size="icon"
+                className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground"
+              >
+                <Icons.info />
+              </Button>
+            </SheetTrigger>
+            <SheetContent className="lg:min-w-[40vw]">
+              <SheetHeader>
+                <SheetTitle className="text-center">
+                  <div>Area Details: </div>
+                  {area.name}
+                </SheetTitle>
+                <SheetDescription className="text-left">
+                  <div className="my-4 flex">
+                    <SheetTitle>People</SheetTitle>
+                    <Badge
+                      variant={
+                        area.people === "High"
+                          ? "destructive"
+                          : area.people === "Medium"
+                            ? "secondary"
+                            : "default"
+                      }
+                      className="ml-2"
+                    >
+                      {area.people}
+                    </Badge>
+                  </div>
+                  <ul>
+                    {area.people_practices.map((practice) => (
+                      <li key={practice}>{practice}</li>
+                    ))}
+                  </ul>
+                  <Separator className="my-4" />
+                  <div className="my-4 flex">
+                    <SheetTitle>Process</SheetTitle>
+                    <Badge
+                      variant={
+                        area.process === "High"
+                          ? "destructive"
+                          : area.process === "Medium"
+                            ? "secondary"
+                            : "default"
+                      }
+                      className="ml-2"
+                    >
+                      {area.process}
+                    </Badge>
+                  </div>
+                  <ul>
+                    {area.process_practices.map((practice) => (
+                      <li key={practice}>{practice}</li>
+                    ))}
+                  </ul>
+                  <Separator className="my-4" />
+                  <div className="my-4 flex">
+                    <SheetTitle>Technology</SheetTitle>
+                    <Badge
+                      variant={
+                        area.technology === "High"
+                          ? "destructive"
+                          : area.technology === "Medium"
+                            ? "secondary"
+                            : "default"
+                      }
+                      className="ml-2"
+                    >
+                      {area.technology}
+                    </Badge>
+                  </div>
+                  <ul>
+                    {area.technology_practices.map((practice) => (
+                      <li key={practice}>{practice}</li>
+                    ))}
+                  </ul>
+                  <Separator className="my-4" />
+                </SheetDescription>
+              </SheetHeader>
+            </SheetContent>
+          </Sheet>
+
           {/* Edit icon to trigger assess sheet */}
-          <SheetTrigger data-sheet-trigger="assess">
-            <div className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground">
-              <Icons.edit />
-            </div>
-          </SheetTrigger>
+          <Sheet>
+            <SheetTrigger>
+              <Button
+                variant="outline"
+                size="icon"
+                className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground"
+              >
+                <Icons.edit />
+              </Button>
+            </SheetTrigger>
+            <SheetContent className="lg:min-w-[40vw]">
+              <SheetHeader>
+                <SheetTitle className="text-center">
+                  <div>Area Details: </div>
+                  {area.name}
+                </SheetTitle>
+              </SheetHeader>
+              <div className="mt-4">
+                <p>TODO: Edit assessment about this area.</p>
+                {/* TODO: Implement assessment component here */}
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
+
         <CardHeader
           className="flex flex-col items-center justify-center"
           title={area.name}
