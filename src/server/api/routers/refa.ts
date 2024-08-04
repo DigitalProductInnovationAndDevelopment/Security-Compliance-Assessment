@@ -28,6 +28,25 @@ export const refaRouter = createTRPCRouter({
         },
       });
     }),
+  artefactsByStage: publicProcedure
+    .input(
+      z.object({
+        stageNumber: z.number(),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      // get stage name from number
+      const stageName = await ctx.db.stage.findFirst({
+        where: {
+          stageNumber: input.stageNumber,
+        },
+      });
+      return ctx.db.artefact.findMany({
+        where: {
+          stage: stageName?.name,
+        },
+      });
+    }),
   areasWithArtefactsByStage: publicProcedure
     .input(
       z.object({
