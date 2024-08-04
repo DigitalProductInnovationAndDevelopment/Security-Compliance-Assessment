@@ -1,6 +1,15 @@
 import React from "react";
 import { api } from "~/trpc/server";
-import { Sheet } from "~/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "~/components/ui/sheet";
+import { Badge } from "~/components/ui/badge";
+import { Separator } from "~/components/ui/separator";
 import CardWrapper from "~/components/ui/cardWrapper";
 import { Area, Artefact } from "@prisma/client";
 
@@ -19,16 +28,7 @@ export default async function Page({
         {areasWithArtefacts?.areas.map((area) => (
           <AreaSheet key={area.area_id} area={area}>
             <CardWrapper
-              area={{
-                id: area.area_id,
-                name: area.area_name,
-                people: area.people,
-                process: area.process,
-                technology: area.technology,
-                people_practices: area.people_practices,
-                process_practices: area.process_practices,
-                technology_practices: area.technology_practices,
-              }}
+              area={{ id: area.area_id, name: area.area_name }}
               artifacts={area.artefacts.map((artefact) => ({
                 id: artefact.artefact_id,
                 name: artefact.artefact_name,

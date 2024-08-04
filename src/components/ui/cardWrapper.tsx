@@ -82,12 +82,6 @@ const CardWrapper = React.forwardRef<HTMLDivElement, CardWrapperProps>(
               name={area.name}
               visible={isAreaVisible}
               toggleVisibility={toggleVisibility}
-              people={area.people}
-              process={area.process}
-              technology={area.technology}
-              people_practices={area.people_practices}
-              process_practices={area.process_practices}
-              technology_practices={area.technology_practices}
             />
           ) : (
             <AreaCard
@@ -95,12 +89,6 @@ const CardWrapper = React.forwardRef<HTMLDivElement, CardWrapperProps>(
               name={area.name}
               visible={isAreaVisible}
               toggleVisibility={toggleVisibility}
-              people={area.people}
-              process={area.process}
-              technology={area.technology}
-              people_practices={area.people_practices}
-              process_practices={area.process_practices}
-              technology_practices={area.technology_practices}
             />
           )}
         </div>

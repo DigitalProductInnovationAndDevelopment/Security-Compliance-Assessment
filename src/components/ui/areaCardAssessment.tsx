@@ -18,12 +18,6 @@ export interface AreaProps {
   name: string;
   visible?: boolean;
   toggleVisibility?: () => void;
-  people: string;
-  process: string;
-  technology: string;
-  people_practices: string[];
-  process_practices: string[];
-  technology_practices: string[];
 }
 
 const AreaCardAssessment = React.forwardRef<HTMLDivElement, AreaProps>(
@@ -45,90 +39,15 @@ const AreaCardAssessment = React.forwardRef<HTMLDivElement, AreaProps>(
           </Button>
 
           {/* Info icon to trigger info sheet */}
-          <Sheet>
-            <SheetTrigger>
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground"
-              >
-                <Icons.info />
-              </Button>
-            </SheetTrigger>
-            <SheetContent className="lg:min-w-[40vw]">
-              <SheetHeader>
-                <SheetTitle className="text-center">
-                  <div>Area Details: </div>
-                  {area.name}
-                </SheetTitle>
-                <SheetDescription className="text-left">
-                  <div className="my-4 flex">
-                    <SheetTitle>People</SheetTitle>
-                    <Badge
-                      variant={
-                        area.people === "High"
-                          ? "destructive"
-                          : area.people === "Medium"
-                            ? "secondary"
-                            : "default"
-                      }
-                      className="ml-2"
-                    >
-                      {area.people}
-                    </Badge>
-                  </div>
-                  <ul>
-                    {area.people_practices.map((practice) => (
-                      <li key={practice}>{practice}</li>
-                    ))}
-                  </ul>
-                  <Separator className="my-4" />
-                  <div className="my-4 flex">
-                    <SheetTitle>Process</SheetTitle>
-                    <Badge
-                      variant={
-                        area.process === "High"
-                          ? "destructive"
-                          : area.process === "Medium"
-                            ? "secondary"
-                            : "default"
-                      }
-                      className="ml-2"
-                    >
-                      {area.process}
-                    </Badge>
-                  </div>
-                  <ul>
-                    {area.process_practices.map((practice) => (
-                      <li key={practice}>{practice}</li>
-                    ))}
-                  </ul>
-                  <Separator className="my-4" />
-                  <div className="my-4 flex">
-                    <SheetTitle>Technology</SheetTitle>
-                    <Badge
-                      variant={
-                        area.technology === "High"
-                          ? "destructive"
-                          : area.technology === "Medium"
-                            ? "secondary"
-                            : "default"
-                      }
-                      className="ml-2"
-                    >
-                      {area.technology}
-                    </Badge>
-                  </div>
-                  <ul>
-                    {area.technology_practices.map((practice) => (
-                      <li key={practice}>{practice}</li>
-                    ))}
-                  </ul>
-                  <Separator className="my-4" />
-                </SheetDescription>
-              </SheetHeader>
-            </SheetContent>
-          </Sheet>
+          <SheetTrigger>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground"
+            >
+              <Icons.info />
+            </Button>
+          </SheetTrigger>
 
           {/* Edit icon to trigger assess sheet */}
           <Sheet>
