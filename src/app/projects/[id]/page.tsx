@@ -11,6 +11,18 @@ import { Badge } from "~/components/ui/badge";
 import { api } from "~/trpc/server";
 import { ProjectCompletion } from "~/components/charts/ProjectCompletion";
 import { Card, CardContent } from "~/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "~/components/ui/accordion";
+import { Slider } from "~/components/ui/slider";
+import { ScrollArea } from "~/components/ui/scroll-area";
+import { Checkbox } from "~/components/ui/checkbox";
+import { AreaSheet } from "~/app/refa/stages/[id]/page";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
+import { ArtifactDialog } from "~/components/ui/artifactCard";
 
 const project_members = [
   "Ziyad Mourabiti",
@@ -23,9 +35,11 @@ export default async function Page({
   params,
 }: Readonly<{ params: { id: string } }>) {
   const stages = await api.refa.stages();
+  const areas = await api.refa.areasWithArtefactsByStage({ stageNumber: 2 });
+  const artefacts = await api.refa.artefactsByStage({ stageNumber: 2 });
   return (
     <div className="mx-2 flex h-screen flex-wrap gap-4 py-16">
-      <div className="relative w-full max-w-2xl sm:flex-1">
+      <div className="relative w-full max-w-xl sm:flex-1">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold">
             {"Project Name"}
@@ -127,10 +141,108 @@ export default async function Page({
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <div className="my-4 h-full w-full rounded-lg bg-white">
+        <div className="my-4 h-full w-full rounded-lg bg-white p-4">
           <div className="flex h-full w-full justify-between gap-4">
-            <div className="w-full border-black">yo</div>
-            <div className="w-full border-black">yo</div>
+            {/* Areas */}
+            <div className="w-full border-black">
+              <ScrollArea className="h-full">
+                <Badge className="text-xs" variant={"outline"}>
+                  Areas
+                </Badge>
+                <Accordion type="single" collapsible>
+                  {areas?.areas.map((area, key) => (
+                    <AccordionItem key={key} value={`item-${key}`}>
+                      <AccordionTrigger className="text-md flex text-left font-bold">
+                        <span className="inline-flex items-center gap-2">
+                          {area.area_name}
+                          <AreaSheet area={area}>
+                            <InfoCircledIcon className="h-5 w-5" />
+                          </AreaSheet>
+                        </span>
+                      </AccordionTrigger>
+                      <AccordionContent className="mb-8 space-y-12 p-4">
+                        <div className="space-y-4">
+                          <p className="text-sm font-bold">Question 1</p>
+                          <p className="text-sm">
+                            It is possible to trace security functional
+                            requirements with the related code e.g branches?
+                          </p>
+                          <Slider
+                            className="pr-4"
+                            defaultValue={[0]}
+                            min={0}
+                            max={5}
+                            step={1}
+                          />
+                        </div>
+                        <div className="space-y-4">
+                          <p className="text-sm font-bold">Question 2</p>
+                          <p className="text-sm">
+                            It is possible to trace security functional
+                            requirements with the related code e.g branches?
+                          </p>
+                          <Slider
+                            className="pr-4"
+                            defaultValue={[0]}
+                            min={0}
+                            max={5}
+                            step={1}
+                          />
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </ScrollArea>
+            </div>
+            {/* Artefacts */}
+            <div className="w-full border-black">
+              <ScrollArea className="h-full">
+                <Badge className="text-xs" variant={"outline"}>
+                  Artefacts
+                </Badge>
+                <Accordion type="single" collapsible>
+                  {artefacts?.map((artefact, key) => (
+                    <AccordionItem key={key} value={`item-${key}`}>
+                      <AccordionTrigger className="text-md text-left font-bold">
+                        <span className="inline-flex items-center gap-2">
+                          {artefact.artefact_name}
+                          <ArtifactDialog
+                            id={artefact.artefact_id}
+                            name={artefact.artefact_name}
+                          >
+                            <InfoCircledIcon className="h-5 w-5" />
+                          </ArtifactDialog>
+                        </span>
+                      </AccordionTrigger>
+                      <AccordionContent className="mb-8 space-y-4 p-4">
+                        <div className="flex justify-between space-y-4">
+                          <div className="items-top flex space-x-2">
+                            <Checkbox id="terms1" />
+                            <div className="grid gap-1.5 leading-none">
+                              <label
+                                htmlFor="terms1"
+                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                              >
+                                This artefact is handled
+                              </label>
+                              <p className="text-sm text-muted-foreground">
+                                The project satisfies the requirements of this
+                                artefact
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <textarea
+                          className="w-full border-2 p-2"
+                          placeholder="Leave your comment here... (optional)"
+                        />
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </ScrollArea>
+            </div>
           </div>
         </div>
       </div>
