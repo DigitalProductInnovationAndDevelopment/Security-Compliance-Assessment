@@ -45,6 +45,3 @@ yarn-error.log*
 
 # misc
 reference_model
-
-# npm
-package-lock.json
