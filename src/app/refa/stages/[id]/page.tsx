@@ -1,4 +1,5 @@
 import React from "react";
+import { useSession } from "next-auth/react";
 import { api } from "~/trpc/server";
 import {
   Sheet,
@@ -21,6 +22,9 @@ export default async function Page({
   // if the link is not something like refa/stages/1 or refa/stages/2
   // redirect to the first stage
 
+  const { data: session } = useSession();
+  const userLoggedIn = !!session; // Check if session is available
+
   return (
     <div className="relative min-h-full w-full rounded-lg bg-white p-8">
       <div className="flex min-w-full flex-wrap gap-4">
@@ -37,6 +41,7 @@ export default async function Page({
             ></CardWrapper>
             <SheetContent className="lg:min-w-[40vw]">
               <SheetHeader>
+                {/* Render only info sheet if not logged in */}
                 <SheetTitle className="text-center">
                   <div>Area Details: </div>
                   {area.area_name}
@@ -104,6 +109,15 @@ export default async function Page({
                       <li key={practice}>{practice}</li>
                     ))}
                   </ul>
+                  <Separator className="my-4" />
+                  {/* Conditionally render the edit section if logged in */}
+                  {userLoggedIn && (
+                    <div className="my-4">
+                      <SheetTitle>Edit Area</SheetTitle>
+                      <p>Edit information about this area.</p>
+                      {/* Implement edit form or component here */}
+                    </div>
+                  )}
                 </SheetDescription>
               </SheetHeader>
             </SheetContent>

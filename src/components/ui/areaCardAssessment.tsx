@@ -21,14 +21,26 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
         <Button
           variant="outline"
           size="icon"
-          className="h-4 w-4 opacity-50 shrink-0 rounded-full hover:bg-accent hover:text-accent-foreground"
+          className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground"
           onClick={area.toggleVisibility}
         >
           {area.visible ? <Icons.show /> : <Icons.hide />}
         </Button>
-        <SheetTrigger>
-          <div className="h-4 w-4 opacity-50 shrink-0 rounded-full hover:bg-accent hover:text-accent-foreground">
+        {/* Assign unique identifiers for sheet triggers */}
+        <SheetTrigger asChild>
+          <div
+            className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground"
+            data-sheet-trigger="info"
+          >
             <Icons.info />
+          </div>
+        </SheetTrigger>
+        <SheetTrigger asChild>
+          <div
+            className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground"
+            data-sheet-trigger="assess"
+          >
+            <Icons.edit />
           </div>
         </SheetTrigger>
       </div>
