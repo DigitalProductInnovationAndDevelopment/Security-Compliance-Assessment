@@ -9,6 +9,8 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Badge } from "~/components/ui/badge";
 import { api } from "~/trpc/server";
+import { ProjectCompletion } from "~/components/charts/ProjectCompletion";
+import { Card, CardContent } from "~/components/ui/card";
 
 const project_members = [
   "Ziyad Mourabiti",
@@ -17,7 +19,9 @@ const project_members = [
   "Abdelhakim El-Sayed",
 ];
 
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page({
+  params,
+}: Readonly<{ params: { id: string } }>) {
   const stages = await api.refa.stages();
   return (
     <div className="mx-2 flex h-screen flex-wrap gap-4 py-16">
@@ -45,7 +49,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           <div className="text-sm text-gray-500">{"Project Description"}</div>
         </div>
         {/* project members */}
-        <div className="gap-4">
+        <div className="gap-4 py-4">
           <h1 className="py-2 text-lg font-bold">Project Members</h1>
           <div className="flex flex-row flex-wrap gap-4">
             {project_members.map((member) => (
@@ -72,6 +76,33 @@ export default async function Page({ params }: { params: { id: string } }) {
             ))}
           </div>
         </div>
+        <div className="h-full gap-4 py-4">
+          <div className="flex flex-wrap gap-4">
+            <div className="w-full xl:flex-1">
+              <h1 className="py-2 text-lg font-bold">
+                Your Assessment Progress
+              </h1>
+              <Card className="m-0 w-full pt-6">
+                <CardContent>
+                  <ProjectCompletion />
+                </CardContent>
+              </Card>
+            </div>
+            <div className="w-full xl:flex-1">
+              <h1 className="flex items-center gap-2 py-2 text-lg font-bold">
+                <Badge className="text-xs" variant={"destructive"}>
+                  Assessor
+                </Badge>
+                Team Results
+              </h1>
+              <Card className="m-0 w-full pt-6">
+                <CardContent>
+                  <ProjectCompletion />
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
       </div>
       <div className="relative h-full w-full rounded-lg sm:flex-1 sm:px-4">
         <div className="flex items-center gap-4">
@@ -96,7 +127,12 @@ export default async function Page({ params }: { params: { id: string } }) {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <div className="my-4 h-full w-full rounded-lg bg-white"></div>
+        <div className="my-4 h-full w-full rounded-lg bg-white">
+          <div className="flex h-full w-full justify-between gap-4">
+            <div className="w-full border-black">yo</div>
+            <div className="w-full border-black">yo</div>
+          </div>
+        </div>
       </div>
     </div>
   );
