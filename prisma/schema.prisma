@@ -160,20 +160,21 @@ model Assessment {
 }
 
 model StageScore {
-  id                        Int       @id @default(autoincrement())
-  stageId                   Int
-  assessmentId              Int
-  artefactsCompletenessScore Int
-  areaMaturityScore         Int
-  areaCompletenessScore     Int
-  stage                     Stage     @relation(fields: [stageId], references: [id])
-  assessment                Assessment @relation(fields: [assessmentId], references: [userId, projectId])
+  id                            Int       @id @default(autoincrement())
+  stageId                       Int
+  assessmentId                  Int
+  artefactsCompletenessScore    Float
+  areaMaturityScore             Float
+  areaCompletenessScore         Float
+  targetAreaMaturityScore       Float
+  stage                         Stage     @relation(fields: [stageId], references: [id])
+  assessment                    Assessment @relation(fields: [assessmentId], references: [userId, projectId])
 }
 
 model Question {
-  id          Int             @id @default(autoincrement())
-  body        String
-  areas       Area[]
+  id                  Int             @id @default(autoincrement())
+  body                String
+  areas               Area[]
   answerAreaQuestions AnswerAreaQuestion[]
 }
 
@@ -182,6 +183,7 @@ model AnswerAreaQuestion {
   questionId    Int
   assessmentId  Int
   assessedScore Int
+  targetScore   Int
   answered      Boolean
   comment       String
   created_at    DateTime    @default(now())
@@ -208,6 +210,7 @@ model AreaScore {
   artefactsCompletenessScore  Float
   areaMaturityScore           Float
   areaCompletenessScore       Float
+  targeAreaMaturityScore      Float
   area                        Area       @relation(fields: [areaId], references: [id])
   assessment                  Assessment @relation(fields: [assessmentId], references: [userId, projectId])
 }
