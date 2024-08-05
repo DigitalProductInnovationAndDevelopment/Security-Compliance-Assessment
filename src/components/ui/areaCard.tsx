@@ -44,7 +44,7 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
           <p className="text-sm text-gray-500">{area.id}</p>
         </div>
       </CardContent>
-      <CardFooter className="flex flex-row-reverse items-center justify-center">
+      <CardFooter>
         {area.type === "Software Engineering" && (
           <div className="h-4 w-4 shrink-0 rounded-full opacity-100">
             <Icons.software_engineering />

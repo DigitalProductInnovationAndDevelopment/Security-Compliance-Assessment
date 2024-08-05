@@ -28,7 +28,11 @@ export default async function Page({
         {areasWithArtefacts?.areas.map((area) => (
           <AreaSheet key={area.area_id} area={area}>
             <CardWrapper
-              area={{ id: area.area_id, name: area.area_name }}
+              area={{
+                id: area.area_id,
+                name: area.area_name,
+                type: area.area_type,
+              }}
               artifacts={area.artefacts.map((artefact) => ({
                 id: artefact.artefact_id,
                 name: artefact.artefact_name,

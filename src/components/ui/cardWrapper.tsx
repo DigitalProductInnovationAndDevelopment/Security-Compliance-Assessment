@@ -74,6 +74,7 @@ const CardWrapper = React.forwardRef<HTMLDivElement, CardWrapperProps>(
           <AreaCard
             id={area.id}
             name={area.name}
+            type={area.type}
             visible={isAreaVisible}
             toggleVisibility={toggleVisibility}
           />
