@@ -1,12 +1,13 @@
 import * as React from "react";
 import { SheetTrigger } from "~/components/ui/sheet";
-import { Card, CardContent, CardHeader, CardTitle } from "./card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./card";
 import { Button } from "./button";
 import { Icons } from "../icons";
 
 export interface AreaProps {
   id: string;
   name: string;
+  type: string;
   visible?: boolean;
   toggleVisibility?: () => void;
 }
@@ -21,13 +22,13 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
         <Button
           variant="outline"
           size="icon"
-          className="h-4 w-4 opacity-50 shrink-0 rounded-full hover:bg-accent hover:text-accent-foreground"
+          className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground"
           onClick={area.toggleVisibility}
         >
           {area.visible ? <Icons.show /> : <Icons.hide />}
         </Button>
         <SheetTrigger>
-          <div className="h-4 w-4 opacity-50 shrink-0 rounded-full hover:bg-accent hover:text-accent-foreground">
+          <div className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground">
             <Icons.info />
           </div>
         </SheetTrigger>
@@ -43,6 +44,18 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
           <p className="text-sm text-gray-500">{area.id}</p>
         </div>
       </CardContent>
+      <CardFooter className="flex flex-row-reverse items-center justify-center">
+        {area.type === "Software Engineering" && (
+          <div className="h-4 w-4 shrink-0 rounded-full opacity-100">
+            <Icons.software_engineering />
+          </div>
+        )}
+        {area.type === "Security-related Software Engineering" && (
+          <div className="h-4 w-4 shrink-0 rounded-full opacity-100">
+            <Icons.security_related_software_engineering />
+          </div>
+        )}
+      </CardFooter>
     </Card>
   );
 });
