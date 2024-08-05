@@ -1,5 +1,6 @@
 import * as React from "react";
 import { SheetTrigger } from "~/components/ui/sheet";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./card";
 import { Button } from "./button";
 import { Icons } from "../icons";
@@ -45,16 +46,23 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
         </div>
       </CardContent>
       <CardFooter>
-        {area.type === "Software Engineering" && (
-          <div className="h-4 w-4 shrink-0 rounded-full opacity-100">
-            <Icons.software_engineering />
-          </div>
-        )}
-        {area.type === "Security-related Software Engineering" && (
-          <div className="h-4 w-4 shrink-0 rounded-full opacity-100">
-            <Icons.security_related_software_engineering />
-          </div>
-        )}
+        <Tooltip>
+          <TooltipTrigger>
+            {area.type === "Software Engineering" && (
+              <div className="h-4 w-4 shrink-0 rounded-full opacity-100">
+                <Icons.software_engineering />
+              </div>
+            )}
+            {area.type === "Security-related Software Engineering" && (
+              <div className="h-4 w-4 shrink-0 rounded-full opacity-100">
+                <Icons.security_related_software_engineering />
+              </div>
+            )}
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Area type: {area.type}</p>
+          </TooltipContent>
+        </Tooltip>
       </CardFooter>
     </Card>
   );
