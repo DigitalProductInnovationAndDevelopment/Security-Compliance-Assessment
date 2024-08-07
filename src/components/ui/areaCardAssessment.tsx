@@ -10,8 +10,6 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "./card";
 import { Button } from "./button";
 import { Icons } from "../icons";
-import { Badge } from "~/components/ui/badge";
-import { Separator } from "~/components/ui/separator";
 
 export interface AreaProps {
   id: string;
@@ -52,13 +50,9 @@ const AreaCardAssessment = React.forwardRef<HTMLDivElement, AreaProps>(
           {/* Edit icon to trigger assess sheet */}
           <Sheet>
             <SheetTrigger>
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground"
-              >
+              <div className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground">
                 <Icons.edit />
-              </Button>
+              </div>
             </SheetTrigger>
             <SheetContent className="lg:min-w-[40vw]">
               <SheetHeader>

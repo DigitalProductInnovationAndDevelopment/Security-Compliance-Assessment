@@ -27,13 +27,9 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
           {area.visible ? <Icons.show /> : <Icons.hide />}
         </Button>
         <SheetTrigger>
-          <Button
-            variant="outline"
-            size="icon"
-            className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground"
-          >
-            <Icons.info />
-          </Button>
+          <div className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground">
+            <Icons.edit />
+          </div>
         </SheetTrigger>
       </div>
       <CardHeader
