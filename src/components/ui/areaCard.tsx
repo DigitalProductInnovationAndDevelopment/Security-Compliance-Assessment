@@ -4,6 +4,7 @@ import * as React from "react";
 import {
   Sheet,
   SheetContent,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -63,6 +64,13 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
                 <p>TODO: Edit assessment about this area.</p>
                 {/* TODO: Implement assessment component here */}
               </div>
+              <p className="text-right opacity-50">
+                Your changes will be stored automatically.
+              </p>
+              <SheetFooter>
+                <Button>Previous Area</Button>
+                <Button>Next Area</Button>
+              </SheetFooter>
             </SheetContent>
           </Sheet>
         )}
