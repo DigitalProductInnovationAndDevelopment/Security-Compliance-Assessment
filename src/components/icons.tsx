@@ -382,14 +382,14 @@ export const Icons = {
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        FillRule="evenodd"
+        ClipRule="evenodd"
         d="M10.3409 5.71455L9.28544 4.65908L2.83112 11.1134L2.32375 12.6762L3.88659 12.1689L10.3409 5.71455ZM4.68853 13.4779L0 15L1.52212 10.3115L9.28544 2.54814L12.4518 5.71455L4.68853 13.4779Z"
         fill="#6A7181"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        FillRule="evenodd"
+        ClipRule="evenodd"
         d="M13.5073 0.43719C12.9244 -0.14573 11.9793 -0.14573 11.3964 0.43719L10.3409 1.49266L13.5073 4.65907L14.5628 3.6036C15.1457 3.02068 15.1457 2.07558 14.5628 1.49266L13.5073 0.43719Z"
         fill="#6A7181"
       />
