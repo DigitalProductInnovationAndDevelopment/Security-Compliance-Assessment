@@ -55,7 +55,7 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
             <SheetContent className="lg:min-w-[40vw]">
               <SheetHeader>
                 <SheetTitle className="text-center">
-                  <div>Area Details: </div>
+                  <div>Assess Area: </div>
                   {area.name}
                 </SheetTitle>
               </SheetHeader>
