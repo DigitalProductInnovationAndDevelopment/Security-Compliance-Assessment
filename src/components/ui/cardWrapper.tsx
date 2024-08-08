@@ -9,8 +9,6 @@ import { ArtifactProps } from "./artifactCard";
 import useViewStore from "../../stores/useViewStore";
 import { ARTEFACT_VIEW } from "~/stores/viewTypes";
 import { useState } from "react";
-import { useSession } from "next-auth/react";
-import { AreaCardAssessment } from "./areaCardAssessment";
 
 type CardWrapperProps = {
   area: AreaProps;
@@ -24,8 +22,6 @@ const CardWrapper = React.forwardRef<HTMLDivElement, CardWrapperProps>(
     const artifactsView = currentView === ARTEFACT_VIEW;
     const [isAreaVisible, setIsAreaVisible] = useState(true);
     const [isHovered, setIsHovered] = useState(false);
-    const { data: session } = useSession();
-    const userLoggedIn = !!session;
 
     const artifactClasses = cn(
       "relative flex flex-col items-center gap-2 p-2",
@@ -75,22 +71,12 @@ const CardWrapper = React.forwardRef<HTMLDivElement, CardWrapperProps>(
           )}
         </div>
         <div className={areaClasses}>
-          {/* Conditionally render AreaCard or AreaCardAssessment */}
-          {userLoggedIn ? (
-            <AreaCardAssessment
-              id={area.id}
-              name={area.name}
-              visible={isAreaVisible}
-              toggleVisibility={toggleVisibility}
-            />
-          ) : (
-            <AreaCard
-              id={area.id}
-              name={area.name}
-              visible={isAreaVisible}
-              toggleVisibility={toggleVisibility}
-            />
-          )}
+          <AreaCard
+            id={area.id}
+            name={area.name}
+            visible={isAreaVisible}
+            toggleVisibility={toggleVisibility}
+          />
         </div>
       </div>
     );
