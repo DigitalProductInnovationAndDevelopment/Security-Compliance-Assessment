@@ -7,8 +7,13 @@ import { api } from "~/trpc/react";
 import Spinner from "./spinner";
 import { skipToken } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
-import { Sheet } from "lucide-react";
-import { SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "./sheet";
 import { Icons } from "../icons";
 
 export type ArtifactProps = {
@@ -63,43 +68,42 @@ const ArtifactCard = React.forwardRef<HTMLDivElement, ArtifactProps>(
             <CardHeader>No Artefacts</CardHeader>
           </div>
         ) : (
-          <Card
-            title={name}
-            className="flex h-full w-full flex-col items-center justify-center"
-          >
-            <div className="bg-card text-center text-card-foreground opacity-100 transition-opacity hover:opacity-50">
-              {/* Info icon that triggers ArtifactDialog */}
-              <ArtifactDialog id={id} name={name} className="w-full">
-                <div className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground">
-                  <Icons.info />
-                </div>
-              </ArtifactDialog>
-              {/* If user is logged in, edit icon to trigger assess sheet */}
-              {userLoggedIn && (
-                <Sheet>
-                  <SheetTrigger>
-                    <div className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground">
-                      <Icons.edit />
-                    </div>
-                  </SheetTrigger>
-                  <SheetContent className="lg:min-w-[40vw]">
-                    <SheetHeader>
-                      <SheetTitle className="text-center">
-                        <div>Assess Artefact: </div>
-                        {name}
-                      </SheetTitle>
-                    </SheetHeader>
-                    <div className="mt-4">
-                      <p>TODO: Edit assessment about this artefact.</p>
-                      {/* TODO: Implement assessment component here */}
-                    </div>
-                  </SheetContent>
-                </Sheet>
-              )}
+          <Card className="flex h-full w-full flex-col items-center justify-center">
+            <div className="text-center opacity-100 transition-opacity hover:opacity-70">
               <CardHeader>
                 <div className="text-sm font-bold">{name}</div>
               </CardHeader>
               <CardDescription className="pb-2">{id}</CardDescription>
+              <div className="mt-2 items-center justify-center">
+                {/* Info icon that triggers pop-up */}
+                <ArtifactDialog id={id} name={name}>
+                  <div className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground">
+                    <Icons.info />
+                  </div>
+                </ArtifactDialog>
+                {/* If user is logged in, edit icon to trigger assess sheet */}
+                {userLoggedIn && (
+                  <Sheet>
+                    <SheetTrigger>
+                      <div className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground">
+                        <Icons.edit />
+                      </div>
+                    </SheetTrigger>
+                    <SheetContent className="lg:min-w-[40vw]">
+                      <SheetHeader>
+                        <SheetTitle className="text-center">
+                          <div>Assess Artefact: </div>
+                          {name}
+                        </SheetTitle>
+                      </SheetHeader>
+                      <div className="mt-4">
+                        <p>TODO: Edit assessment about this artefact.</p>
+                        {/* TODO: Implement assessment component here */}
+                      </div>
+                    </SheetContent>
+                  </Sheet>
+                )}
+              </div>
             </div>
           </Card>
         )}
