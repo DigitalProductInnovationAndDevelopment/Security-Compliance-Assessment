@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { CardDescription, CardHeader } from "./card";
+import { Card, CardDescription, CardHeader } from "./card";
 import { Dialog, DialogTrigger, DialogContent, DialogTitle } from "./dialog";
 import { api } from "~/trpc/react";
 import Spinner from "./spinner";
@@ -60,11 +60,20 @@ const ArtifactCard = React.forwardRef<HTMLDivElement, ArtifactProps>(
       <>
         {isEmpty ? (
           <div className="rounded-xl bg-card text-card-foreground">
-            <CardHeader>No Artifacts</CardHeader>
+            <CardHeader>No Artefacts</CardHeader>
           </div>
         ) : (
-          <ArtifactDialog id={id} name={name} className="w-full">
-            <div className="rounded-xl border bg-card text-center text-card-foreground opacity-100 transition-opacity hover:opacity-50">
+          <Card
+            title={name}
+            className="flex h-full w-full flex-col items-center justify-center"
+          >
+            <div className="bg-card text-center text-card-foreground opacity-100 transition-opacity hover:opacity-50">
+              {/* Info icon that triggers ArtifactDialog */}
+              <ArtifactDialog id={id} name={name} className="w-full">
+                <div className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground">
+                  <Icons.info />
+                </div>
+              </ArtifactDialog>
               {/* If user is logged in, edit icon to trigger assess sheet */}
               {userLoggedIn && (
                 <Sheet>
@@ -87,12 +96,12 @@ const ArtifactCard = React.forwardRef<HTMLDivElement, ArtifactProps>(
                   </SheetContent>
                 </Sheet>
               )}
-              <CardHeader className="p-3">
-                <span className="text-sm font-bold">{name}</span>
+              <CardHeader>
+                <div className="text-sm font-bold">{name}</div>
               </CardHeader>
               <CardDescription className="pb-2">{id}</CardDescription>
             </div>
-          </ArtifactDialog>
+          </Card>
         )}
       </>
     );
