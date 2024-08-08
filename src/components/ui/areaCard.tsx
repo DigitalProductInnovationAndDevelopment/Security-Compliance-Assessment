@@ -44,8 +44,6 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
         <div className="text-center">
           <p className="text-sm text-gray-500">{area.id}</p>
         </div>
-      </CardContent>
-      <CardFooter>
         <Tooltip>
           <TooltipTrigger>
             {area.type === "Software Engineering" && (
@@ -63,7 +61,7 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
             <p>Area type: {area.type}</p>
           </TooltipContent>
         </Tooltip>
-      </CardFooter>
+      </CardContent>
     </Card>
   );
 });
