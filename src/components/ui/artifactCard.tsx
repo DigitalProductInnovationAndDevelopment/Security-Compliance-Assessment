@@ -6,6 +6,10 @@ import { Dialog, DialogTrigger, DialogContent, DialogTitle } from "./dialog";
 import { api } from "~/trpc/react";
 import Spinner from "./spinner";
 import { skipToken } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import { Sheet } from "lucide-react";
+import { SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./sheet";
+import { Icons } from "../icons";
 
 export type ArtifactProps = {
   id?: string;
@@ -50,6 +54,8 @@ export const ArtifactDialog = ({
 
 const ArtifactCard = React.forwardRef<HTMLDivElement, ArtifactProps>(
   ({ id, name, isEmpty = false }, ref) => {
+    const { data: session } = useSession();
+    const userLoggedIn = !!session;
     return (
       <>
         {isEmpty ? (
@@ -59,6 +65,28 @@ const ArtifactCard = React.forwardRef<HTMLDivElement, ArtifactProps>(
         ) : (
           <ArtifactDialog id={id} name={name} className="w-full">
             <div className="rounded-xl border bg-card text-center text-card-foreground opacity-100 transition-opacity hover:opacity-50">
+              {/* If user is logged in, edit icon to trigger assess sheet */}
+              {userLoggedIn && (
+                <Sheet>
+                  <SheetTrigger>
+                    <div className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground">
+                      <Icons.edit />
+                    </div>
+                  </SheetTrigger>
+                  <SheetContent className="lg:min-w-[40vw]">
+                    <SheetHeader>
+                      <SheetTitle className="text-center">
+                        <div>Assess Artefact: </div>
+                        {name}
+                      </SheetTitle>
+                    </SheetHeader>
+                    <div className="mt-4">
+                      <p>TODO: Edit assessment about this artefact.</p>
+                      {/* TODO: Implement assessment component here */}
+                    </div>
+                  </SheetContent>
+                </Sheet>
+              )}
               <CardHeader className="p-3">
                 <span className="text-sm font-bold">{name}</span>
               </CardHeader>
