@@ -160,10 +160,10 @@ export default async function Page({
                     <AccordionItem key={key} value={`item-1`}>
                       <AccordionTrigger className="text-md flex text-left font-bold">
                         <span className="inline-flex items-center gap-2">
-                          <span className="line-clamp-1">{area.area_name}</span>
                           <AreaSheet area={area}>
                             <InfoCircledIcon className="min-h-5 min-w-5" />
                           </AreaSheet>
+                          <span className="line-clamp-1">{area.area_name}</span>
                         </span>
                       </AccordionTrigger>
                       <AccordionContent className="mb-8 space-y-12 p-4">
@@ -218,15 +218,15 @@ export default async function Page({
                     <AccordionItem key={key} value={`item-1`}>
                       <AccordionTrigger className="text-md text-left font-bold">
                         <span className="inline-flex items-center gap-2">
-                          <span className="line-clamp-1">
-                            {artefact.artefact_name}
-                          </span>
                           <ArtifactDialog
                             id={artefact.artefact_id}
                             name={artefact.artefact_name}
                           >
                             <InfoCircledIcon className="min-h-5 min-w-5" />
                           </ArtifactDialog>
+                          <span className="line-clamp-1">
+                            {artefact.artefact_name}
+                          </span>
                         </span>
                       </AccordionTrigger>
                       <AccordionContent className="mb-8 space-y-4 p-4">
