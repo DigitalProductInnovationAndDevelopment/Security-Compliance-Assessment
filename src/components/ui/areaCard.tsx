@@ -80,16 +80,12 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
           <p className="text-sm text-gray-500">{area.id}</p>
         </div>
         <Tooltip>
-          <TooltipTrigger>
+          <TooltipTrigger className="flex w-full items-center justify-center">
             {area.type === "Software Engineering" && (
-              <div className="h-4 w-4 shrink-0 rounded-full opacity-100">
-                <Icons.software_engineering />
-              </div>
+              <Icons.software_engineering />
             )}
             {area.type === "Security-related Software Engineering" && (
-              <div className="h-4 w-4 shrink-0 rounded-full opacity-100">
-                <Icons.security_related_software_engineering />
-              </div>
+              <Icons.security_related_software_engineering />
             )}
           </TooltipTrigger>
           <TooltipContent>
