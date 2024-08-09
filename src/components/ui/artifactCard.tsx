@@ -25,7 +25,7 @@ export const ArtifactDialog = ({
 
   return (
     <Dialog>
-      <DialogTrigger className={className}>{children}</DialogTrigger>
+      <DialogTrigger asChild className={className}>{children}</DialogTrigger>
       <DialogContent>
         <DialogTitle>{data?.artefact_name}</DialogTitle>
         {isLoading ? (

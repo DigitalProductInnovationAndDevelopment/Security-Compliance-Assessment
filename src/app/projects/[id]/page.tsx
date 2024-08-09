@@ -35,8 +35,8 @@ export default async function Page({
   params,
 }: Readonly<{ params: { id: string } }>) {
   const stages = await api.refa.stages();
-  const areas = await api.refa.areasWithArtefactsByStage({ stageNumber: 2 });
-  const artefacts = await api.refa.artefactsByStage({ stageNumber: 2 });
+  const areas = await api.refa.areasWithArtefactsByStage({ stageNumber: Number(params.id) });
+  const artefacts = await api.refa.artefactsByStage({ stageNumber: Number(params.id) });
   return (
     <div className="mx-2 flex h-screen flex-wrap gap-4 py-16">
       <div className="relative w-full max-w-xl sm:flex-1">
@@ -189,6 +189,11 @@ export default async function Page({
                             step={1}
                           />
                         </div>
+                        <textarea
+                          className="w-full border-2 p-2 mr-2"
+                          placeholder="Leave your comment here... (optional)"
+                          rows={3}
+                        />
                       </AccordionContent>
                     </AccordionItem>
                   ))}

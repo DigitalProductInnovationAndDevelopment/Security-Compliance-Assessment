@@ -64,10 +64,8 @@ export default function Header({ session }: { session: Session | null }) {
         </Link>
       </nav>
       <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="outline" size="icon" className="shrink-0 md:hidden">
-            <Menu className="h-5 w-5" />
-          </Button>
+        <SheetTrigger asChild className="shrink-0 md:hidden">
+          <Menu className="h-5 w-5" />
         </SheetTrigger>
         <SheetContent side="left">
           <nav className="grid gap-6 text-lg font-medium">
@@ -100,8 +98,8 @@ export default function Header({ session }: { session: Session | null }) {
         {!session && <Authenticate action="signIn" />}
         {session && (
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button size={null} className="rounded-full">
+            <DropdownMenuTrigger asChild className="rounded-full">
+              <span className="rounded-full">
                 {session?.user?.image && (
                   <img
                     src={session?.user?.image}
@@ -109,7 +107,7 @@ export default function Header({ session }: { session: Session | null }) {
                     className="h-10 w-10 rounded-full"
                   />
                 )}
-              </Button>
+              </span>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
