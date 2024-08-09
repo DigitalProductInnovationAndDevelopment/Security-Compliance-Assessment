@@ -76,7 +76,7 @@ const ArtifactCard = React.forwardRef<HTMLDivElement, ArtifactProps>(
                 <div className="text-sm font-bold">{name}</div>
               </CardHeader>
               <CardDescription className="pb-2">
-                {id}
+                <span>{id}</span>
                 <div className="mt-2 flex items-center justify-center space-x-0.5">
                   {/* Info icon that triggers pop-up */}
                   <ArtifactDialog id={id} name={name}>
@@ -96,7 +96,7 @@ const ArtifactCard = React.forwardRef<HTMLDivElement, ArtifactProps>(
                         <SheetHeader>
                           <SheetTitle className="text-center">
                             <div>Assess Artefact: </div>
-                            {name}
+                            <span>{name}</span>
                           </SheetTitle>
                         </SheetHeader>
                         <div className="mt-4">
