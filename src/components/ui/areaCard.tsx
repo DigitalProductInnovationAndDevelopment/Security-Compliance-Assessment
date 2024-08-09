@@ -13,12 +13,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "./card";
 import { Button } from "./button";
 import { Icons } from "../icons";
 import { useSession } from "next-auth/react";
+import { useState } from "react";
 
 export interface AreaProps {
   id: string;
   name: string;
   visible?: boolean;
   toggleVisibility?: () => void;
+  // New props to determine if this area is currently active
+  onPreviousArea?: () => void;
+  onNextArea?: () => void;
+  isActive?: boolean;
 }
 
 const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
@@ -68,8 +73,12 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
                 Your changes will be stored automatically.
               </p>
               <SheetFooter>
-                <Button>Previous Area</Button>
-                <Button>Next Area</Button>
+                <Button onClick={area.onPreviousArea} disabled={!area.isActive}>
+                  Previous Area
+                </Button>
+                <Button onClick={area.onNextArea} disabled={!area.isActive}>
+                  Next Area
+                </Button>
               </SheetFooter>
             </SheetContent>
           </Sheet>
