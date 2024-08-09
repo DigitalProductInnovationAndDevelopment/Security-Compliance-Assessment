@@ -23,6 +23,7 @@ import { Checkbox } from "~/components/ui/checkbox";
 import { AreaSheet } from "~/app/refa/stages/[id]/page";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { ArtifactDialog } from "~/components/ui/artifactCard";
+import { ProjectAreaCompletion } from "~/components/charts/ProjectAreaCompletion";
 
 const project_members = [
   "Ziyad Mourabiti",
@@ -35,8 +36,12 @@ export default async function Page({
   params,
 }: Readonly<{ params: { id: string } }>) {
   const stages = await api.refa.stages();
-  const areas = await api.refa.areasWithArtefactsByStage({ stageNumber: Number(params.id) });
-  const artefacts = await api.refa.artefactsByStage({ stageNumber: Number(params.id) });
+  const areas = await api.refa.areasWithArtefactsByStage({
+    stageNumber: Number(params.id),
+  });
+  const artefacts = await api.refa.artefactsByStage({
+    stageNumber: Number(params.id),
+  });
   return (
     <div className="mx-2 flex h-screen flex-wrap gap-4 py-16">
       <div className="relative w-full max-w-xl sm:flex-1">
@@ -64,6 +69,33 @@ export default async function Page({
         </div>
         {/* project members */}
         <div className="gap-4 py-4">
+          <div className="flex flex-wrap gap-4">
+            <div className="w-full xl:flex-1">
+              <h1 className="py-2 text-lg font-bold">
+                Asessment of "Stage Name"
+              </h1>
+              <Card className="m-0 w-full pt-6">
+                <CardContent>
+                  <ProjectAreaCompletion />
+                </CardContent>
+              </Card>
+            </div>
+            <div className="w-full xl:flex-1">
+              <h1 className="flex items-center gap-2 py-2 text-lg font-bold">
+                <Badge className="text-xs" variant={"destructive"}>
+                  Assessor
+                </Badge>
+                Team Results
+              </h1>
+              <Card className="m-0 w-full pt-6">
+                <CardContent>
+                  <ProjectAreaCompletion />
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+        <div className="gap-4 py-4">
           <h1 className="py-2 text-lg font-bold">Project Members</h1>
           <div className="flex flex-row flex-wrap gap-4">
             {project_members.map((member) => (
@@ -88,33 +120,6 @@ export default async function Page({
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-        <div className="h-full gap-4 py-4">
-          <div className="flex flex-wrap gap-4">
-            <div className="w-full xl:flex-1">
-              <h1 className="py-2 text-lg font-bold">
-                Your Assessment Progress
-              </h1>
-              <Card className="m-0 w-full pt-6">
-                <CardContent>
-                  <ProjectCompletion />
-                </CardContent>
-              </Card>
-            </div>
-            <div className="w-full xl:flex-1">
-              <h1 className="flex items-center gap-2 py-2 text-lg font-bold">
-                <Badge className="text-xs" variant={"destructive"}>
-                  Assessor
-                </Badge>
-                Team Results
-              </h1>
-              <Card className="m-0 w-full pt-6">
-                <CardContent>
-                  <ProjectCompletion />
-                </CardContent>
-              </Card>
-            </div>
           </div>
         </div>
       </div>
@@ -149,14 +154,15 @@ export default async function Page({
                 <Badge className="text-xs" variant={"outline"}>
                   Areas
                 </Badge>
-                <Accordion type="single" collapsible>
+                <Accordion type="single" collapsible defaultValue="item-1">
                   {areas?.areas.map((area, key) => (
-                    <AccordionItem key={key} value={`item-${key}`}>
+                    // <AccordionItem key={key} value={`item-${key}`}>
+                    <AccordionItem key={key} value={`item-1`}>
                       <AccordionTrigger className="text-md flex text-left font-bold">
                         <span className="inline-flex items-center gap-2">
-                          {area.area_name}
+                          <span className="line-clamp-1">{area.area_name}</span>
                           <AreaSheet area={area}>
-                            <InfoCircledIcon className="h-5 w-5" />
+                            <InfoCircledIcon className="min-h-5 min-w-5" />
                           </AreaSheet>
                         </span>
                       </AccordionTrigger>
@@ -190,7 +196,7 @@ export default async function Page({
                           />
                         </div>
                         <textarea
-                          className="w-full border-2 p-2 mr-2"
+                          className="mr-2 w-full border-2 p-2"
                           placeholder="Leave your comment here... (optional)"
                           rows={3}
                         />
@@ -206,17 +212,20 @@ export default async function Page({
                 <Badge className="text-xs" variant={"outline"}>
                   Artefacts
                 </Badge>
-                <Accordion type="single" collapsible>
+                <Accordion type="single" collapsible defaultValue="item-1">
                   {artefacts?.map((artefact, key) => (
-                    <AccordionItem key={key} value={`item-${key}`}>
+                    // <AccordionItem key={key} value={`item-${key}`}>
+                    <AccordionItem key={key} value={`item-1`}>
                       <AccordionTrigger className="text-md text-left font-bold">
                         <span className="inline-flex items-center gap-2">
-                          {artefact.artefact_name}
+                          <span className="line-clamp-1">
+                            {artefact.artefact_name}
+                          </span>
                           <ArtifactDialog
                             id={artefact.artefact_id}
                             name={artefact.artefact_name}
                           >
-                            <InfoCircledIcon className="h-5 w-5" />
+                            <InfoCircledIcon className="min-h-5 min-w-5" />
                           </ArtifactDialog>
                         </span>
                       </AccordionTrigger>
