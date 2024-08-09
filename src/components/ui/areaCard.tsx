@@ -8,7 +8,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "~/components/ui/sheet";
-import { Card, CardContent, CardHeader, CardTitle } from "./card";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./card";
 import { Button } from "./button";
 import { Icons } from "../icons";
 import { useSession } from "next-auth/react";
@@ -16,6 +17,7 @@ import { useSession } from "next-auth/react";
 export interface AreaProps {
   id: string;
   name: string;
+  type: string;
   visible?: boolean;
   toggleVisibility?: () => void;
 }
@@ -77,6 +79,19 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
         <div className="text-center">
           <p className="text-sm text-gray-500">{area.id}</p>
         </div>
+        <Tooltip>
+          <TooltipTrigger className="flex w-full items-center justify-center">
+            {area.type === "Software Engineering" && (
+              <Icons.software_engineering />
+            )}
+            {area.type === "Security-related Software Engineering" && (
+              <Icons.security_related_software_engineering />
+            )}
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Area type: {area.type}</p>
+          </TooltipContent>
+        </Tooltip>
       </CardContent>
     </Card>
   );
