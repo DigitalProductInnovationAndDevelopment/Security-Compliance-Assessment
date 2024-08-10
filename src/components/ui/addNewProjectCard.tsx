@@ -22,6 +22,7 @@ import {
 import { User } from "@prisma/client";
 import { api } from "~/trpc/react"; // Assuming you're using tRPC for data fetching
 import { useToast } from "./use-toast";
+import { useRouter } from "next/navigation";
 
 export default function AddNewProjectCard() {
   const { toast } = useToast();
@@ -30,6 +31,8 @@ export default function AddNewProjectCard() {
   const [selectedParticipants, setSelectedParticipants] = useState<User[]>([]);
   const [query, setQuery] = useState("");
   const [showResults, setShowResults] = useState(false);
+
+  const router = useRouter()
 
   // Fetch users based on query
   const { data: users, isLoading } = api.user.getUser.useQuery(
@@ -51,6 +54,7 @@ export default function AddNewProjectCard() {
         setProjectName("");
         setDescription("");
         setSelectedParticipants([]);
+        router.push("/projects/" + data.id);
       },
       onError: (error) => {
         toast({
