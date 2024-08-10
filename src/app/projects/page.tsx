@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
+import { api } from "~/trpc/server";
 
 const project_statuses = ["all-projects", "archived-projects"];
 const displayNames: Record<string, string> = {
@@ -18,6 +19,21 @@ const displayNames: Record<string, string> = {
 };
 
 export default async function Page() {
+  const projects = await api.project.getProjects();
+
+  if (projects.length === 0) {
+    return (
+      // center text
+      <div className="flex min-h-[calc(100vh-100px)] w-full flex-col items-center justify-center">
+        <div className="text-center">
+          <div className="mt-4">
+            <AddNewProjectCard />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="-ml-3 flex min-w-full">
@@ -36,20 +52,20 @@ export default async function Page() {
         ))}
       </div>
       <div className="flex flex-wrap gap-4 py-10">
-        {[0, 1].map((i, index) => (
+        {projects.map((project, index) => (
           <Card key={index} className="relative w-full max-w-sm sm:flex-1">
             <CardHeader className="bg-slate-100">
               <CardTitle className="text-2xl font-bold">
-                Project {index + 1}
+                {project.name}
               </CardTitle>
-              <CardDescription>This is a project description</CardDescription>
+              <CardDescription>{project.description}</CardDescription>
             </CardHeader>
             <CardContent className="relative pt-4">
               <CardTitle className="py-4">Compliance Score Overview</CardTitle>
               <ProjectCompletion />
             </CardContent>
             <CardFooter>
-              <Link href={"/projects/" + i}>
+              <Link href={"/projects/" + project.id}>
                 <Button variant={"outline"}>View Project</Button>
               </Link>
             </CardFooter>
