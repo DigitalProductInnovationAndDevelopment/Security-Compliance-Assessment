@@ -13,6 +13,9 @@ import { Card, CardContent } from "~/components/ui/card";
 
 import { ProjectAreaCompletion } from "~/components/charts/ProjectAreaCompletion";
 import ProjectDetailAssessment from "~/components/ProjectDetailAssessment";
+import Link from "next/link";
+import { Suspense } from "react";
+import ProjectDetailAssessmentSkeleton from "~/components/ProjectDetailAssessmentSkeleton";
 
 export default async function Page({
   params,
@@ -44,7 +47,9 @@ export default async function Page({
             <DropdownMenuContent>
               {allProjects.map((project) => (
                 <DropdownMenuItem key={project.id}>
-                  {project.name}
+                  <Link prefetch href={`/projects/${project.id}`}>
+                    {project.name}
+                  </Link>
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
@@ -114,7 +119,9 @@ export default async function Page({
           </div>
         </div>
       </div>
-      <ProjectDetailAssessment project={project} />
+      <Suspense fallback={<ProjectDetailAssessmentSkeleton />}>
+        <ProjectDetailAssessment project={project} />
+      </Suspense>
     </div>
   );
 }
