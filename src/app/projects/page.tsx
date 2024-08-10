@@ -11,6 +11,8 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { api } from "~/trpc/server";
+import { getServerAuthSession } from "~/server/auth";
+import Unauthorised from "~/components/unauthorised";
 
 const project_statuses = ["all-projects", "archived-projects"];
 const displayNames: Record<string, string> = {
@@ -19,6 +21,18 @@ const displayNames: Record<string, string> = {
 };
 
 export default async function Page() {
+  const session = await getServerAuthSession();
+
+  if (!session) {
+    return (
+      <div className="flex min-h-[calc(100vh-100px)] w-full flex-col items-center justify-center">
+        <div className="text-center">
+          <Unauthorised />
+        </div>
+      </div>
+    );
+  }
+
   const projects = await api.project.getProjects();
 
   if (projects.length === 0) {
