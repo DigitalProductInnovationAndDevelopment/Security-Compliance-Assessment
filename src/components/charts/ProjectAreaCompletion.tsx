@@ -71,7 +71,7 @@ export function ProjectAreaCompletion() {
           tick={{ fill: "hsla(var(--foreground))" }}
           ticks={[0, 1, 2, 3, 4, 5] as unknown as TickItem[]} // Set ticks manually
           tickFormatter={(value) => {
-            return labels[value] || value;
+            return labels[value as number] ?? value as string;
           }}
           domain={[0, 5]} // Ensure the domain matches the labels
         />
