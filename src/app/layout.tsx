@@ -10,6 +10,7 @@ import { NextAuthProvider } from "./providers/NextAuthProvider";
 import { get } from "http";
 import { getServerAuthSession } from "~/server/auth";
 import { TooltipProvider } from "~/components/ui/tooltip";
+import { Toaster } from "~/components/ui/toaster";
 
 export const metadata = {
   title: "Security Compliance Assessment",
@@ -42,6 +43,7 @@ export default async function RootLayout({
             <TooltipProvider delayDuration={50}>
               <Header session={session} />
               {children}
+              <Toaster />
             </TooltipProvider>
           </TRPCReactProvider>
         </NextAuthProvider>
