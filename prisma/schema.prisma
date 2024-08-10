@@ -103,12 +103,15 @@ model Area {
   process_practices    String[]
   technology_practices String[]
   roles                String[]
-  questions            Question[]
+  question             String
+  assessment_questions Question[]
   assessors_guide      String?
   stageId              Int
   stage                Stage       @relation(fields: [stageId], references: [id])
   artefacts            Artefact[]
   AreaScore            AreaScore[]
+
+  @@unique([area_id, area_name, stageId])
 }
 
 model Stage {
