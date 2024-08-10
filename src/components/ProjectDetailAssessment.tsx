@@ -25,7 +25,7 @@ import { Project } from "@prisma/client";
 export default async function ProjectDetailAssessment({
   project,
 }: {
-  project: Project & { assessments: any[] };
+  project: Project & { assessments: unknown[] };
 }) {
   const stages = await api.refa.stages();
   const areas = await api.refa.areasWithArtefactsByStage({
