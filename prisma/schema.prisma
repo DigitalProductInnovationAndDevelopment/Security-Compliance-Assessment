@@ -128,7 +128,7 @@ model Project {
   id           Int          @id @default(autoincrement())
   name         String
   description  String
-  archived     Boolean
+  archived     Boolean      @default(false)
   participants User[]       @relation("UserProjects")
   created_at   DateTime     @default(now())
   assessments  Assessment[]

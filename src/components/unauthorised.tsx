@@ -11,13 +11,14 @@ import SiemensLogo from "./siemens-logo";
 import { Button } from "./ui/button";
 import { Icons } from "./icons";
 import { signIn } from "next-auth/react";
+import { LockKeyhole } from "lucide-react";
 
 export default function Unauthorised() {
   return (
     <Card>
       <CardHeader className="flex h-full w-full justify-between">
         <CardTitle className="flex justify-center">
-          <SiemensLogo width={150} height={150} />
+          <LockKeyhole className="h-8 w-8 text-muted-foreground" />
         </CardTitle>
       </CardHeader>
       <CardDescription></CardDescription>
