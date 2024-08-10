@@ -12,17 +12,6 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model Post {
-  id          Int      @id @default(autoincrement())
-  name        String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  createdById String
-  createdBy   User     @relation(fields: [createdById], references: [id])
-
-  @@index([name])
-}
-
 model Account {
   id                       String  @id @default(cuid())
   userId                   String
@@ -51,15 +40,16 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String       @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?      @unique
   emailVerified DateTime?
   image         String?
-  role          String    @default("assessee")
+  role          String       @default("assessee")
   accounts      Account[]
-  posts         Post[]
   sessions      Session[]
+  projects      Project[]    @relation("UserProjects")
+  assessments   Assessment[]
 }
 
 model VerificationToken {
@@ -83,7 +73,7 @@ model Standard {
 }
 
 model Artefact {
-  id                       Int        @id @default(autoincrement())
+  id                       Int              @id @default(autoincrement())
   artefact_id              String
   artefact_name            String
   stage                    String
@@ -95,14 +85,15 @@ model Artefact {
   automation               String
   artefact_area_id         String
   areaId                   Int
-  artefact_area            Area       @relation(fields: [areaId], references: [id])
+  artefact_area            Area             @relation(fields: [areaId], references: [id])
   standards                Standard[]
+  answersArtefact          AnswerArtefact[]
 
   @@unique([artefact_id, artefact_name, stage])
 }
 
 model Area {
-  id                   Int        @id @default(autoincrement())
+  id                   Int         @id @default(autoincrement())
   area_id              String
   area_name            String
   people               String
@@ -112,18 +103,114 @@ model Area {
   process_practices    String[]
   technology_practices String[]
   roles                String[]
-  question             String?
+  questions            Question[]
   assessors_guide      String?
   stageId              Int
-  stage                Stage      @relation(fields: [stageId], references: [id])
+  stage                Stage       @relation(fields: [stageId], references: [id])
   artefacts            Artefact[]
-
-  @@unique([area_id, area_name, stageId])
+  AreaScore            AreaScore[]
 }
 
 model Stage {
   stageNumber Int
-  id          Int    @id @default(autoincrement())
-  name        String @unique
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
   areas       Area[]
+  stageScores StageScore[] // This is the opposite relation field
+}
+
+// Added tables for Assessment
+
+model Project {
+  id           Int          @id @default(autoincrement())
+  name         String
+  description  String
+  archived     Boolean
+  participants User[]       @relation("UserProjects")
+  created_at   DateTime     @default(now())
+  assessments  Assessment[]
+}
+
+model Assessment {
+  userId                    String
+  projectId                 Int
+  user                      User                 @relation(fields: [userId], references: [id])
+  project                   Project              @relation(fields: [projectId], references: [id])
+  areasMaturityScore        Float
+  artefactCompletenessScore Float
+  areaCompletenessScore     Float
+  answersArea               AnswerAreaQuestion[]
+  answersArtefact           AnswerArtefact[]
+  stagesScores              StageScore[]
+  areasScores               AreaScore[]
+
+  @@id([userId, projectId])
+}
+
+model StageScore {
+  id                         Int        @id @default(autoincrement())
+  stageId                    Int
+  assessmentUserId           String // Corresponds to userId in Assessment
+  assessmentProjectId        Int // Corresponds to projectId in Assessment
+  artefactsCompletenessScore Float
+  areaMaturityScore          Float
+  areaCompletenessScore      Float
+  targetAreaMaturityScore    Float
+  stage                      Stage      @relation(fields: [stageId], references: [id])
+  assessment                 Assessment @relation(fields: [assessmentUserId, assessmentProjectId], references: [userId, projectId])
+
+  @@unique([assessmentUserId, assessmentProjectId, stageId])
+}
+
+model Question {
+  id                  Int                  @id @default(autoincrement())
+  body                String
+  areas               Area[]
+  answerAreaQuestions AnswerAreaQuestion[]
+}
+
+model AnswerAreaQuestion {
+  id                  Int        @id @default(autoincrement())
+  questionId          Int
+  assessmentUserId    String
+  assessmentProjectId Int
+  assessedScore       Int
+  targetScore         Int
+  answered            Boolean
+  comment             String
+  created_at          DateTime   @default(now())
+  question            Question   @relation(fields: [questionId], references: [id])
+  assessment          Assessment @relation(fields: [assessmentUserId, assessmentProjectId], references: [userId, projectId])
+
+  @@unique([assessmentUserId, assessmentProjectId, questionId])
+}
+
+model AnswerArtefact {
+  id                  Int        @id @default(autoincrement())
+  assessmentUserId    String
+  assessmentProjectId Int
+  artefactId          Int
+  comment             String
+  answered            Boolean
+  answer              Boolean
+  created_at          DateTime   @default(now())
+  assessment          Assessment @relation(fields: [assessmentUserId, assessmentProjectId], references: [userId, projectId])
+  artefact            Artefact   @relation(fields: [artefactId], references: [id])
+
+  @@unique([assessmentUserId, assessmentProjectId, artefactId])
+}
+
+model AreaScore {
+  id                         Int        @id @default(autoincrement())
+  areaId                     Int
+  assessmentUserId           String
+  assessmentProjectId        Int
+  artefactsCompletenessScore Float
+  areaMaturityScore          Float
+  areaCompletenessScore      Float
+  targeAreaMaturityScore     Float
+  area                       Area       @relation(fields: [areaId], references: [id])
+  assessment                 Assessment @relation(fields: [assessmentUserId, assessmentProjectId], references: [userId, projectId])
+
+  @@unique([assessmentUserId, assessmentProjectId, areaId])
 }
