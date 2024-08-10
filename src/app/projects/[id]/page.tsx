@@ -72,7 +72,7 @@ export default async function Page({
           <div className="flex flex-wrap gap-4">
             <div className="w-full xl:flex-1">
               <h1 className="py-2 text-lg font-bold">
-                Asessment of "Stage Name"
+                Asessment of Stage Name
               </h1>
               <Card className="m-0 w-full pt-6">
                 <CardContent>
