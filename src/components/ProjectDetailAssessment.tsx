@@ -358,6 +358,15 @@ export default function ProjectDetailAssessment({
                                   );
                                 }}
                               />
+                              <div className="flex justify-between w-full">
+                                {
+                                  ["sit", "crawl", "walk", "run", "jump", "fly"].map((activity) => (
+                                    <div key={activity} className="flex items-center gap-2">
+                                      <span className="text-sm font-medium">{activity}</span>
+                                    </div>
+                                  ))
+                                }
+                              </div>
                             </div>
 
                             <textarea
