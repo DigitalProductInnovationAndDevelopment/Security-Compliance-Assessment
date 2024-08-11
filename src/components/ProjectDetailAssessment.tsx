@@ -23,11 +23,11 @@ import { Project } from "@prisma/client";
 import useProjectDetailsStore from "~/stores/useProjectDetailsStore";
 import { api } from "~/trpc/react";
 import { AreaSheet } from "./AreaSheet";
-import { Skeleton } from "./ui/skeleton";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { toast } from "./ui/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
+import ProjectDetailAssessmentSkeleton from "./ProjectDetailAssessmentSkeleton";
 
 export default function ProjectDetailAssessment({
   project,
@@ -54,7 +54,11 @@ export default function ProjectDetailAssessment({
     stageNumber: currentStage.stageNumber,
   });
 
-  const { data: existingAssessment, refetch: refetchAssessment } = api.assessment.getExistingAssessment.useQuery({
+  const {
+    data: existingAssessment,
+    refetch: refetchAssessment,
+    isLoading: isAssessmentLoading,
+  } = api.assessment.getExistingAssessment.useQuery({
     userId: session.data?.user.id || "",
     projectId: project.id,
     stageNumber: currentStage.stageNumber,
@@ -97,7 +101,7 @@ export default function ProjectDetailAssessment({
           targetScore: answer.targetScore,
           answered: answer.answered,
           comment: answer.comment || "",
-        }))
+        })),
       );
       setAnswersArtefact(
         existingAssessment.answersArtefact.map((answer) => ({
@@ -105,7 +109,7 @@ export default function ProjectDetailAssessment({
           answered: answer.answered,
           answer: answer.answer,
           comment: answer.comment || "",
-        }))
+        })),
       );
     }
   }, [existingAssessment]);
@@ -128,14 +132,25 @@ export default function ProjectDetailAssessment({
         }
         return prev.map((a) =>
           a.questionId === questionId
-            ? { ...a, assessedScore: score, targetScore, comment: comment !== undefined ? comment : a.comment }
+            ? {
+                ...a,
+                assessedScore: score,
+                targetScore,
+                comment: comment !== undefined ? comment : a.comment,
+              }
             : a,
         );
       } else {
         setHasChanges(true);
         return [
           ...prev,
-          { questionId, assessedScore: score, targetScore, answered: true, comment: comment || "" },
+          {
+            questionId,
+            assessedScore: score,
+            targetScore,
+            answered: true,
+            comment: comment || "",
+          },
         ];
       }
     });
@@ -158,11 +173,16 @@ export default function ProjectDetailAssessment({
           setHasChanges(true);
         }
         return prev.map((a) =>
-          a.artefactId === artefactId ? { ...a, answered, answer, comment: comment || "" } : a,
+          a.artefactId === artefactId
+            ? { ...a, answered, answer, comment: comment || "" }
+            : a,
         );
       } else {
         setHasChanges(true);
-        return [...prev, { artefactId, answered, answer, comment: comment || "" }];
+        return [
+          ...prev,
+          { artefactId, answered, answer, comment: comment || "" },
+        ];
       }
     });
   };
@@ -226,7 +246,9 @@ export default function ProjectDetailAssessment({
         description: "Your assessment has been submitted successfully.",
         variant: "default",
       });
-      queryClient.invalidateQueries({ queryKey: ["assessment.getExistingAssessment"] });
+      queryClient.invalidateQueries({
+        queryKey: ["assessment.getExistingAssessment"],
+      });
       refetchAssessment();
       console.log("Assessment created successfully");
     } catch (error) {
@@ -239,6 +261,16 @@ export default function ProjectDetailAssessment({
       });
     }
   };
+
+  // Conditionally render content only when data is fully loaded
+  if (
+    isAssessmentLoading ||
+    isStagesLoading ||
+    isAreasLoading ||
+    isArtefactsLoading
+  ) {
+    return <ProjectDetailAssessmentSkeleton />;
+  }
 
   return (
     <div className="relative h-full w-full rounded-lg sm:flex-1 sm:px-4">
@@ -253,11 +285,6 @@ export default function ProjectDetailAssessment({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              {isStagesLoading && (
-                <DropdownMenuItem>
-                  <Skeleton className="h-4 w-full" />
-                </DropdownMenuItem>
-              )}
               {stages?.map((stage) => (
                 <DropdownMenuItem
                   key={stage.name}
@@ -275,11 +302,11 @@ export default function ProjectDetailAssessment({
           </DropdownMenu>
         </div>
         <div className="flex justify-end">
-          <Button 
-            onClick={handleSubmitAssessment} 
+          <Button
+            onClick={handleSubmitAssessment}
             disabled={!hasChanges || isSubmitting} // Disable if no changes or API is running
           >
-            {isSubmitting ? 'Submitting...' : 'Submit Assessment'}
+            {isSubmitting ? "Submitting..." : "Submit Assessment"}
           </Button>
         </div>
       </div>
@@ -309,16 +336,14 @@ export default function ProjectDetailAssessment({
                     <AccordionContent className="mb-8 space-y-12 p-4">
                       {area.assessment_questions.map((question, key) => {
                         const existingAnswer = answersArea.find(
-                          (answer) => answer.questionId === question.id
+                          (answer) => answer.questionId === question.id,
                         );
                         return (
                           <div key={question.id} className="space-y-4">
                             <p className="text-sm font-bold">{question.body}</p>
                             <Slider
                               className="pr-4"
-                              defaultValue={[
-                                existingAnswer?.assessedScore || 0,
-                              ]}
+                              defaultValue={[existingAnswer?.assessedScore || 0]}
                               min={0}
                               max={5}
                               step={1}
@@ -326,7 +351,7 @@ export default function ProjectDetailAssessment({
                                 handleAreaChange(
                                   question.id,
                                   value[0],
-                                  existingAnswer?.targetScore || 5
+                                  existingAnswer?.targetScore || 5,
                                 );
                               }}
                             />
@@ -340,7 +365,7 @@ export default function ProjectDetailAssessment({
                                   question.id,
                                   existingAnswer?.assessedScore || 0,
                                   existingAnswer?.targetScore || 5,
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                             />
@@ -366,7 +391,7 @@ export default function ProjectDetailAssessment({
               >
                 {artefacts?.map((artefact, key) => {
                   const existingAnswer = answersArtefact.find(
-                    (answer) => answer.artefactId === artefact.id
+                    (answer) => answer.artefactId === artefact.id,
                   );
                   return (
                     <AccordionItem key={key} value={`item-1`}>
@@ -394,7 +419,7 @@ export default function ProjectDetailAssessment({
                                   artefact.id,
                                   checked,
                                   existingAnswer?.answer || false,
-                                  existingAnswer?.comment || ""
+                                  existingAnswer?.comment || "",
                                 );
                               }}
                             />
@@ -421,7 +446,7 @@ export default function ProjectDetailAssessment({
                               artefact.id,
                               existingAnswer?.answered || false,
                               existingAnswer?.answer || false,
-                              e.target.value
+                              e.target.value,
                             )
                           }
                         />
