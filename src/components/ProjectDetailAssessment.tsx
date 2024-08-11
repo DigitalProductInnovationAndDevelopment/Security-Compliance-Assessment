@@ -64,21 +64,19 @@ export default function ProjectDetailAssessment({
                 <Skeleton className="h-4 w-full" />
               </DropdownMenuItem>
             )}
-            {stages &&
-              stages.map((stage) => (
-                <DropdownMenuItem
-                  key={stage.name}
-                  onSelect={() => {
-                    if (stage.id !== currentStage.stageNumber) {
-                      setCurrentStage(stage);
-                      refetchAreas();
-                      refetchArtefacts();
-                    }
-                  }}
-                >
-                  {stage.name}
-                </DropdownMenuItem>
-              ))}
+            {stages?.map((stage) => (
+              <DropdownMenuItem
+                key={stage.name}
+                onSelect={async () => {
+                  if (stage.id !== currentStage.stageNumber) {
+                    setCurrentStage(stage);
+                    await Promise.all([refetchAreas(), refetchArtefacts()]);
+                  }
+                }}
+              >
+                {stage.name}
+              </DropdownMenuItem>
+            ))}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
