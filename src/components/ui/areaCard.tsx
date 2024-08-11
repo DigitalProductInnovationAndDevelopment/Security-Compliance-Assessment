@@ -31,18 +31,19 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
       title={area.name}
       className="flex h-full w-full flex-col items-center justify-center"
     >
-      <div className="absolute right-2 top-2 space-x-1">
+      {/* Absolute positioning for icons to ensure visibility */}
+      <div className="absolute right-2 top-2 z-20 space-x-1">
         <Button
           variant="outline"
           size="icon"
-          className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground"
+          className="h-4 w-4 shrink-0 rounded-full opacity-50"
           onClick={area.toggleVisibility}
         >
           {area.visible ? <Icons.show /> : <Icons.hide />}
         </Button>
         {/* Info icon to trigger info sheet */}
         <SheetTrigger>
-          <div className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground">
+          <div className="h-4 w-4 shrink-0 rounded-full opacity-50">
             <Icons.info />
           </div>
         </SheetTrigger>
@@ -50,7 +51,7 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
         {userLoggedIn && (
           <Sheet>
             <SheetTrigger>
-              <div className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground">
+              <div className="h-4 w-4 shrink-0 rounded-full opacity-50">
                 <Icons.edit />
               </div>
             </SheetTrigger>
