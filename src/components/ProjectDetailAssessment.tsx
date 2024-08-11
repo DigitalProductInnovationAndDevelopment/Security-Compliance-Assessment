@@ -1,3 +1,4 @@
+"use client";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,31 +14,43 @@ import {
 import { Slider } from "~/components/ui/slider";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Checkbox } from "~/components/ui/checkbox";
-import { AreaSheet } from "~/app/refa/stages/[id]/page";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { ArtifactDialog } from "~/components/ui/artifactCard";
 import { Button } from "./ui/button";
 import { ChevronDown } from "lucide-react";
 import { Badge } from "./ui/badge";
-import { api } from "~/trpc/server";
 import { Project } from "@prisma/client";
+import useProjectDetailsStore from "~/stores/useProjectDetailsStore";
+import { api } from "~/trpc/react";
+import { AreaSheet } from "./AreaSheet";
+import { Skeleton } from "./ui/skeleton";
 
-export default async function ProjectDetailAssessment({
+export default function ProjectDetailAssessment({
   project,
 }: {
   project: Project & { assessments: unknown[] };
 }) {
-  const stages = await api.refa.stages();
-  const areas = await api.refa.areasWithArtefactsByStage({
-    stageNumber: Number(2),
+  const { currentStage, setCurrentStage } = useProjectDetailsStore();
+  const { data: stages, isLoading: isStagesLoading } =
+    api.refa.stages.useQuery();
+  const {
+    data: areas,
+    isLoading: isAreasLoading,
+    refetch: refetchAreas,
+  } = api.refa.areasWithArtefactsByStage.useQuery({
+    stageNumber: currentStage.stageNumber,
   });
-  const artefacts = await api.refa.artefactsByStage({
-    stageNumber: Number(2),
+  const {
+    data: artefacts,
+    isLoading: isArtefactsLoading,
+    refetch: refetchArtefacts,
+  } = api.refa.artefactsByStage.useQuery({
+    stageNumber: currentStage.stageNumber,
   });
   return (
     <div className="relative h-full w-full rounded-lg sm:flex-1 sm:px-4">
       <div className="flex items-center gap-4">
-        <h1 className="text-2xl font-bold">{"Stage Name"}</h1>
+        <h1 className="text-2xl font-bold">{currentStage.name}</h1>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant={"outline"}>
@@ -46,9 +59,26 @@ export default async function ProjectDetailAssessment({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            {stages.map((stage) => (
-              <DropdownMenuItem key={stage.name}>{stage.name}</DropdownMenuItem>
-            ))}
+            {isStagesLoading && (
+              <DropdownMenuItem>
+                <Skeleton className="h-4 w-full" />
+              </DropdownMenuItem>
+            )}
+            {stages &&
+              stages.map((stage) => (
+                <DropdownMenuItem
+                  key={stage.name}
+                  onSelect={() => {
+                    if (stage.id !== currentStage.stageNumber) {
+                      setCurrentStage(stage);
+                      refetchAreas();
+                      refetchArtefacts();
+                    }
+                  }}
+                >
+                  {stage.name}
+                </DropdownMenuItem>
+              ))}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
