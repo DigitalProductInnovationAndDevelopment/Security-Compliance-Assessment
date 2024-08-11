@@ -62,6 +62,7 @@ export const refaRouter = createTRPCRouter({
           areas: {
             include: {
               artefacts: true,
+              assessment_questions: true,
             },
           },
         },

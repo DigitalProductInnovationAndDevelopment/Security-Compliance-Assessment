@@ -7,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import SiemensLogo from "./siemens-logo";
 import { Button } from "./ui/button";
 import { Icons } from "./icons";
 import { signIn } from "next-auth/react";

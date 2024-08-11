@@ -14,7 +14,7 @@ import { Toaster } from "~/components/ui/toaster";
 export const metadata = {
   title: "Security Compliance Assessment",
   description:
-    "Siemens Security Compliance Assessment Tool — Digitial Product Innovation",
+    "Security Compliance Assessment Tool — Digitial Product Innovation",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
