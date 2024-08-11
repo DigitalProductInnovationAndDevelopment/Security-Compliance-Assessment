@@ -341,20 +341,25 @@ export default function ProjectDetailAssessment({
                         return (
                           <div key={question.id} className="space-y-4">
                             <p className="text-sm font-bold">{question.body}</p>
-                            <Slider
-                              className="pr-4"
-                              defaultValue={[existingAnswer?.assessedScore || 0]}
-                              min={0}
-                              max={5}
-                              step={1}
-                              onValueCommit={(value) => {
-                                handleAreaChange(
-                                  question.id,
-                                  value[0],
-                                  existingAnswer?.targetScore || 5,
-                                );
-                              }}
-                            />
+                            <div className="w-full">
+                              <input
+                                type="range"
+                                className="w-full"
+                                value={existingAnswer?.assessedScore || 0}
+                                min={0}
+                                max={5}
+                                step={1}
+                                onChange={(e) => {
+                                  const value = parseInt(e.target.value, 10);
+                                  handleAreaChange(
+                                    question.id,
+                                    value,
+                                    existingAnswer?.targetScore || 5,
+                                  );
+                                }}
+                              />
+                            </div>
+
                             <textarea
                               className="mr-2 w-full border-2 p-2"
                               placeholder="Leave your comment here... (optional)"
