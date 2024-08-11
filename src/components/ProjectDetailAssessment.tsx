@@ -88,7 +88,7 @@ export default function ProjectDetailAssessment({
               <Badge className="text-xs" variant={"outline"}>
                 Areas
               </Badge>
-              <Accordion type="single" collapsible defaultValue="item-1">
+              <Accordion type="single" collapsible={false} defaultValue="item-1">
                 {areas?.areas.map((area, key) => (
                   // <AccordionItem key={key} value={`item-${key}`}>
                   <AccordionItem key={key} value={`item-1`}>
@@ -131,7 +131,7 @@ export default function ProjectDetailAssessment({
               <Badge className="text-xs" variant={"outline"}>
                 Artefacts
               </Badge>
-              <Accordion type="single" collapsible defaultValue="item-1">
+              <Accordion type="single" collapsible={false} defaultValue="item-1">
                 {artefacts?.map((artefact, key) => (
                   // <AccordionItem key={key} value={`item-${key}`}>
                   <AccordionItem key={key} value={`item-1`}>
