@@ -1,33 +1,33 @@
-import { PrismaClient } from '@prisma/client';
-import fs from 'fs';
-import path from 'path';
+import { PrismaClient } from "@prisma/client";
+import fs from "fs";
+import path from "path";
 
 const prisma = new PrismaClient();
-const dataDirectory = './reference_model';
+const dataDirectory = "./reference_model";
 
 async function seed() {
-
   await prisma.standard.deleteMany();
   await prisma.artefact.deleteMany();
   await prisma.area.deleteMany();
   await prisma.stage.deleteMany();
+  await prisma.question.deleteMany();
 
   const files = fs.readdirSync(dataDirectory);
 
   for (const file of files) {
-    const content = fs.readFileSync(path.join(dataDirectory, file), 'utf-8');
+    const content = fs.readFileSync(path.join(dataDirectory, file), "utf-8");
     const data = JSON.parse(content);
 
     switch (file) {
-      case 'build.json':
-      case 'code.json':
-      case 'deploy.json':
-      case 'monitor.json':
-      case 'operate.json':
-      case 'planProgramm.json':
-      case 'planTeam.json':
-      case 'release.json':
-      case 'test.json':
+      case "build.json":
+      case "code.json":
+      case "deploy.json":
+      case "monitor.json":
+      case "operate.json":
+      case "planProgramm.json":
+      case "planTeam.json":
+      case "release.json":
+      case "test.json":
         await handleStageData(data);
         break;
       default:
@@ -35,7 +35,7 @@ async function seed() {
     }
   }
 
-  console.log('Data import complete.');
+  console.log("Data import complete.");
 }
 
 async function handleStageData(data: any) {
@@ -61,17 +61,17 @@ async function handleStageData(data: any) {
       people_practices,
       process_practices,
       technology_practices,
-      roles
+      roles,
     } = area;
 
     // Upsert the area without artefacts
     const areaModel = await prisma.area.upsert({
-      where: { 
+      where: {
         area_id_area_name_stageId: {
           area_id,
           area_name,
-          stageId: stageModel.id
-        }
+          stageId: stageModel.id,
+        },
       },
       create: {
         area_id,
@@ -85,7 +85,7 @@ async function handleStageData(data: any) {
         people_practices,
         process_practices,
         technology_practices,
-        roles
+        roles,
       },
       update: {
         area_name,
@@ -98,7 +98,7 @@ async function handleStageData(data: any) {
         people_practices,
         process_practices,
         technology_practices,
-        roles
+        roles,
       },
     });
 
@@ -114,15 +114,15 @@ async function handleStageData(data: any) {
         standards = [], // Default to an empty array if not provided
         ...artefactRest
       } = artefact;
-    
+
       // Upsert artefact without standards
       const artefactModel = await prisma.artefact.upsert({
-        where: { 
+        where: {
           artefact_id_artefact_name_stage: {
             artefact_id,
             artefact_name,
-            stage
-          }
+            stage,
+          },
         },
         create: {
           artefact_id,
@@ -140,7 +140,7 @@ async function handleStageData(data: any) {
           ...artefactRest,
         },
       });
-    
+
       console.log(`Created/Updated artefact ${artefactModel.artefact_name}`);
 
       // Handle related standards separately
@@ -149,32 +149,32 @@ async function handleStageData(data: any) {
           id: standard_id,
           practice,
           requirements,
-          artefacts: artefactsList
+          artefacts: artefactsList,
         } = standard;
-      
+
         await prisma.standard.upsert({
-          where: { 
+          where: {
             standard_id_practice_artefactId: {
               standard_id,
               practice,
-              artefactId: artefactModel.id
-            }
+              artefactId: artefactModel.id,
+            },
           },
           create: {
             standard_id,
             practice,
             requirements,
             artefacts: artefactsList,
-            artefact: { connect: { id: artefactModel.id } }
+            artefact: { connect: { id: artefactModel.id } },
           },
           update: {
             practice,
             requirements,
             artefacts: artefactsList,
-            artefact: { connect: { id: artefactModel.id } }
+            artefact: { connect: { id: artefactModel.id } },
           },
         });
-      
+
         console.log(`Created/Updated standard ${standard_id} - ${practice}`);
       }
     }
@@ -182,7 +182,6 @@ async function handleStageData(data: any) {
 
   console.log(`Created/Updated stage ${stageModel.name}`);
 }
-
 
 async function main() {
   try {
