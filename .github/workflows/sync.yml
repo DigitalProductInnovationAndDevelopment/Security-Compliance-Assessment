@@ -1,0 +1,57 @@
+name: Sync with Upstream Repository
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Run every hour
+  push:
+    branches:
+      - main  # Run when changes are pushed to the main branch of your fork
+  workflow_dispatch:  # Allows manual triggering of the workflow
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the forked repository
+        uses: actions/checkout@v3
+        with:
+          ref: main  # Check out the main branch of your fork
+          token: ${{ secrets.GITHUB_TOKEN }}
+          clean: true  # Ensure it's a fresh clone
+
+      - name: Set GitHub committer identity
+        run: |
+          git config --global user.email "mourabitiziyad@gmail.com"
+          git config --global user.name "Ziyad Mourabiti"
+
+      - name: Add upstream repository
+        run: git remote add upstream https://github.com/DigitalProductInnovationAndDevelopment/Security-Compliance-Assessment.git
+
+      - name: Fetch upstream repository
+        run: git fetch upstream
+
+      - name: Verify and set origin remote
+        run: |
+          git remote remove origin || true  # Remove if it exists
+          git remote add origin https://github.com/mourabitiziyad/Security-Compliance-Assessment.git
+
+      - name: Merge upstream changes into fork, accepting theirs on conflicts
+        run: git merge upstream/main --no-ff --allow-unrelated-histories -X theirs
+
+      - name: Install git-filter-repo
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-pip
+          pip3 install --user git-filter-repo
+
+      - name: Filter out unwanted workflow files, specifically excluding sync.yml
+        run: |
+          git filter-repo --path .github/workflows/ --invert-paths --force
+          git checkout HEAD .github/workflows/sync.yml  # Re-checkout sync.yml to ensure it's not removed
+
+      - name: Force push changes to your fork
+        run: |
+          git push origin main --force --follow-tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Use the default GITHUB_TOKEN or a PAT if needed
