@@ -24,12 +24,18 @@ import useProjectDetailsStore from "~/stores/useProjectDetailsStore";
 import { api } from "~/trpc/react";
 import { AreaSheet } from "./AreaSheet";
 import { Skeleton } from "./ui/skeleton";
+import { useState, useEffect, useMemo } from "react";
+import { useSession } from "next-auth/react";
+import { toast } from "./ui/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function ProjectDetailAssessment({
   project,
 }: {
   project: Project & { assessments: unknown[] };
 }) {
+  const session = useSession();
+  const queryClient = useQueryClient();
   const { currentStage, setCurrentStage } = useProjectDetailsStore();
   const { data: stages, isLoading: isStagesLoading } =
     api.refa.stages.useQuery();
@@ -47,38 +53,235 @@ export default function ProjectDetailAssessment({
   } = api.refa.artefactsByStage.useQuery({
     stageNumber: currentStage.stageNumber,
   });
+
+  const { data: existingAssessment, refetch: refetchAssessment } = api.assessment.getExistingAssessment.useQuery({
+    userId: session.data?.user.id || "",
+    projectId: project.id,
+    stageNumber: currentStage.stageNumber,
+  });
+
+  useEffect(() => {
+    if (currentStage.id === -1 && stages?.[0]) {
+      setCurrentStage(stages[0]);
+    }
+  }, [stages]);
+
+  const [answersArea, setAnswersArea] = useState<
+    {
+      questionId: number;
+      assessedScore: number;
+      targetScore: number;
+      answered: boolean;
+      comment?: string;
+    }[]
+  >([]);
+  const [answersArtefact, setAnswersArtefact] = useState<
+    {
+      artefactId: number;
+      answered: boolean;
+      answer: boolean;
+      comment?: string;
+    }[]
+  >([]);
+  const [hasChanges, setHasChanges] = useState(false);
+
+  const { mutateAsync: createAssessment, isPending: isSubmitting } =
+    api.assessment.createAssessment.useMutation();
+
+  useEffect(() => {
+    if (existingAssessment) {
+      setAnswersArea(
+        existingAssessment.answersArea.map((answer) => ({
+          questionId: answer.questionId,
+          assessedScore: answer.assessedScore,
+          targetScore: answer.targetScore,
+          answered: answer.answered,
+          comment: answer.comment,
+        }))
+      );
+      setAnswersArtefact(
+        existingAssessment.answersArtefact.map((answer) => ({
+          artefactId: answer.artefactId,
+          answered: answer.answered,
+          answer: answer.answer,
+          comment: answer.comment,
+        }))
+      );
+    }
+  }, [existingAssessment]);
+
+  const handleAreaChange = (
+    questionId: number,
+    score: number,
+    targetScore: number,
+    comment?: string,
+  ) => {
+    setAnswersArea((prev) => {
+      const existing = prev.find((a) => a.questionId === questionId);
+      if (existing) {
+        if (
+          existing.assessedScore !== score ||
+          existing.targetScore !== targetScore ||
+          existing.comment !== comment
+        ) {
+          setHasChanges(true);
+        }
+        return prev.map((a) =>
+          a.questionId === questionId
+            ? { ...a, assessedScore: score, targetScore, comment }
+            : a,
+        );
+      } else {
+        setHasChanges(true);
+        return [
+          ...prev,
+          { questionId, assessedScore: score, targetScore, answered: true, comment },
+        ];
+      }
+    });
+  };
+
+  const handleArtefactChange = (
+    artefactId: number,
+    answered: boolean,
+    answer: boolean,
+    comment: string,
+  ) => {
+    setAnswersArtefact((prev) => {
+      const existing = prev.find((a) => a.artefactId === artefactId);
+      if (existing) {
+        if (
+          existing.answered !== answered ||
+          existing.answer !== answer ||
+          existing.comment !== comment
+        ) {
+          setHasChanges(true);
+        }
+        return prev.map((a) =>
+          a.artefactId === artefactId ? { ...a, answered, answer, comment } : a,
+        );
+      } else {
+        setHasChanges(true);
+        return [...prev, { artefactId, answered, answer, comment }];
+      }
+    });
+  };
+
+  const handleSubmitAssessment = async () => {
+    if (!session.data?.user.id) {
+      toast({
+        title: "Please sign in to submit an assessment",
+        description: "You must be signed in to submit an assessment",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Handle default cases for unanswered questions and unchecked artefacts
+    const finalAnswersArea = areas?.areas.flatMap((area) =>
+      area.assessment_questions.map((question) => {
+        const existing = answersArea.find(
+          (answer) => answer.questionId === question.id,
+        );
+        return (
+          existing || {
+            questionId: question.id,
+            assessedScore: 0, // Default score for unanswered
+            targetScore: 5, // Default target score
+            answered: false, // Mark as not answered
+            comment: "", // No comment
+          }
+        );
+      }),
+    );
+
+    const finalAnswersArtefact = artefacts?.map((artefact) => {
+      const existing = answersArtefact.find(
+        (answer) => answer.artefactId === artefact.id,
+      );
+      return (
+        existing || {
+          artefactId: artefact.id,
+          answered: false, // Default as not answered
+          answer: false, // Artefact not handled
+          comment: "", // No comment
+        }
+      );
+    });
+
+    try {
+      await createAssessment({
+        userId: session.data.user.id,
+        projectId: project.id,
+        areasMaturityScore: 0, // Adjust this logic to compute maturity score if needed
+        artefactCompletenessScore: 0, // Adjust this logic to compute completeness score if needed
+        areaCompletenessScore: 0, // Adjust this logic to compute completeness score if needed
+        answersArea: finalAnswersArea || [],
+        answersArtefact: finalAnswersArtefact || [],
+        stageId: currentStage.id,
+      });
+      setHasChanges(false); // Reset changes flag after successful submission
+      toast({
+        title: "Assessment created successfully",
+        description: "Your assessment has been submitted successfully.",
+        variant: "default",
+      });
+      queryClient.invalidateQueries({ queryKey: ["assessment.getExistingAssessment"] });
+      refetchAssessment();
+      console.log("Assessment created successfully");
+    } catch (error) {
+      console.error("Error creating assessment", error);
+      toast({
+        title: "Error creating assessment",
+        description:
+          "An error occurred while creating the assessment: " + error,
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div className="relative h-full w-full rounded-lg sm:flex-1 sm:px-4">
-      <div className="flex items-center gap-4">
-        <h1 className="text-2xl font-bold">{currentStage.name}</h1>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant={"outline"}>
-              Change Stage
-              <ChevronDown className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            {isStagesLoading && (
-              <DropdownMenuItem>
-                <Skeleton className="h-4 w-full" />
-              </DropdownMenuItem>
-            )}
-            {stages?.map((stage) => (
-              <DropdownMenuItem
-                key={stage.name}
-                onSelect={async () => {
-                  if (stage.id !== currentStage.stageNumber) {
-                    setCurrentStage(stage);
-                    await Promise.all([refetchAreas(), refetchArtefacts()]);
-                  }
-                }}
-              >
-                {stage.name}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <h1 className="text-2xl font-bold">{currentStage.name}</h1>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant={"outline"}>
+                Change Stage
+                <ChevronDown className="ml-2 h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {isStagesLoading && (
+                <DropdownMenuItem>
+                  <Skeleton className="h-4 w-full" />
+                </DropdownMenuItem>
+              )}
+              {stages?.map((stage) => (
+                <DropdownMenuItem
+                  key={stage.name}
+                  onSelect={async () => {
+                    if (stage.id !== currentStage.stageNumber) {
+                      setCurrentStage(stage);
+                      await Promise.all([refetchAreas(), refetchArtefacts()]);
+                    }
+                  }}
+                >
+                  {stage.name}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+        <div className="flex justify-end">
+          <Button 
+            onClick={handleSubmitAssessment} 
+            disabled={!hasChanges || isSubmitting} // Disable if no changes or API is running
+          >
+            {isSubmitting ? 'Submitting...' : 'Submit Assessment'}
+          </Button>
+        </div>
       </div>
       <div className="my-4 h-full w-full rounded-lg bg-white p-4">
         <div className="flex h-full w-full justify-between gap-4">
@@ -88,9 +291,12 @@ export default function ProjectDetailAssessment({
               <Badge className="text-xs" variant={"outline"}>
                 Areas
               </Badge>
-              <Accordion type="single" collapsible={false} defaultValue="item-1">
+              <Accordion
+                type="single"
+                collapsible={false}
+                defaultValue="item-1"
+              >
                 {areas?.areas.map((area, key) => (
-                  // <AccordionItem key={key} value={`item-${key}`}>
                   <AccordionItem key={key} value={`item-1`}>
                     <AccordionTrigger className="text-md flex text-left font-bold">
                       <span className="inline-flex items-center gap-2">
@@ -101,24 +307,46 @@ export default function ProjectDetailAssessment({
                       </span>
                     </AccordionTrigger>
                     <AccordionContent className="mb-8 space-y-12 p-4">
-                      {area.assessment_questions.map((question, key) => (
-                        <div key={question.id} className="space-y-4">
-                          <p className="text-sm font-bold">{question.body}</p>
-                          <p className="text-sm">{question.body}</p>
-                          <Slider
-                            className="pr-4"
-                            defaultValue={[0]}
-                            min={0}
-                            max={5}
-                            step={1}
-                          />
-                        </div>
-                      ))}
-                      <textarea
-                        className="mr-2 w-full border-2 p-2"
-                        placeholder="Leave your comment here... (optional)"
-                        rows={3}
-                      />
+                      {area.assessment_questions.map((question, key) => {
+                        const existingAnswer = answersArea.find(
+                          (answer) => answer.questionId === question.id
+                        );
+                        return (
+                          <div key={question.id} className="space-y-4">
+                            <p className="text-sm font-bold">{question.body}</p>
+                            <Slider
+                              className="pr-4"
+                              defaultValue={[
+                                existingAnswer?.assessedScore || 0,
+                              ]}
+                              min={0}
+                              max={5}
+                              step={1}
+                              onValueCommit={(value) => {
+                                handleAreaChange(
+                                  question.id,
+                                  value[0],
+                                  existingAnswer?.targetScore || 5
+                                );
+                              }}
+                            />
+                            <textarea
+                              className="mr-2 w-full border-2 p-2"
+                              placeholder="Leave your comment here... (optional)"
+                              rows={3}
+                              defaultValue={existingAnswer?.comment || ""}
+                              onBlur={(e) =>
+                                handleAreaChange(
+                                  question.id,
+                                  existingAnswer?.assessedScore || 0,
+                                  existingAnswer?.targetScore || 5,
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </div>
+                        );
+                      })}
                     </AccordionContent>
                   </AccordionItem>
                 ))}
@@ -131,48 +359,76 @@ export default function ProjectDetailAssessment({
               <Badge className="text-xs" variant={"outline"}>
                 Artefacts
               </Badge>
-              <Accordion type="single" collapsible={false} defaultValue="item-1">
-                {artefacts?.map((artefact, key) => (
-                  // <AccordionItem key={key} value={`item-${key}`}>
-                  <AccordionItem key={key} value={`item-1`}>
-                    <AccordionTrigger className="text-md text-left font-bold">
-                      <span className="inline-flex items-center gap-2">
-                        <ArtifactDialog
-                          id={artefact.artefact_id}
-                          name={artefact.artefact_name}
-                        >
-                          <InfoCircledIcon className="min-h-5 min-w-5" />
-                        </ArtifactDialog>
-                        <span className="line-clamp-1">
-                          {artefact.artefact_name}
+              <Accordion
+                type="single"
+                collapsible={false}
+                defaultValue="item-1"
+              >
+                {artefacts?.map((artefact, key) => {
+                  const existingAnswer = answersArtefact.find(
+                    (answer) => answer.artefactId === artefact.id
+                  );
+                  return (
+                    <AccordionItem key={key} value={`item-1`}>
+                      <AccordionTrigger className="text-md text-left font-bold">
+                        <span className="inline-flex items-center gap-2">
+                          <ArtifactDialog
+                            id={artefact.artefact_id}
+                            name={artefact.artefact_name}
+                          >
+                            <InfoCircledIcon className="min-h-5 min-w-5" />
+                          </ArtifactDialog>
+                          <span className="line-clamp-1">
+                            {artefact.artefact_name}
+                          </span>
                         </span>
-                      </span>
-                    </AccordionTrigger>
-                    <AccordionContent className="mb-8 space-y-4 p-4">
-                      <div className="flex justify-between space-y-4">
-                        <div className="items-top flex space-x-2">
-                          <Checkbox id="terms1" />
-                          <div className="grid gap-1.5 leading-none">
-                            <label
-                              htmlFor="terms1"
-                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                            >
-                              This artefact is handled
-                            </label>
-                            <p className="text-sm text-muted-foreground">
-                              The project satisfies the requirements of this
-                              artefact
-                            </p>
+                      </AccordionTrigger>
+                      <AccordionContent className="mb-8 space-y-4 p-4">
+                        <div className="flex justify-between space-y-4">
+                          <div className="items-top flex space-x-2">
+                            <Checkbox
+                              id={`checkbox-${artefact.artefact_id}`}
+                              checked={existingAnswer?.answered || false}
+                              onCheckedChange={(checked) => {
+                                handleArtefactChange(
+                                  artefact.id,
+                                  checked,
+                                  existingAnswer?.answer || false,
+                                  existingAnswer?.comment || ""
+                                );
+                              }}
+                            />
+                            <div className="grid gap-1.5 leading-none">
+                              <label
+                                htmlFor={`checkbox-${artefact.artefact_id}`}
+                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                              >
+                                This artefact is handled
+                              </label>
+                              <p className="text-sm text-muted-foreground">
+                                The project satisfies the requirements of this
+                                artefact
+                              </p>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <textarea
-                        className="w-full border-2 p-2"
-                        placeholder="Leave your comment here... (optional)"
-                      />
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
+                        <textarea
+                          className="w-full border-2 p-2"
+                          placeholder="Leave your comment here... (optional)"
+                          defaultValue={existingAnswer?.comment || ""}
+                          onBlur={(e) =>
+                            handleArtefactChange(
+                              artefact.id,
+                              existingAnswer?.answered || false,
+                              existingAnswer?.answer || false,
+                              e.target.value
+                            )
+                          }
+                        />
+                      </AccordionContent>
+                    </AccordionItem>
+                  );
+                })}
               </Accordion>
             </ScrollArea>
           </div>
