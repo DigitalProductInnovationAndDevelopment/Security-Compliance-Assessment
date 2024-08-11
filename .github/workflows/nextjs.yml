@@ -41,6 +41,13 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm
 
+      - name: Confirm pnpm installation
+        run: |
+          echo "PNPM Version:"
+          pnpm --version
+          echo "Checking if pnpm is in PATH:"
+          which pnpm
+
       - name: Detect package manager
         id: detect-package-manager
         run: |
