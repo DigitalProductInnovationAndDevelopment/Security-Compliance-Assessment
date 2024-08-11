@@ -61,14 +61,7 @@ export default async function Page({
         <div className="gap-4 py-4">
           <div className="flex flex-wrap gap-4">
             <div className="w-full xl:flex-1">
-              <h1 className="py-2 text-lg font-bold">
-                Asessment of Stage Name
-              </h1>
-              <Card className="m-0 w-full pt-6">
-                <CardContent>
-                  <ProjectAreaCompletion />
-                </CardContent>
-              </Card>
+              <ProjectAreaCompletion showTitle />
             </div>
             <div className="w-full xl:flex-1">
               <h1 className="flex items-center gap-2 py-2 text-lg font-bold">
@@ -77,11 +70,7 @@ export default async function Page({
                 </Badge>
                 Team Results
               </h1>
-              <Card className="m-0 w-full pt-6">
-                <CardContent>
-                  <ProjectAreaCompletion />
-                </CardContent>
-              </Card>
+              <ProjectAreaCompletion />
             </div>
           </div>
         </div>
