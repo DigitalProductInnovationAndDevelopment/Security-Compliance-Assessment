@@ -24,7 +24,7 @@ import useProjectDetailsStore from "~/stores/useProjectDetailsStore";
 import { api } from "~/trpc/react";
 import { AreaSheet } from "./AreaSheet";
 import { Skeleton } from "./ui/skeleton";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { toast } from "./ui/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
@@ -72,7 +72,7 @@ export default function ProjectDetailAssessment({
       assessedScore: number;
       targetScore: number;
       answered: boolean;
-      comment?: string;
+      comment: string;
     }[]
   >([]);
   const [answersArtefact, setAnswersArtefact] = useState<
@@ -80,7 +80,7 @@ export default function ProjectDetailAssessment({
       artefactId: number;
       answered: boolean;
       answer: boolean;
-      comment?: string;
+      comment: string;
     }[]
   >([]);
   const [hasChanges, setHasChanges] = useState(false);
@@ -96,7 +96,7 @@ export default function ProjectDetailAssessment({
           assessedScore: answer.assessedScore,
           targetScore: answer.targetScore,
           answered: answer.answered,
-          comment: answer.comment,
+          comment: answer.comment || "",
         }))
       );
       setAnswersArtefact(
@@ -104,7 +104,7 @@ export default function ProjectDetailAssessment({
           artefactId: answer.artefactId,
           answered: answer.answered,
           answer: answer.answer,
-          comment: answer.comment,
+          comment: answer.comment || "",
         }))
       );
     }
@@ -122,20 +122,20 @@ export default function ProjectDetailAssessment({
         if (
           existing.assessedScore !== score ||
           existing.targetScore !== targetScore ||
-          existing.comment !== comment
+          (comment !== undefined && existing.comment !== comment)
         ) {
           setHasChanges(true);
         }
         return prev.map((a) =>
           a.questionId === questionId
-            ? { ...a, assessedScore: score, targetScore, comment }
+            ? { ...a, assessedScore: score, targetScore, comment: comment !== undefined ? comment : a.comment }
             : a,
         );
       } else {
         setHasChanges(true);
         return [
           ...prev,
-          { questionId, assessedScore: score, targetScore, answered: true, comment },
+          { questionId, assessedScore: score, targetScore, answered: true, comment: comment || "" },
         ];
       }
     });
@@ -158,11 +158,11 @@ export default function ProjectDetailAssessment({
           setHasChanges(true);
         }
         return prev.map((a) =>
-          a.artefactId === artefactId ? { ...a, answered, answer, comment } : a,
+          a.artefactId === artefactId ? { ...a, answered, answer, comment: comment || "" } : a,
         );
       } else {
         setHasChanges(true);
-        return [...prev, { artefactId, answered, answer, comment }];
+        return [...prev, { artefactId, answered, answer, comment: comment || "" }];
       }
     });
   };
@@ -334,8 +334,8 @@ export default function ProjectDetailAssessment({
                               className="mr-2 w-full border-2 p-2"
                               placeholder="Leave your comment here... (optional)"
                               rows={3}
-                              defaultValue={existingAnswer?.comment || ""}
-                              onBlur={(e) =>
+                              value={existingAnswer?.comment || ""}
+                              onChange={(e) =>
                                 handleAreaChange(
                                   question.id,
                                   existingAnswer?.assessedScore || 0,
@@ -415,8 +415,8 @@ export default function ProjectDetailAssessment({
                         <textarea
                           className="w-full border-2 p-2"
                           placeholder="Leave your comment here... (optional)"
-                          defaultValue={existingAnswer?.comment || ""}
-                          onBlur={(e) =>
+                          value={existingAnswer?.comment || ""}
+                          onChange={(e) =>
                             handleArtefactChange(
                               artefact.id,
                               existingAnswer?.answered || false,
