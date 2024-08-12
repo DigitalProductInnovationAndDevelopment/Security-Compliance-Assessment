@@ -8,9 +8,11 @@ import { SwitchValue, ViewSwitch } from "./viewSwitch";
 import useViewStore from "~/stores/useViewStore";
 import { AREA_VIEW } from "~/stores/viewTypes";
 import Link from "next/link";
+import useProjectDetailsStore from "~/stores/useProjectDetailsStore";
+import { Stage } from "@prisma/client";
 
 export interface ModelControlPanelProps {
-  stages: { number: number; name: string }[];
+  stages: Stage[];
 }
 
 const ModelControlPanel = React.forwardRef<
@@ -22,6 +24,14 @@ const ModelControlPanel = React.forwardRef<
 
   const pathname = usePathname();
   const selectedStage = parseInt(pathname.match(/\d+$/)?.[0] ?? "1");
+
+  const { currentStage, setCurrentStage } = useProjectDetailsStore();
+
+  React.useEffect(() => {
+    if (currentStage.id === -1 && stages?.[0]) {
+      setCurrentStage(stages[0]);
+    }
+  }, [stages, setCurrentStage]);
 
   return (
     <div className="flex items-center justify-between">

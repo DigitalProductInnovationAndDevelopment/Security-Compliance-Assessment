@@ -8,7 +8,7 @@ interface ProjectDetailsState {
 
 const useProjectDetailsStore = create<ProjectDetailsState>()((set) => ({
   currentStage: {
-    id: 1,
+    id: -1,
     name: "Plan Program",
     stageNumber: 1,
   },
