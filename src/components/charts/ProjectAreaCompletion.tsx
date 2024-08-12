@@ -1,5 +1,4 @@
-"use client";
-
+'use client';
 import {
   PolarAngleAxis,
   PolarGrid,
@@ -8,7 +7,6 @@ import {
   RadarChart,
 } from "recharts";
 import { TickItem } from "recharts/types/util/types";
-
 import {
   ChartConfig,
   ChartContainer,
@@ -18,18 +16,6 @@ import {
 import { Card, CardContent } from "../ui/card";
 import { Fragment } from "react";
 import useProjectDetailsStore from "~/stores/useProjectDetailsStore";
-
-const chartData = [
-  { label: "Plan Program", actual: 1, expected: 5 },
-  { label: "Plan Team", actual: 3, expected: 1 },
-  { label: "Code", actual: 2, expected: 3 },
-  { label: "Build", actual: 4.5, expected: 1 },
-  { label: "Test", actual: 4, expected: 5 },
-  { label: "Release", actual: 2, expected: 4 },
-  { label: "Deploy", actual: 2, expected: 4 },
-  { label: "Operate", actual: 2, expected: 4 },
-  { label: "Monitor", actual: 2, expected: 4 },
-];
 
 const chartConfig = {
   actual: {
@@ -42,33 +28,44 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
+// Helper function to truncate long labels
+function truncateLabel(label: string, maxLength: number = 10): string {
+  return label.length > maxLength ? `${label.slice(0, maxLength)}...` : label;
+}
+
 export function ProjectAreaCompletion({
   showTitle = false,
+  data,
+  labels = ["sit", "crawl", "walk", "run", "jump", "fly"],
+  title,
 }: {
   showTitle?: boolean;
+  data: Array<{ label: string; actual: number; expected: number }>;
+  labels?: string[];
+  title?: string;
 }) {
-  const labels = ["sit", "crawl", "walk", "run", "jump", "fly"];
-  const { currentStage } = useProjectDetailsStore();
-
   return (
     <Fragment>
       {showTitle && (
         <h1 className="py-2 text-lg font-bold">
-          Asessment of {currentStage.name}
+          {title}
         </h1>
       )}
       <Card className="m-0 w-full pt-6">
         <CardContent>
           <ChartContainer
             config={chartConfig}
-            className="mx-auto aspect-square max-h-[250px]"
+            className="mx-auto max-w-full"
           >
-            <RadarChart data={chartData}>
+            <RadarChart data={data}>
               <ChartTooltip
                 cursor={false}
                 content={<ChartTooltipContent indicator="line" />}
               />
-              <PolarAngleAxis dataKey="label" />
+              <PolarAngleAxis 
+                dataKey="label"
+                tickFormatter={(label) => truncateLabel(label, 15)} // Truncate labels to 15 characters
+              />
               <PolarGrid radialLines={false} />
               <Radar
                 dataKey="actual"

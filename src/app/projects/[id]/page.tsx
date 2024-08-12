@@ -10,7 +10,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Badge } from "~/components/ui/badge";
 import { api } from "~/trpc/server";
 import { Card, CardContent } from "~/components/ui/card";
-
 import { ProjectAreaCompletion } from "~/components/charts/ProjectAreaCompletion";
 import ProjectDetailAssessment from "~/components/ProjectDetailAssessment";
 import Link from "next/link";
@@ -31,6 +30,32 @@ export default async function Page({
     );
   }
   const allProjects = await api.project.getProjects();
+
+  const projectStatistics = await api.assessment.getProjectStatistics({
+    projectId: Number(params.id),
+  });
+
+  const { areaAverages, stageAverages } = projectStatistics;
+
+  const areaChartData = areaAverages.map((area) => ({
+    label: area.name,
+    actual: area.averageScore || 0,
+    expected: area.expectedScore || 0,
+  }));
+
+  const stageChartData = stageAverages.map((stage) => {
+    const actualScore = isFinite(stage.averageScore) ? stage.averageScore : 0;
+    const expectedScore = isFinite(stage.expectedScore) ? stage.expectedScore : 0;
+
+    return {
+      label: stage.name,  // Use stage name instead of ID
+      actual: actualScore,
+      expected: expectedScore,
+    };
+  });
+
+  console.log("Stage Averages:", stageAverages);
+  console.log("Stage Chart Data:", stageChartData);
 
   return (
     <div className="mx-2 flex h-screen flex-wrap gap-4 py-16">
@@ -59,22 +84,28 @@ export default async function Page({
           <div className="text-sm text-gray-500">{project.description}</div>
         </div>
         <div className="gap-4 py-4">
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-col gap-4">
             <div className="w-full xl:flex-1">
-              <ProjectAreaCompletion showTitle />
+              <ProjectAreaCompletion
+                showTitle
+                data={areaChartData}
+                title="Area Averages for Current Stage"
+              />
             </div>
             <div className="w-full xl:flex-1">
               <h1 className="flex items-center gap-2 py-2 text-lg font-bold">
                 <Badge className="text-xs" variant={"destructive"}>
                   Assessor
                 </Badge>
-                Team Results
+                Stage Averages
               </h1>
-              <ProjectAreaCompletion />
+              <ProjectAreaCompletion
+                data={stageChartData}
+                title="Aggregated Scores by Stage"
+              />
             </div>
           </div>
         </div>
-        {/* project members */}
         <div className="gap-4 py-4">
           <h1 className="py-2 text-lg font-bold">Project Members</h1>
           <div className="flex flex-row flex-wrap gap-4">
