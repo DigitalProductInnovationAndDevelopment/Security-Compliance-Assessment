@@ -67,7 +67,7 @@ export default async function Page() {
       </div>
       <div className="flex flex-wrap gap-4 py-10">
         {projects.map((project, index) => (
-          <Card key={index} className="relative w-full max-w-sm sm:flex-1">
+          <Card key={index} className="relative w-full max-w-sm flex-auto">
             <CardHeader className="bg-slate-100">
               <CardTitle className="text-2xl font-bold">
                 {project.name}
