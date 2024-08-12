@@ -81,4 +81,18 @@ export const refaRouter = createTRPCRouter({
         },
       });
     }),
+  // search area by its area_id which is not the same as id
+  areaByAreaId: publicProcedure
+    .input(
+      z.object({
+        area_id: z.string(),
+      }),
+    )
+    .query(({ input, ctx }) => {
+      return ctx.db.area.findFirst({
+        where: {
+          area_id: input.area_id,
+        },
+      });
+    }),
 });
