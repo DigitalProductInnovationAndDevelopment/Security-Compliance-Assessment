@@ -11,6 +11,7 @@
     "db:studio": "prisma studio",
     "db:seed": "tsx prisma/seed.ts",
     "db:seedquestions": "tsx prisma/questions_seed.ts",
+    "db:seedassessment": "tsx prisma/seed-assessment-questions.ts",
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
@@ -18,7 +19,8 @@
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts",
-    "seed:questions": "tsx prisma/questions_seed.ts"
+    "seed:questions": "tsx prisma/questions_seed.ts",
+    "seed:assessment": "tsx prisma/seed-assessment-questions.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.6.0",
