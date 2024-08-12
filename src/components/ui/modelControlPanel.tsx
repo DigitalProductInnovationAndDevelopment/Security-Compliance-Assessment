@@ -80,34 +80,42 @@ const ModelControlPanel = React.forwardRef<
         ))}
       </div>
       {session ? (
-        <div className="flex w-full flex-col items-center text-sm">
-          <div className="m-2 flex-shrink-0 overflow-hidden font-bold">
-            Current project: {currentProject?.name}
-          </div>
-          <div className="mb-2">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant={"outline"}>
-                  Change Project
-                  <ChevronDown className="ml-2 h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                {allProjects?.map((project: Project) => (
-                  <DropdownMenuItem
-                    key={project.id}
-                    onSelect={async () => {
-                      if (project.id !== currentProject?.id) {
-                        setCurrentProject(project);
-                      }
-                    }}
-                  >
-                    {project.name}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+        <div className="flex w-full">
+          {allProjects?.length == 0 ? (
+            <div className="overflow-hidden">
+              This user has no projects assigned.
+            </div>
+          ) : (
+            <div className="flex w-full flex-col items-center text-sm">
+              <div className="m-2 flex-shrink-0 overflow-hidden font-bold">
+                Current project: {currentProject?.name}
+              </div>
+              <div className="mb-2">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant={"outline"}>
+                      Change Project
+                      <ChevronDown className="ml-2 h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    {allProjects?.map((project: Project) => (
+                      <DropdownMenuItem
+                        key={project.id}
+                        onSelect={async () => {
+                          if (project.id !== currentProject?.id) {
+                            setCurrentProject(project);
+                          }
+                        }}
+                      >
+                        {project.name}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         <></>
