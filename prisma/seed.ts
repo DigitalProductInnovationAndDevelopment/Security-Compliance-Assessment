@@ -10,6 +10,7 @@ async function seed() {
   await prisma.artefact.deleteMany();
   await prisma.area.deleteMany();
   await prisma.stage.deleteMany();
+  await prisma.question.deleteMany();
 
   const files = fs.readdirSync(dataDirectory);
 
