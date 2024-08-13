@@ -71,42 +71,44 @@ const ArtifactCard = React.forwardRef<HTMLDivElement, ArtifactProps>(
           </div>
         ) : (
           <Card className="flex h-full w-full flex-col items-center justify-center">
-            <div className="text-center opacity-100 transition-opacity hover:opacity-70">
+            <div className="absolute right-1 top-1 z-20 space-x-1 p-1">
+              <div className="flex items-center justify-center space-x-0.5">
+                {/* Info icon that triggers pop-up */}
+                <ArtifactDialog id={id} name={name}>
+                  <div className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground">
+                    <Icons.info />
+                  </div>
+                </ArtifactDialog>
+                {/* If user is logged in, edit icon to trigger assess sheet */}
+                {userLoggedIn && (
+                  <Sheet>
+                    <SheetTrigger>
+                      <div className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground">
+                        <Icons.edit />
+                      </div>
+                    </SheetTrigger>
+                    <SheetContent className="lg:min-w-[40vw]">
+                      <SheetHeader>
+                        <SheetTitle className="text-center">
+                          <div>Assess Artefact: </div>
+                          <span>{name}</span>
+                        </SheetTitle>
+                      </SheetHeader>
+                      <div className="mt-4">
+                        <p>TODO: Edit assessment about this artefact.</p>
+                        {/* TODO: Implement assessment component here */}
+                      </div>
+                    </SheetContent>
+                  </Sheet>
+                )}
+              </div>
+            </div>
+            <div className="text-center opacity-100 transition-opacity">
               <CardHeader>
                 <div className="text-sm font-bold">{name}</div>
               </CardHeader>
               <CardDescription className="pb-2">
                 <span>{id}</span>
-                <div className="mt-2 flex items-center justify-center space-x-0.5">
-                  {/* Info icon that triggers pop-up */}
-                  <ArtifactDialog id={id} name={name}>
-                    <div className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground">
-                      <Icons.info />
-                    </div>
-                  </ArtifactDialog>
-                  {/* If user is logged in, edit icon to trigger assess sheet */}
-                  {userLoggedIn && (
-                    <Sheet>
-                      <SheetTrigger>
-                        <div className="h-4 w-4 shrink-0 rounded-full opacity-50 hover:bg-accent hover:text-accent-foreground">
-                          <Icons.edit />
-                        </div>
-                      </SheetTrigger>
-                      <SheetContent className="lg:min-w-[40vw]">
-                        <SheetHeader>
-                          <SheetTitle className="text-center">
-                            <div>Assess Artefact: </div>
-                            <span>{name}</span>
-                          </SheetTitle>
-                        </SheetHeader>
-                        <div className="mt-4">
-                          <p>TODO: Edit assessment about this artefact.</p>
-                          {/* TODO: Implement assessment component here */}
-                        </div>
-                      </SheetContent>
-                    </Sheet>
-                  )}
-                </div>
               </CardDescription>
             </div>
           </Card>
