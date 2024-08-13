@@ -132,6 +132,9 @@ importers:
       '@babel/core':
         specifier: ^7.25.2
         version: 7.25.2
+      '@babel/plugin-syntax-jsx':
+        specifier: ^7.24.7
+        version: 7.24.7(@babel/core@7.25.2)
       '@babel/preset-env':
         specifier: ^7.25.3
         version: 7.25.3(@babel/core@7.25.2)

@@ -31,8 +31,8 @@ describe("Page Component", () => {
   ];
 
   beforeEach(() => {
-    api.project.getProject.mockResolvedValue(mockProject);
-    (api.project.getProjects as jest.Mock).mockResolvedValue(mockProjects);
+    api.project.getProject = jest.fn().mockResolvedValue(mockProject);
+    api.project.getProjects = jest.fn().mockResolvedValue(mockProjects);
   });
 
   afterEach(() => {
@@ -52,7 +52,7 @@ describe("Page Component", () => {
   });
 
   it('displays "Project Not Found" message when no project is found', async () => {
-    (api.project.getProject as jest.Mock).mockResolvedValueOnce(null);
+    api.project.getProject = jest.fn().mockResolvedValueOnce(null);
 
     render(<Page params={{ id: "999" }} />);
 

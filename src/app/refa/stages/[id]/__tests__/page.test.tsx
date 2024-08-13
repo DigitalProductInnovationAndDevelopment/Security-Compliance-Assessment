@@ -49,9 +49,7 @@ describe("Page Component", () => {
   };
 
   beforeEach(() => {
-    (api.refa.areasWithArtefactsByStage as jest.Mock).mockResolvedValue(
-      mockData,
-    );
+    api.refa.areasWithArtefactsByStage = jest.fn().mockResolvedValue(mockData);
   });
 
   it("renders without crashing", async () => {
