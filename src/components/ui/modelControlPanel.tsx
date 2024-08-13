@@ -63,12 +63,12 @@ const ModelControlPanel = React.forwardRef<
           <div key={stage.name} className="border-gray-200 py-4">
             <div className="flex flex-row">
               <span className="inline-flex items-center">
-                <Link href={`/refa/stages/${stage.number}`}>
+                <Link href={`/refa/stages/${stage.stageNumber}`}>
                   <Button
                     variant={"link"}
                     className={cn(
                       "text-md font-medium",
-                      selectedStage === stage.number ? "underline" : "",
+                      selectedStage === stage.stageNumber ? "underline" : "",
                     )}
                   >
                     {stage.name}

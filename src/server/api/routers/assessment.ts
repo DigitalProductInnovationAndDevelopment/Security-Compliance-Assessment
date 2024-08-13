@@ -285,7 +285,7 @@ export const assessmentRouter = createTRPCRouter({
           const areaId = answer.question.areas[0]?.id;
           const areaName = answer.question.areas[0]?.area_name;
 
-          if (!areaStats[areaId]) {
+          if (!areaStats[areaId!]) {
             areaStats[areaId!] = {
               name: areaName,
               totalScore: 0,

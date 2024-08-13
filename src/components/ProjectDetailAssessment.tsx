@@ -447,7 +447,7 @@ export default function ProjectDetailAssessment({
                             <Checkbox
                               id={`checkbox-${artefact.artefact_id}`}
                               checked={existingAnswer?.answered || false}
-                              onCheckedChange={(checked) => {
+                              onCheckedChange={(checked: boolean) => {
                                 handleArtefactChange(
                                   artefact.id,
                                   checked,
