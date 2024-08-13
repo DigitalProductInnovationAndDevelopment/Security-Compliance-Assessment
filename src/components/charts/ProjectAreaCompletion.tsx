@@ -14,7 +14,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "~/components/ui/chart";
-import { Card, CardContent } from "../ui/card";
+import { Card, CardContent, CardTitle } from "../ui/card";
 import { Fragment } from "react";
 import useProjectDetailsStore from "~/stores/useProjectDetailsStore";
 import { api } from "~/trpc/react";
@@ -48,12 +48,13 @@ export function ProjectAreaCompletion({
   title?: string;
 }) {
   const { currentStage } = useProjectDetailsStore();
-  const { data: projectStatistics, isLoading } = api.assessment.getProjectStatistics.useQuery({
-    projectId: projectId,
-    stageId: currentStage.id, // Use current stage ID from the store
-  });
+  const { data: projectStatistics, isLoading, isRefetching } =
+    api.assessment.getProjectStatistics.useQuery({
+      projectId: projectId,
+      stageId: currentStage.id, // Use current stage ID from the store
+    });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <ChartSkeleton />; // Use the skeleton loader during loading
 
   if (!projectStatistics) {
     return <div>No project statistics found.</div>;
@@ -65,12 +66,19 @@ export function ProjectAreaCompletion({
       actual: Math.round(area.averageScore) || 0,
       expected: Math.round(area.expectedScore) || 0,
     }))
-    .filter(data => data.label && data.actual != null && data.expected != null); // Filter out incomplete data
+    .filter(
+      (data) => data.label && data.actual != null && data.expected != null,
+    ); // Filter out incomplete data
 
   return (
     <Fragment>
-      {showTitle && <h1 className="py-2 text-lg font-bold">Area Averages for {currentStage.name}</h1>}
+      <div className="py-4 text-lg font-bold">
+        {isRefetching ? <div className="h-6 my-2 w-1/3 rounded bg-gray-300"></div> : `Artefacts Score: ${projectStatistics.artefactsHandledPercentage.toFixed(2)}%`}
+      </div>
       <Card className="m-0 w-full pt-6">
+        <CardTitle className="mx-4">
+          Area Averages for {currentStage.name}
+        </CardTitle>
         <CardContent>
           <ChartContainer config={chartConfig} className="mx-auto max-w-full">
             <RadarChart data={areaChartData}>
@@ -104,7 +112,9 @@ export function ProjectAreaCompletion({
                 axisLine={false}
                 tick={{ fill: "hsla(var(--foreground))" }}
                 ticks={[0, 1, 2, 3, 4, 5] as unknown as TickItem[]}
-                tickFormatter={(value) => labels[value as number] ?? (value as string)}
+                tickFormatter={(value) =>
+                  labels[value as number] ?? (value as string)
+                }
                 domain={[0, 5]}
               />
             </RadarChart>
@@ -112,5 +122,21 @@ export function ProjectAreaCompletion({
         </CardContent>
       </Card>
     </Fragment>
+  );
+}
+
+export function ChartSkeleton() {
+  return (
+    <div>
+      <div className="my-4 h-6 w-1/3 rounded bg-gray-300"></div>
+      <Card className="m-0 w-full pt-6">
+        <CardContent>
+          <div className="animate-pulse space-y-4">
+            <div className="my-auto h-8 w-1/3 rounded bg-gray-300"></div>
+            <div className="mx-auto h-52 rounded bg-gray-300"></div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

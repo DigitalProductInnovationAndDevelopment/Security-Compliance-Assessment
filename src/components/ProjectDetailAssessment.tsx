@@ -70,6 +70,11 @@ export default function ProjectDetailAssessment({
     }
   }, [stages]);
 
+  const { data, refetch: refetchProjectStatistics } = api.assessment.getProjectStatistics.useQuery({
+    projectId: project.id,
+    stageId: currentStage.id, // Use current stage ID from the store
+  });
+
   const [answersArea, setAnswersArea] = useState<
     {
       questionId: number;
@@ -247,8 +252,12 @@ export default function ProjectDetailAssessment({
         variant: "default",
       });
       queryClient.invalidateQueries({
-        queryKey: ["assessment.getExistingAssessment"],
+        queryKey: [
+          "assessment.getProjectStatistics",
+          { projectId: project.id, stageId: currentStage.id },
+        ],
       });
+      refetchProjectStatistics();
       refetchAssessment();
       console.log("Assessment created successfully");
     } catch (error) {
@@ -358,14 +367,24 @@ export default function ProjectDetailAssessment({
                                   );
                                 }}
                               />
-                              <div className="flex justify-between w-full">
-                                {
-                                  ["sit", "crawl", "walk", "run", "jump", "fly"].map((activity) => (
-                                    <div key={activity} className="flex items-center gap-2">
-                                      <span className="text-sm font-medium">{activity}</span>
-                                    </div>
-                                  ))
-                                }
+                              <div className="flex w-full justify-between">
+                                {[
+                                  "sit",
+                                  "crawl",
+                                  "walk",
+                                  "run",
+                                  "jump",
+                                  "fly",
+                                ].map((activity) => (
+                                  <div
+                                    key={activity}
+                                    className="flex items-center gap-2"
+                                  >
+                                    <span className="text-sm font-medium">
+                                      {activity}
+                                    </span>
+                                  </div>
+                                ))}
                               </div>
                             </div>
 

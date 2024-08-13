@@ -226,8 +226,18 @@ export const assessmentRouter = createTRPCRouter({
         select: {
           id: true,
           area_name: true,
+          artefacts: {
+            select: {
+              id: true,
+            },
+          },
         },
       });
+
+      const areaIds = areas.map((area) => area.id);
+      const artefactIds = areas.flatMap((area) =>
+        area.artefacts.map((artefact) => artefact.id),
+      );
 
       const assessments = await ctx.db.assessment.findMany({
         where: {
@@ -248,7 +258,11 @@ export const assessmentRouter = createTRPCRouter({
               },
             },
           },
-          answersArtefact: true,
+          answersArtefact: {
+            where: {
+              artefactId: { in: artefactIds }, // Filter only artefacts belonging to the areas of the current stage
+            },
+          },
           stagesScores: {
             include: {
               stage: true, // Include stage name
@@ -261,7 +275,7 @@ export const assessmentRouter = createTRPCRouter({
       const areaStats: Record<string, any> = {};
       const stageStats: Record<string, any> = {};
       let totalArtefactsHandled = 0;
-      let totalArtefacts = 0;
+      let totalArtefacts = artefactIds.length; // Ensure this starts at the total artefacts for the current stage
 
       for (const assessment of assessments) {
         // Process area scores
@@ -283,6 +297,14 @@ export const assessmentRouter = createTRPCRouter({
           areaStats[areaId!].count += 1;
         }
 
+        // Process artefact scores
+        for (const artefactAnswer of assessment.answersArtefact) {
+          if (artefactAnswer.answered) {
+            totalArtefactsHandled += 1;
+          }
+          // Note: `totalArtefacts` has been pre-initialized, so no need to increment here
+        }
+
         // Process stage scores
         for (const stageScore of assessment.stagesScores) {
           const stageName = stageScore.stage.name;
@@ -294,7 +316,7 @@ export const assessmentRouter = createTRPCRouter({
               expectedScore: 0,
               count: 0,
               artefactsHandled: 0,
-              totalArtefacts: 0,
+              totalArtefacts: totalArtefacts, // Initialized total artefacts
             };
           }
 
@@ -304,8 +326,9 @@ export const assessmentRouter = createTRPCRouter({
             stageScore.areaCompletenessScore;
           stageStats[stageScore.stageId].count += 1;
 
-          totalArtefactsHandled += stageScore.artefactsCompletenessScore;
-          totalArtefacts += 1; // Assuming each stage has artefacts to be handled
+          // Total artefacts handled in this stage
+          stageStats[stageScore.stageId].artefactsHandled =
+            totalArtefactsHandled;
         }
       }
 
@@ -360,6 +383,8 @@ export const assessmentRouter = createTRPCRouter({
         areaAverages,
         stageAverages,
         overallArtefactCompletion,
+        artefactsHandledPercentage:
+          (totalArtefactsHandled / totalArtefacts) * 100, // New metric
         currentStageId: stageId,
       };
     }),

@@ -66,18 +66,6 @@ export default async function Page({
                 projectId={project.id}
               />
             </div>
-            <div className="w-full xl:flex-1">
-              <h1 className="flex items-center gap-2 py-2 text-lg font-bold">
-                <Badge className="text-xs" variant={"destructive"}>
-                  Assessor
-                </Badge>
-                Stage Averages
-              </h1>
-              {/* <ProjectAreaCompletion
-                data={stageChartData}
-                title="Aggregated Scores by Stage"
-              /> */}
-            </div>
           </div>
         </div>
         <div className="gap-4 py-4">
