@@ -35,7 +35,6 @@ export default function ProjectDetailAssessment({
   project: Project & { assessments: unknown[] };
 }) {
   const session = useSession();
-  const queryClient = useQueryClient();
   const { currentStage, setCurrentStage } = useProjectDetailsStore();
   const { data: stages, isLoading: isStagesLoading } =
     api.refa.stages.useQuery();
