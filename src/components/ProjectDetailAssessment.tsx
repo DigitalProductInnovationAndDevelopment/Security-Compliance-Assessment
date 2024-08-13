@@ -97,6 +97,9 @@ export default function ProjectDetailAssessment({
   const { mutateAsync: createAssessment, isPending: isSubmitting } =
     api.assessment.createAssessment.useMutation();
 
+  const { mutateAsync: createAreasScores } =
+    api.assessment.createAreasScores.useMutation();
+
   useEffect(() => {
     if (existingAssessment) {
       setAnswersArea(
@@ -244,6 +247,11 @@ export default function ProjectDetailAssessment({
         answersArea: finalAnswersArea || [],
         answersArtefact: finalAnswersArtefact || [],
         stageId: currentStage.id,
+      });
+      await createAreasScores({
+        projectId: project.id,
+        stageId: currentStage.id,
+        answersArea: finalAnswersArea || [],
       });
       setHasChanges(false); // Reset changes flag after successful submission
       toast({

@@ -390,4 +390,134 @@ export const assessmentRouter = createTRPCRouter({
         currentStageId: stageId,
       };
     }),
+  createAreasScores: protectedProcedure
+    .input(
+      z.object({
+        projectId: z.number(),
+        stageId: z.number(),
+        answersArea: z.array(
+          z.object({
+            questionId: z.number(),
+            assessedScore: z.number(),
+            targetScore: z.number(),
+            answered: z.boolean(),
+            comment: z.string().optional(),
+          }),
+        ),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const userId = ctx.session.user.id;
+      const { projectId, stageId, answersArea } = input;
+
+      const stage = await ctx.db.stage.findUnique({
+        where: { id: stageId },
+        include: {
+          areas: {
+            include: {
+              assessment_questions: true,
+            },
+          },
+        },
+      });
+
+      if (!stage) {
+        throw new Error(`Stage with id ${stageId} does not exist.`);
+      }
+
+      const areaCompletenessScore = answersArea.filter(
+        (answer) => answer.answered,
+      ).length;
+
+      const aggregatedByArea = stage.areas.map((area) => {
+        // Get the question IDs for the current area
+        const areaQuestionIds = area.assessment_questions.map((q) => q.id);
+
+        // Filter answers that belong to the current area
+        const areaAnswers = answersArea.filter((answer) =>
+          areaQuestionIds.includes(answer.questionId),
+        );
+
+        // Aggregate the data you need for this area
+        const totalQuestions = areaAnswers.length;
+        const answeredCount = areaAnswers.filter(
+          (answer) => answer.answered,
+        ).length;
+        const totalAssessedScore = areaAnswers.reduce(
+          (sum, answer) => sum + answer.assessedScore,
+          0,
+        );
+        const totalTargetScore = areaAnswers.reduce(
+          (sum, answer) => sum + answer.targetScore,
+          0,
+        );
+        const averageAssessedScore = totalAssessedScore / totalQuestions;
+        const averageTargetScore = totalTargetScore / totalQuestions;
+
+        return {
+          areaId: area.id,
+          answeredCount,
+          averageAssessedScore,
+          averageTargetScore,
+        };
+      });
+
+      for (const areaData of aggregatedByArea) {
+        const {
+          areaId,
+          answeredCount,
+          averageAssessedScore,
+          averageTargetScore,
+        } = areaData;
+
+        await ctx.db.areaScore.upsert({
+          where: {
+            assessmentUserId_assessmentProjectId_areaId: {
+              assessmentUserId: userId,
+              assessmentProjectId: projectId,
+              areaId: areaId,
+            },
+          },
+          update: {
+            areaMaturityScore: averageAssessedScore,
+            areaCompletenessScore: answeredCount,
+            targeAreaMaturityScore: averageTargetScore,
+            // update the following commented out fields if needed
+            // artefactsCompletenessScore: 0, // compute if needed
+          },
+          create: {
+            assessmentUserId: userId,
+            assessmentProjectId: projectId,
+            areaId: areaId,
+            areaMaturityScore: averageAssessedScore,
+            areaCompletenessScore: answeredCount,
+            artefactsCompletenessScore: 0, // compute if needed
+            targeAreaMaturityScore: averageTargetScore,
+          },
+        });
+      }
+    }),
+  getAreaScore: protectedProcedure
+    .input(
+      z.object({
+        projectId: z.number(),
+        areaId: z.number(),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      const { projectId, areaId } = input;
+      const userId = ctx.session.user.id;
+
+      const areaScore = await ctx.db.areaScore.findUnique({
+        where: {
+          assessmentUserId_assessmentProjectId_areaId: {
+            assessmentUserId: userId,
+            assessmentProjectId: projectId,
+            areaId: areaId,
+          },
+        },
+      });
+
+      return areaScore;
+    }),
 });

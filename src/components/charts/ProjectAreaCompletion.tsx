@@ -48,11 +48,14 @@ export function ProjectAreaCompletion({
   title?: string;
 }) {
   const { currentStage } = useProjectDetailsStore();
-  const { data: projectStatistics, isLoading, isRefetching } =
-    api.assessment.getProjectStatistics.useQuery({
-      projectId: projectId,
-      stageId: currentStage.id, // Use current stage ID from the store
-    });
+  const {
+    data: projectStatistics,
+    isLoading,
+    isRefetching,
+  } = api.assessment.getProjectStatistics.useQuery({
+    projectId: projectId,
+    stageId: currentStage.id, // Use current stage ID from the store
+  });
 
   if (isLoading) return <ChartSkeleton />; // Use the skeleton loader during loading
 
@@ -73,7 +76,11 @@ export function ProjectAreaCompletion({
   return (
     <Fragment>
       <div className="py-4 text-lg font-bold">
-        {isRefetching ? <div className="h-6 my-2 w-1/3 rounded bg-gray-300"></div> : `Artefacts Score: ${projectStatistics.artefactsHandledPercentage.toFixed(2)}%`}
+        {isRefetching ? (
+          <div className="my-2 h-6 w-1/3 rounded bg-gray-300"></div>
+        ) : (
+          `Artefacts Score: ${projectStatistics.artefactsHandledPercentage.toFixed(2)}%`
+        )}
       </div>
       <Card className="m-0 w-full pt-6">
         <CardTitle className="mx-4">
