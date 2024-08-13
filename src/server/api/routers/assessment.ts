@@ -335,29 +335,16 @@ export const assessmentRouter = createTRPCRouter({
       const { projectId, areaId } = input;
       const userId = ctx.session.user.id;
 
-      // Fetch the existing assessment based on userId, projectId, and stageNumber
-      const assessment = await ctx.db.assessment.findFirst({
+      const areaScore = await ctx.db.areaScore.findUnique({
         where: {
-          userId,
-          projectId,
-          areasScores: {
-            some: {
-              area: {
-                id: areaId,
-              },
-            },
+          assessmentUserId_assessmentProjectId_areaId: {
+            assessmentUserId: userId,
+            assessmentProjectId: projectId,
+            areaId: areaId,
           },
-        },
-        include: {
-          areasScores: true,
         },
       });
 
-      if (assessment?.areasScores?.length! > 1) {
-        console.warn(
-          `AreaScore with areaId ${areaId} and projectId ${projectId} does not exist.`,
-        );
-      }
-      return assessment?.areasScores?.[0];
+      return areaScore;
     }),
 });
