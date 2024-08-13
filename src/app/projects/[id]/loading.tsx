@@ -49,17 +49,6 @@ export default function Loading() {
                 </CardContent>
               </Card>
             </div>
-            <div className="w-full xl:flex-1">
-              <div className="flex items-center gap-2 py-2">
-                <Badge className="h-4 w-16 animate-pulse rounded bg-gray-300" />
-                <div className="h-5 w-32 animate-pulse rounded bg-gray-300" />
-              </div>
-              <Card className="m-0 w-full pt-6">
-                <CardContent>
-                  <div className="h-40 w-full animate-pulse rounded bg-gray-300" />
-                </CardContent>
-              </Card>
-            </div>
           </div>
         </div>
         {/* project members */}
