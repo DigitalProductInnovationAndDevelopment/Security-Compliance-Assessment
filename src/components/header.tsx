@@ -13,7 +13,6 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import Image from "next/image";
-import SiemensLogo from "../../public/siemens-logo.png";
 import Authenticate from "./authenticate";
 import { cn } from "~/lib/utils";
 import { usePathname } from "next/navigation";
@@ -73,13 +72,7 @@ export default function Header({ session }: { session: Session | null }) {
               href="/"
               className="mr-12 flex w-44 items-center gap-2 text-lg font-semibold md:text-base"
             >
-              <Image
-                src={SiemensLogo}
-                height={500}
-                width={500}
-                alt="Siemens Logo"
-              />
-              <span className="sr-only">Siemens</span>
+              <LockKeyhole className="h-8 w-8 text-muted-foreground" />
             </Link>
             <Link href="/projects" className="hover:text-foreground">
               Projects

@@ -62,6 +62,7 @@ export const refaRouter = createTRPCRouter({
           areas: {
             include: {
               artefacts: true,
+              assessment_questions: true,
             },
           },
         },
@@ -77,6 +78,20 @@ export const refaRouter = createTRPCRouter({
       return ctx.db.artefact.findFirst({
         where: {
           artefact_id: input.artefact_id,
+        },
+      });
+    }),
+  // search area by its area_id which is not the same as id
+  areaByAreaId: publicProcedure
+    .input(
+      z.object({
+        area_id: z.string(),
+      }),
+    )
+    .query(({ input, ctx }) => {
+      return ctx.db.area.findFirst({
+        where: {
+          area_id: input.area_id,
         },
       });
     }),

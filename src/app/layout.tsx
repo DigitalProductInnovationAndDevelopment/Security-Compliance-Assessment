@@ -7,14 +7,14 @@ import { DM_Sans as FontSans } from "next/font/google";
 import { cn } from "~/lib/utils";
 import Header from "~/components/header";
 import { NextAuthProvider } from "./providers/NextAuthProvider";
-import { get } from "http";
 import { getServerAuthSession } from "~/server/auth";
 import { TooltipProvider } from "~/components/ui/tooltip";
+import { Toaster } from "~/components/ui/toaster";
 
 export const metadata = {
   title: "Security Compliance Assessment",
   description:
-    "Siemens Security Compliance Assessment Tool — Digitial Product Innovation",
+    "Security Compliance Assessment Tool — Digitial Product Innovation",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
@@ -42,6 +42,7 @@ export default async function RootLayout({
             <TooltipProvider delayDuration={50}>
               <Header session={session} />
               {children}
+              <Toaster />
             </TooltipProvider>
           </TRPCReactProvider>
         </NextAuthProvider>
