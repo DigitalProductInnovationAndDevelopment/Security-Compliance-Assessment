@@ -6,17 +6,17 @@ const prisma = new PrismaClient();
 const dataDirectory = "./reference_model";
 
 async function seed() {
+  await prisma.answerArtefact.deleteMany();
+  await prisma.answerAreaQuestion.deleteMany();
+  await prisma.stageScore.deleteMany();
+  await prisma.areaScore.deleteMany();
+  await prisma.assessment.deleteMany();
+  await prisma.question.deleteMany();
+  await prisma.project.deleteMany();
   await prisma.standard.deleteMany();
   await prisma.artefact.deleteMany();
   await prisma.area.deleteMany();
   await prisma.stage.deleteMany();
-  await prisma.question.deleteMany();
-  await prisma.assessment.deleteMany();
-  await prisma.stageScore.deleteMany();
-  await prisma.areaScore.deleteMany();
-  await prisma.answerAreaQuestion.deleteMany();
-  await prisma.answerArtefact.deleteMany();
-  await prisma.project.deleteMany();
 
   const files = fs.readdirSync(dataDirectory);
 
