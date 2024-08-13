@@ -59,13 +59,14 @@ const CardWrapper = React.forwardRef<HTMLDivElement, CardWrapperProps>(
       >
         <div className={artifactClasses}>
           {artifacts.length === 0 ? (
-            <ArtifactCard isEmpty />
+            <ArtifactCard isEmpty displayIcons={false} />
           ) : (
             artifacts.map((artifact) => (
               <ArtifactCard
                 key={artifact.id}
                 id={artifact.id}
                 name={artifact.name}
+                displayIcons={artifactsView}
               />
             ))
           )}
