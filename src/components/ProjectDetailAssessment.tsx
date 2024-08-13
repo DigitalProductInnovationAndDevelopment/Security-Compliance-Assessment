@@ -71,6 +71,11 @@ export default function ProjectDetailAssessment({
     }
   }, [stages]);
 
+  const { data, refetch: refetchProjectStatistics } = api.assessment.getProjectStatistics.useQuery({
+    projectId: project.id,
+    stageId: currentStage.id, // Use current stage ID from the store
+  });
+
   const [answersArea, setAnswersArea] = useState<
     {
       questionId: number;
@@ -247,17 +252,14 @@ export default function ProjectDetailAssessment({
         description: "Your assessment has been submitted successfully.",
         variant: "default",
       });
-      queryClient.invalidateQueries({
-        queryKey: ["assessment.getExistingAssessment"],
-      });
-      refetchAssessment();
+      await Promise.all([refetchProjectStatistics(), refetchAssessment()]);
       console.log("Assessment created successfully");
     } catch (error) {
       console.error("Error creating assessment", error);
       toast({
         title: "Error creating assessment",
         description:
-          "An error occurred while creating the assessment: " + error,
+          `An error occurred while creating the assessment: ${error}`,
         variant: "destructive",
       });
     }

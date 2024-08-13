@@ -11,7 +11,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Badge } from "~/components/ui/badge";
 import { api } from "~/trpc/server";
 import { Card, CardContent } from "~/components/ui/card";
-
 import { ProjectAreaCompletion } from "~/components/charts/ProjectAreaCompletion";
 import ProjectDetailAssessment from "~/components/ProjectDetailAssessment";
 import Link from "next/link";
@@ -47,11 +46,11 @@ export default async function Page({
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               {allProjects.map((project) => (
-                <DropdownMenuItem key={project.id}>
-                  <Link prefetch href={`/projects/${project.id}`}>
+                <Link prefetch href={`/projects/${project.id}`} className="hover:underline" key={project.id}>
+                  <DropdownMenuItem>
                     {project.name}
-                  </Link>
-                </DropdownMenuItem>
+                  </DropdownMenuItem>
+                </Link>
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
@@ -60,22 +59,16 @@ export default async function Page({
           <div className="text-sm text-gray-500">{project.description}</div>
         </div>
         <div className="gap-4 py-4">
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-col gap-4">
             <div className="w-full xl:flex-1">
-              <ProjectAreaCompletion showTitle />
-            </div>
-            <div className="w-full xl:flex-1">
-              <h1 className="flex items-center gap-2 py-2 text-lg font-bold">
-                <Badge className="text-xs" variant={"destructive"}>
-                  Assessor
-                </Badge>
-                Team Results
-              </h1>
-              <ProjectAreaCompletion />
+              <ProjectAreaCompletion
+                showTitle
+                // data={areaChartData}
+                projectId={project.id}
+              />
             </div>
           </div>
         </div>
-        {/* project members */}
         <div className="gap-4 py-4">
           <h1 className="py-2 text-lg font-bold">Project Members</h1>
           <div className="flex flex-row flex-wrap gap-4">
