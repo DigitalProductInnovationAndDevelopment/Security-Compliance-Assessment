@@ -13,6 +13,9 @@ import {
 import { api } from "~/trpc/server";
 import { getServerAuthSession } from "~/server/auth";
 import Unauthorised from "~/components/unauthorised";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import { Badge } from "~/components/ui/badge";
+import { Label } from "~/components/ui/label";
 
 const project_statuses = ["all-projects", "archived-projects"];
 const displayNames: Record<string, string> = {
@@ -75,8 +78,34 @@ export default async function Page() {
               <CardDescription>{project.description}</CardDescription>
             </CardHeader>
             <CardContent className="relative pt-4">
-              <CardTitle className="py-4">Compliance Score Overview</CardTitle>
-              <ProjectCompletion />
+              <Label className="font-bold">Project Members</Label>
+            {project.participants.map((member) => (
+              <div
+                key={member.id}
+                className="text-md flex items-center gap-4 px-2 py-1"
+              >
+                <Avatar>
+                  <AvatarImage
+                    src={member.image ?? "https://github.com/shadcn.png"}
+                    alt="@shadcn"
+                  />
+                  <AvatarFallback>A</AvatarFallback>
+                </Avatar>
+                <div className="flex flex-col">
+                  <span className="text-md font-medium">{member.name}</span>
+                  <span className="text-xs text-gray-500">
+                    <Badge
+                      className="text-xs capitalize"
+                      variant={
+                        member.role === "assessee" ? "outline" : "destructive"
+                      }
+                    >
+                      {member.role}
+                    </Badge>
+                  </span>
+                </div>
+              </div>
+            ))}
             </CardContent>
             <CardFooter>
               <Link href={"/projects/" + project.id}>

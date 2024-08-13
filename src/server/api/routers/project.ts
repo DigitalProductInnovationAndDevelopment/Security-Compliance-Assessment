@@ -13,6 +13,9 @@ export const projectRouter = createTRPCRouter({
           },
         },
       },
+      include: {
+        participants: true,
+      },
     });
 
     return projects;
