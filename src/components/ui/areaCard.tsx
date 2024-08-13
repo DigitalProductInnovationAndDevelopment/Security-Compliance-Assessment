@@ -90,7 +90,7 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
             backgroundColor,
           )}
         >
-          <div className="absolute right-2 top-2 space-x-1">
+          <div className="absolute right-2 top-2 mr-2 h-7 space-x-1 rounded-xl bg-white p-1">
             <Button
               variant="outline"
               size="icon"
