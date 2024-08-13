@@ -220,6 +220,15 @@ export const assessmentRouter = createTRPCRouter({
     .query(async ({ input, ctx }) => {
       const { projectId, stageId } = input;
 
+      // Fetch all areas for the stage
+      const areas = await ctx.db.area.findMany({
+        where: { stageId },
+        select: {
+          id: true,
+          area_name: true,
+        },
+      });
+
       const assessments = await ctx.db.assessment.findMany({
         where: {
           projectId,
@@ -230,7 +239,11 @@ export const assessmentRouter = createTRPCRouter({
             include: {
               question: {
                 include: {
-                  areas: true, // Include the area name
+                  areas: {
+                    where: {
+                      stageId: stageId,
+                    },
+                  },
                 },
               },
             },
@@ -293,6 +306,18 @@ export const assessmentRouter = createTRPCRouter({
 
           totalArtefactsHandled += stageScore.artefactsCompletenessScore;
           totalArtefacts += 1; // Assuming each stage has artefacts to be handled
+        }
+      }
+
+      // Ensure all areas are included, even those without assessments
+      for (const area of areas) {
+        if (!areaStats[area.id]) {
+          areaStats[area.id] = {
+            name: area.area_name,
+            totalScore: 0,
+            expectedScore: 0,
+            count: 1, // Set to 1 to avoid division by zero
+          };
         }
       }
 

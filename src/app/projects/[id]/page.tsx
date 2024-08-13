@@ -31,32 +31,6 @@ export default async function Page({
   }
   const allProjects = await api.project.getProjects();
 
-  const projectStatistics = await api.assessment.getProjectStatistics({
-    projectId: Number(params.id),
-  });
-
-  const { areaAverages, stageAverages } = projectStatistics;
-
-  const areaChartData = areaAverages.map((area) => ({
-    label: area.name,
-    actual: area.averageScore || 0,
-    expected: area.expectedScore || 0,
-  }));
-
-  const stageChartData = stageAverages.map((stage) => {
-    const actualScore = isFinite(stage.averageScore) ? stage.averageScore : 0;
-    const expectedScore = isFinite(stage.expectedScore) ? stage.expectedScore : 0;
-
-    return {
-      label: stage.name,  // Use stage name instead of ID
-      actual: actualScore,
-      expected: expectedScore,
-    };
-  });
-
-  console.log("Stage Averages:", stageAverages);
-  console.log("Stage Chart Data:", stageChartData);
-
   return (
     <div className="mx-2 flex h-screen flex-wrap gap-4 py-16">
       <div className="relative w-full max-w-xl sm:flex-1">
@@ -88,8 +62,8 @@ export default async function Page({
             <div className="w-full xl:flex-1">
               <ProjectAreaCompletion
                 showTitle
-                data={areaChartData}
-                title="Area Averages for Current Stage"
+                // data={areaChartData}
+                projectId={project.id}
               />
             </div>
             <div className="w-full xl:flex-1">
@@ -99,10 +73,10 @@ export default async function Page({
                 </Badge>
                 Stage Averages
               </h1>
-              <ProjectAreaCompletion
+              {/* <ProjectAreaCompletion
                 data={stageChartData}
                 title="Aggregated Scores by Stage"
-              />
+              /> */}
             </div>
           </div>
         </div>
