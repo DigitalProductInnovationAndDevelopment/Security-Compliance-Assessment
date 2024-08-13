@@ -45,11 +45,11 @@ export default async function Page({
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               {allProjects.map((project) => (
-                <DropdownMenuItem key={project.id}>
-                  <Link prefetch href={`/projects/${project.id}`}>
+                <Link prefetch href={`/projects/${project.id}`} className="hover:underline" key={project.id}>
+                  <DropdownMenuItem>
                     {project.name}
-                  </Link>
-                </DropdownMenuItem>
+                  </DropdownMenuItem>
+                </Link>
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
