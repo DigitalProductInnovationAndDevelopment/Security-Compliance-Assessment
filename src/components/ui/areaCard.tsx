@@ -16,9 +16,12 @@ import { cn } from "~/lib/utils";
 import useProjectDetailsStore from "~/stores/useProjectDetailsStore";
 import { api } from "~/trpc/react";
 import { useEffect, useState } from "react";
+import { toast } from "./use-toast";
+import { ScrollArea } from "./scroll-area";
 
 export interface AreaProps {
   id: string;
+  areaDBIndexId: number;
   name: string;
   visible?: boolean;
   toggleVisibility?: () => void;
@@ -29,14 +32,14 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
   const userLoggedIn = !!session;
   const [loading, setLoading] = useState(true);
 
+  const { currentProject, currentStage } = useProjectDetailsStore();
+
   const { data: areaDetails, isFetched: isAreaFetched } =
     api.refa.areaByAreaId.useQuery({
       area_id: area.id,
     });
 
-  const { currentProject } = useProjectDetailsStore();
-
-  const { data: areaScore, isFetched: isScoreFetched } =
+  const { data: areaScore, isFetched: isScoreFetched, refetch: refetchAreaScore } =
     api.assessment.getAreaScore.useQuery(
       {
         projectId: currentProject?.id || -1,
@@ -47,27 +50,95 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
       },
     );
 
-  // Default values if areaScore is undefined
+  const { data: areaAssessment, refetch: refetchAreaAssessment } =
+    api.assessment.getAreaAssessment.useQuery({
+      projectId: currentProject?.id || -1,
+      areaId: area.id, // Pass as number
+    });
+
+  const [answers, setAnswers] = useState(areaAssessment?.questions || []);
+
+  // Ensure answers state is updated when areaAssessment data is fetched
+  useEffect(() => {
+    if (areaAssessment) {
+      setAnswers(areaAssessment.questions);
+    }
+  }, [areaAssessment]);
+
+  const { mutateAsync: createAreasScores } =
+    api.assessment.createAreaScoresForArea.useMutation();
+
+  const handleAnswerChange = (
+    questionId: number,
+    assessedScore: number,
+    targetScore: number,
+    comment?: string,
+  ) => {
+    setAnswers((prev) =>
+      prev.map((answer) =>
+        answer.questionId === questionId
+          ? { ...answer, assessedScore, targetScore, comment: comment ?? "" }
+          : answer,
+      ),
+    );
+  };
+
+  const { mutateAsync: submitAreaAssessment, isPending: isSubmitting } =
+    api.assessment.submitAreaAssessment.useMutation();
+
+  const handleSubmit = async () => {
+    try {
+      await submitAreaAssessment({
+        projectId: currentProject?.id || -1,
+        areaId: area.id, // Pass as string
+        answers,
+      });
+      await createAreasScores({
+        projectId: currentProject?.id || -1,
+        areaId: areaDetails?.id || -1,
+        answersArea: answers.map((answer) => ({
+          questionId: answer.questionId,
+          assessedScore: answer.assessedScore,
+          targetScore: answer.targetScore,
+          comment: answer.comment || "",
+          answered: true,
+        })),
+      });
+      toast({
+        title: "Assessment submitted",
+        description: "Your assessment has been saved successfully.",
+        variant: "default",
+      });
+      refetchAreaScore();
+      refetchAreaAssessment();
+    } catch (error) {
+      toast({
+        title: "Error submitting assessment",
+        description: `An error occurred: ${error}`,
+        variant: "destructive",
+      });
+    }
+  };
+
   const areaMaturityScore = areaScore?.areaMaturityScore ?? 0;
   const targetAreaMaturityScore = areaScore?.targeAreaMaturityScore ?? 1;
 
-  // Calculate the scores on a 100% scale
   const maturityScore = (areaMaturityScore / targetAreaMaturityScore) * 100;
 
   const backgroundColor = userLoggedIn
     ? maturityScore == null || maturityScore < 20
       ? "text-black bg-[hsl(var(--assessment-level-0))]"
       : maturityScore >= 20 && maturityScore < 40
-        ? "text-black bg-[hsl(var(--assessment-level-1))]"
-        : maturityScore >= 40 && maturityScore < 60
-          ? "text-white bg-[hsl(var(--assessment-level-2))]"
-          : maturityScore >= 60 && maturityScore < 80
-            ? "text-white bg-[hsl(var(--assessment-level-3))]"
-            : maturityScore >= 80 && maturityScore < 100
-              ? "text-white bg-[hsl(var(--assessment-level-4))]"
-              : maturityScore === 100
-                ? "text-white bg-[hsl(var(--assessment-level-5))]"
-                : ""
+      ? "text-black bg-[hsl(var(--assessment-level-1))]"
+      : maturityScore >= 40 && maturityScore < 60
+      ? "text-white bg-[hsl(var(--assessment-level-2))]"
+      : maturityScore >= 60 && maturityScore < 80
+      ? "text-white bg-[hsl(var(--assessment-level-3))]"
+      : maturityScore >= 80 && maturityScore < 100
+      ? "text-white bg-[hsl(var(--assessment-level-4))]"
+      : maturityScore === 100
+      ? "text-white bg-[hsl(var(--assessment-level-5))]"
+      : ""
     : ""; // if not loggedIn show no color coding
 
   useEffect(() => {
@@ -123,10 +194,76 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
                       {area.name}
                     </SheetTitle>
                   </SheetHeader>
-                  <div className="mt-4">
-                    <p>TODO: Edit assessment about this area.</p>
-                    {/* TODO: Implement assessment component here */}
-                  </div>
+                  <ScrollArea className="h-[95vh] pr-4">
+                    <div className="mt-4 space-y-8">
+                      {answers.map((question) => (
+                        <div key={question.questionId} className="space-y-4">
+                          <p className="text-sm font-bold">
+                            {question.questionBody}
+                          </p>
+                          <div className="w-full">
+                            <input
+                              type="range"
+                              className="w-full"
+                              value={question.assessedScore || 0}
+                              min={0}
+                              max={5}
+                              step={1}
+                              onChange={(e) => {
+                                const value = parseInt(e.target.value, 10);
+                                handleAnswerChange(
+                                  question.questionId,
+                                  value,
+                                  question.targetScore,
+                                  question.comment,
+                                );
+                              }}
+                            />
+                            <div className="flex w-full justify-between">
+                              {[
+                                "sit",
+                                "crawl",
+                                "walk",
+                                "run",
+                                "jump",
+                                "fly",
+                              ].map((activity) => (
+                                <div
+                                  key={activity}
+                                  className="flex items-center gap-2"
+                                >
+                                  <span className="text-sm font-medium">
+                                    {activity}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                          <textarea
+                            className="mr-2 w-full border-2 p-2"
+                            placeholder="Leave your comment here... (optional)"
+                            rows={3}
+                            value={question.comment || ""}
+                            onChange={(e) =>
+                              handleAnswerChange(
+                                question.questionId,
+                                question.assessedScore,
+                                question.targetScore,
+                                e.target.value,
+                              )
+                            }
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    <Button
+                      className="mb-12 ml-auto mt-2 flex"
+                      onClick={handleSubmit}
+                      disabled={isSubmitting}
+                    >
+                      Submit Assessment
+                    </Button>
+                  </ScrollArea>
                 </SheetContent>
               </Sheet>
             )}

@@ -520,4 +520,193 @@ export const assessmentRouter = createTRPCRouter({
 
       return areaScore;
     }),
+  getAreaAssessment: protectedProcedure
+    .input(
+      z.object({
+        projectId: z.number(),
+        areaId: z.string(),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      const { projectId, areaId } = input;
+      const userId = ctx.session.user.id;
+
+      // Fetch assessment questions for the area
+      const areaDetails = await ctx.db.area.findFirst({
+        where: { area_id: areaId },
+        include: {
+          assessment_questions: true,
+        },
+      });
+
+      if (!areaDetails) {
+        throw new Error(`Area with id ${areaId} does not exist.`);
+      }
+
+      // Fetch existing responses for the questions in this area
+      const existingResponses = await ctx.db.answerAreaQuestion.findMany({
+        where: {
+          assessmentProjectId: projectId,
+          questionId: {
+            in: areaDetails.assessment_questions.map((q) => q.id),
+          },
+          assessmentUserId: userId,
+        },
+      });
+
+      return {
+        areaName: areaDetails.area_name,
+        questions: areaDetails.assessment_questions.map((question) => {
+          const existingAnswer = existingResponses.find(
+            (answer) => answer.questionId === question.id,
+          );
+          return {
+            questionId: question.id,
+            questionBody: question.body,
+            assessedScore: existingAnswer?.assessedScore || 0,
+            targetScore: existingAnswer?.targetScore || 5,
+            comment: existingAnswer?.comment || "",
+          };
+        }),
+      };
+    }),
+
+  // Submit or update assessment responses for a specific area
+  submitAreaAssessment: protectedProcedure
+    .input(
+      z.object({
+        projectId: z.number(),
+        areaId: z.string(),
+        answers: z.array(
+          z.object({
+            questionId: z.number(),
+            assessedScore: z.number(),
+            targetScore: z.number(),
+            comment: z.string().optional(),
+          }),
+        ),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { projectId, areaId, answers } = input;
+      const userId = ctx.session.user.id;
+
+      // Validate if the area exists
+      const area = await ctx.db.area.findFirst({
+        where: { area_id: areaId },
+      });
+
+      if (!area) {
+        throw new Error(`Area with id ${areaId} does not exist.`);
+      }
+
+      for (const answer of answers) {
+        await ctx.db.answerAreaQuestion.upsert({
+          where: {
+            assessmentUserId_assessmentProjectId_questionId: {
+              assessmentUserId: userId,
+              assessmentProjectId: projectId,
+              questionId: answer.questionId,
+            },
+          },
+          update: {
+            assessedScore: answer.assessedScore,
+            targetScore: answer.targetScore,
+            comment: answer.comment || "",
+          },
+          create: {
+            assessmentUserId: userId,
+            assessmentProjectId: projectId,
+            questionId: answer.questionId,
+            assessedScore: answer.assessedScore,
+            targetScore: answer.targetScore || 5,
+            comment: answer.comment || "",
+            answered: true,
+          },
+        });
+      }
+
+      return { success: true };
+    }),
+  createAreaScoresForArea: protectedProcedure
+    .input(
+      z.object({
+        projectId: z.number(),
+        areaId: z.number(),
+        answersArea: z.array(
+          z.object({
+            questionId: z.number(),
+            assessedScore: z.number(),
+            targetScore: z.number(),
+            answered: z.boolean(),
+            comment: z.string().optional(),
+          }),
+        ),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const userId = ctx.session.user.id;
+      const { projectId, areaId, answersArea } = input;
+
+      const area = await ctx.db.area.findUnique({
+        where: { id: areaId },
+        include: {
+          assessment_questions: true,
+        },
+      });
+
+      if (!area) {
+        throw new Error(`Stage with id ${areaId} does not exist.`);
+      }
+
+      // Get the question IDs for the current area
+      const areaQuestionIds = area.assessment_questions.map((q) => q.id);
+
+      // Filter answers that belong to the current area
+      const areaAnswers = answersArea.filter((answer) =>
+        areaQuestionIds.includes(answer.questionId),
+      );
+
+      // Aggregate the data you need for this area
+      const totalQuestions = areaAnswers.length;
+      const answeredCount = areaAnswers.filter(
+        (answer) => answer.answered,
+      ).length;
+      const totalAssessedScore = areaAnswers.reduce(
+        (sum, answer) => sum + answer.assessedScore,
+        0,
+      );
+      const totalTargetScore = areaAnswers.reduce(
+        (sum, answer) => sum + answer.targetScore,
+        0,
+      );
+      const averageAssessedScore = totalAssessedScore / totalQuestions;
+      const averageTargetScore = totalTargetScore / totalQuestions;
+
+      await ctx.db.areaScore.upsert({
+        where: {
+          assessmentUserId_assessmentProjectId_areaId: {
+            assessmentUserId: userId,
+            assessmentProjectId: projectId,
+            areaId: areaId,
+          },
+        },
+        update: {
+          areaMaturityScore: averageAssessedScore,
+          areaCompletenessScore: answeredCount,
+          targeAreaMaturityScore: averageTargetScore,
+          // update the following commented out fields if needed
+          // artefactsCompletenessScore: 0, // compute if needed
+        },
+        create: {
+          assessmentUserId: userId,
+          assessmentProjectId: projectId,
+          areaId: areaId,
+          areaMaturityScore: averageAssessedScore,
+          areaCompletenessScore: answeredCount,
+          artefactsCompletenessScore: 0, // compute if needed
+          targeAreaMaturityScore: averageTargetScore,
+        },
+      });
+    }),
 });
