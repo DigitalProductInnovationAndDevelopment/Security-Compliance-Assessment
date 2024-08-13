@@ -11,12 +11,7 @@ export default async function Layout({
 
   return (
     <div className="relative w-full px-6">
-      <ModelControlPanel
-        stages={stages.map((stage) => ({
-          number: stage.stageNumber,
-          name: stage.name,
-        }))}
-      />
+      <ModelControlPanel stages={stages} />
       {children}
     </div>
   );

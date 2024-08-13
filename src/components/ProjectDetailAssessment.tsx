@@ -36,7 +36,6 @@ export default function ProjectDetailAssessment({
   project: Project & { assessments: unknown[] };
 }) {
   const session = useSession();
-  const queryClient = useQueryClient();
   const { currentStage, setCurrentStage } = useProjectDetailsStore();
   const { data: stages, isLoading: isStagesLoading } =
     api.refa.stages.useQuery();
@@ -97,6 +96,9 @@ export default function ProjectDetailAssessment({
 
   const { mutateAsync: createAssessment, isPending: isSubmitting } =
     api.assessment.createAssessment.useMutation();
+
+  const { mutateAsync: createAreasScores } =
+    api.assessment.createAreasScores.useMutation();
 
   useEffect(() => {
     if (existingAssessment) {
@@ -245,6 +247,11 @@ export default function ProjectDetailAssessment({
         answersArea: finalAnswersArea || [],
         answersArtefact: finalAnswersArtefact || [],
         stageId: currentStage.id,
+      });
+      await createAreasScores({
+        projectId: project.id,
+        stageId: currentStage.id,
+        answersArea: finalAnswersArea || [],
       });
       setHasChanges(false); // Reset changes flag after successful submission
       toast({
@@ -441,7 +448,7 @@ export default function ProjectDetailAssessment({
                             <Checkbox
                               id={`checkbox-${artefact.artefact_id}`}
                               checked={existingAnswer?.answered || false}
-                              onCheckedChange={(checked) => {
+                              onCheckedChange={(checked: boolean) => {
                                 handleArtefactChange(
                                   artefact.id,
                                   Boolean(checked),
