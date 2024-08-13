@@ -8,28 +8,40 @@
     "resolveJsonModule": true,
     "moduleDetection": "force",
     "isolatedModules": true,
-
     /* Strictness */
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "checkJs": true,
-
     /* Bundled projects */
-    "lib": ["dom", "dom.iterable", "ES2022"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "ES2022"
+    ],
     "noEmit": true,
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "jsx": "preserve",
-    "plugins": [{ "name": "next" }],
+    "jsx": "react",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "incremental": true,
-
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"]
-    }
+      "~/*": [
+        "./src/*"
+      ]
+    },
+    /* Unit Test Config */
+    "allowSyntheticDefaultImports": true
   },
   "include": [
+    "src",
+    "jest.config.ts",
+    "jest.setup.ts",
     ".eslintrc.cjs",
     "next-env.d.ts",
     "**/*.ts",
@@ -37,7 +49,9 @@
     "**/*.cjs",
     "**/*.js",
     ".next/types/**/*.ts",
-    "prisma/**/*.ts",
+    "prisma/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

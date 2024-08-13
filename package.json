@@ -16,8 +16,7 @@
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "test": "jest"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts",
@@ -62,6 +61,7 @@
     "superjson": "^2.2.1",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
+    "tsconfig-paths-jest": "^0.0.1",
     "zod": "^3.23.3",
     "zustand": "^4.5.4"
   },

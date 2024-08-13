@@ -7,7 +7,23 @@ import { api } from "~/trpc/server";
 jest.mock("~/trpc/server", () => ({
   api: {
     refa: {
-      areasWithArtefactsByStage: jest.fn(),
+      areasWithArtefactsByStage: jest.fn().mockResolvedValue({
+        areas: [
+          {
+            area_id: "1",
+            area_name: "Area 1",
+            artefacts: [
+              { artefact_id: "1", artefact_name: "Artefact 1" },
+              { artefact_id: "2", artefact_name: "Artefact 2" },
+            ],
+          },
+          {
+            area_id: "2",
+            area_name: "Area 2",
+            artefacts: [{ artefact_id: "3", artefact_name: "Artefact 3" }],
+          },
+        ],
+      }),
     },
   },
 }));

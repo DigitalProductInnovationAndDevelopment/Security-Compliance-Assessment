@@ -119,6 +119,9 @@ importers:
       tailwindcss-animate:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.4.4(ts-node@10.9.2(@types/node@20.14.2)(typescript@5.4.5)))
+      tsconfig-paths-jest:
+        specifier: ^0.0.1
+        version: 0.0.1
       zod:
         specifier: ^3.23.3
         version: 3.23.8
@@ -4913,6 +4916,9 @@ packages:
         optional: true
       '@swc/wasm':
         optional: true
+
+  tsconfig-paths-jest@0.0.1:
+    resolution: {integrity: sha512-YKhUKqbteklNppC2NqL7dv1cWF8eEobgHVD5kjF1y9Q4ocqpBiaDlYslQ9eMhtbqIPRrA68RIEXqknEjlxdwxw==}
 
   tsconfig-paths@3.15.0:
     resolution: {integrity: sha512-2Ac2RgzDe/cn48GvOe3M+o82pEFewD3UPbyoUHHdKasHwJKjds4fLXWf/Ux5kATBKN20oaFGu+jbElp1pos0mg==}
@@ -10598,6 +10604,8 @@ snapshots:
       typescript: 5.4.5
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
+
+  tsconfig-paths-jest@0.0.1: {}
 
   tsconfig-paths@3.15.0:
     dependencies:
