@@ -324,4 +324,40 @@ export const assessmentRouter = createTRPCRouter({
         });
       }
     }),
+  getAreaScore: protectedProcedure
+    .input(
+      z.object({
+        projectId: z.number(),
+        areaId: z.number(),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      const { projectId, areaId } = input;
+      const userId = ctx.session.user.id;
+
+      // Fetch the existing assessment based on userId, projectId, and stageNumber
+      const assessment = await ctx.db.assessment.findFirst({
+        where: {
+          userId,
+          projectId,
+          areasScores: {
+            some: {
+              area: {
+                id: areaId,
+              },
+            },
+          },
+        },
+        include: {
+          areasScores: true,
+        },
+      });
+
+      if (assessment?.areasScores?.length! > 1) {
+        console.warn(
+          `AreaScore with areaId ${areaId} and projectId ${projectId} does not exist.`,
+        );
+      }
+      return assessment?.areasScores?.[0];
+    }),
 });
