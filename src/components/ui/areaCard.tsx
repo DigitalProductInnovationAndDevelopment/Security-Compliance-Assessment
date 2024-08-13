@@ -52,9 +52,9 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
 
   const backgroundColor = userLoggedIn
     ? maturityScore == null || maturityScore < 20
-      ? "bg-[hsl(var(--assessment-level-0))]"
+      ? "text-black bg-[hsl(var(--assessment-level-0))]"
       : maturityScore >= 20 && maturityScore < 40
-        ? "bg-[hsl(var(--assessment-level-1))]"
+        ? "text-black bg-[hsl(var(--assessment-level-1))]"
         : maturityScore >= 40 && maturityScore < 60
           ? "text-white bg-[hsl(var(--assessment-level-2))]"
           : maturityScore >= 60 && maturityScore < 80
@@ -118,7 +118,7 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
           backgroundColor,
         )}
       >
-        {maturityScore}%
+        {maturityScore.toFixed(0)}%
       </div>
       <CardHeader
         className="flex flex-col items-center justify-center"
