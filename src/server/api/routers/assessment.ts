@@ -272,10 +272,12 @@ export const assessmentRouter = createTRPCRouter({
         },
       });
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const areaStats: Record<string, any> = {};
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const stageStats: Record<string, any> = {};
       let totalArtefactsHandled = 0;
-      let totalArtefacts = artefactIds.length; // Ensure this starts at the total artefacts for the current stage
+      const totalArtefacts = artefactIds.length; // Ensure this starts at the total artefacts for the current stage
 
       for (const assessment of assessments) {
         // Process area scores

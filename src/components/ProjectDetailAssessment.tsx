@@ -251,21 +251,14 @@ export default function ProjectDetailAssessment({
         description: "Your assessment has been submitted successfully.",
         variant: "default",
       });
-      queryClient.invalidateQueries({
-        queryKey: [
-          "assessment.getProjectStatistics",
-          { projectId: project.id, stageId: currentStage.id },
-        ],
-      });
-      refetchProjectStatistics();
-      refetchAssessment();
+      await Promise.all([refetchProjectStatistics(), refetchAssessment()]);
       console.log("Assessment created successfully");
     } catch (error) {
       console.error("Error creating assessment", error);
       toast({
         title: "Error creating assessment",
         description:
-          "An error occurred while creating the assessment: " + error,
+          `An error occurred while creating the assessment: ${error}`,
         variant: "destructive",
       });
     }

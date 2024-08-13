@@ -32,7 +32,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 // Helper function to truncate long labels
-function truncateLabel(label: string, maxLength: number = 10): string {
+function truncateLabel(label: string, maxLength = 10): string {
   return label.length > maxLength ? `${label.slice(0, maxLength)}...` : label;
 }
 
