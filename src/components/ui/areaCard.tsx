@@ -112,6 +112,14 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
           </Sheet>
         )}
       </div>
+      <div
+        className={cn(
+          "text-bold absolute bottom-2 right-2 space-x-1 text-sm",
+          backgroundColor,
+        )}
+      >
+        {maturityScore}%
+      </div>
       <CardHeader
         className="flex flex-col items-center justify-center"
         title={area.name}
