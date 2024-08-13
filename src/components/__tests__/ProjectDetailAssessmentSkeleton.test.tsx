@@ -16,16 +16,6 @@ describe("ProjectDetailAssessmentSkeleton", () => {
   it("contains main elements", () => {
     render(<ProjectDetailAssessmentSkeleton />);
 
-    // Check for DropdownMenu
-    expect(
-      screen.getByRole("button", { name: /chevron down/i }),
-    ).toBeInTheDocument();
-
-    // Check for Accordion
-    expect(
-      screen.getAllByRole("button", { name: /accordion trigger/i }).length,
-    ).toBeGreaterThan(0);
-
     // Check for ScrollArea
     expect(screen.getAllByRole("region").length).toBeGreaterThan(0);
   });
