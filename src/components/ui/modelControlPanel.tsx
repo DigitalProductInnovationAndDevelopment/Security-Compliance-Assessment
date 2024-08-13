@@ -88,13 +88,13 @@ const ModelControlPanel = React.forwardRef<
           ) : (
             <div className="flex w-full flex-col items-center text-sm">
               <div className="m-2 flex-shrink-0 overflow-hidden font-bold">
-                Current project: {currentProject?.name}
+                Current project:
               </div>
               <div className="mb-2">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant={"outline"}>
-                      Change Project
+                      {currentProject?.name}
                       <ChevronDown className="ml-2 h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
