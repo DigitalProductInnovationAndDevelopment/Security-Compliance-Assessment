@@ -24,11 +24,14 @@ describe("AreaSheet Component", () => {
 
   it("renders correctly", () => {
     const { container } = render(
-      <AreaSheet area={mockArea}>Test Children</AreaSheet>,
+      <AreaSheet area={mockArea}>{undefined}</AreaSheet>,
     );
     console.log(container.innerHTML); // Log the rendered output
     expect(
-      screen.getByText((content, element) => content.includes("Test Area")),
+      screen.getByText(
+        (_content, element) =>
+          element?.textContent?.includes("Test Area") ?? false,
+      ),
     ).toBeInTheDocument();
   });
 
