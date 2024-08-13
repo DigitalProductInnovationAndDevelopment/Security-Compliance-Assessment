@@ -21,7 +21,6 @@ import { ScrollArea } from "./scroll-area";
 
 export interface AreaProps {
   id: string;
-  areaDBIndexId: number;
   name: string;
   visible?: boolean;
   toggleVisibility?: () => void;
@@ -110,7 +109,9 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
         description: "Your assessment has been saved successfully.",
         variant: "default",
       });
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       refetchAreaScore();
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       refetchAreaAssessment();
     } catch (error) {
       toast({

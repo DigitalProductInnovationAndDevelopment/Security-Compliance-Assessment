@@ -56,6 +56,7 @@ export default function AddNewProjectCard() {
         setProjectName("");
         setDescription("");
         setSelectedParticipants([]);
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         refetchAssignedProjects();
         router.push("/projects/" + data.id);
       },
