@@ -22,6 +22,7 @@ export default async function Page({
               artifacts={area.artefacts.map((artefact) => ({
                 id: artefact.artefact_id,
                 name: artefact.artefact_name,
+                displayIcons: true,
               }))}
             />
           </AreaSheet>

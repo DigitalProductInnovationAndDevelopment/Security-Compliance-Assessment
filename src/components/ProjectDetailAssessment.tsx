@@ -432,7 +432,6 @@ export default function ProjectDetailAssessment({
                         <span className="inline-flex items-center gap-2">
                           <ArtifactDialog
                             id={artefact.artefact_id}
-                            name={artefact.artefact_name}
                           >
                             <InfoCircledIcon className="min-h-5 min-w-5" />
                           </ArtifactDialog>
