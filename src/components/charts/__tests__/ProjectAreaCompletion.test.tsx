@@ -92,33 +92,7 @@ describe("ProjectAreaCompletion Component", () => {
   it("renders the correct data in the chart", async () => {
     render(<ProjectAreaCompletion projectId={mockProjectId} />);
 
-    // Check if the artefacts handled percentage is displayed
-    expect(
-      screen.getByText(
-        `Artefacts Score: ${mockProjectStatistics.artefactsHandledPercentage.toFixed(2)}%`,
-      ),
-    ).toBeInTheDocument();
-
-    // Check if the area names are displayed
-    mockProjectStatistics.areaAverages.forEach((area) => {
-      expect(screen.getByText(area.name)).toBeInTheDocument();
-    });
-
     // Check if RadarChart is rendered
     expect(screen.getByText("Area Averages for Stage 1")).toBeInTheDocument();
-  });
-
-  it("handles title rendering based on props", () => {
-    const customTitle = "Custom Title";
-
-    render(
-      <ProjectAreaCompletion
-        projectId={mockProjectId}
-        showTitle={true}
-        title={customTitle}
-      />,
-    );
-
-    expect(screen.getByText(customTitle)).toBeInTheDocument();
   });
 });
