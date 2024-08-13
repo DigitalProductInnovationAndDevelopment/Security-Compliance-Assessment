@@ -326,8 +326,10 @@ export const assessmentRouter = createTRPCRouter({
         return {
           areaId: parseInt(areaId, 10),
           name: stats.name,
-          averageScore: stats.totalScore / stats.count,
-          expectedScore: stats.expectedScore / stats.count,
+          averageScore: parseFloat((stats.totalScore / stats.count).toFixed(2)), // Ensure proper rounding
+          expectedScore: parseFloat(
+            (stats.expectedScore / stats.count).toFixed(2),
+          ),
         };
       });
 
@@ -344,8 +346,8 @@ export const assessmentRouter = createTRPCRouter({
         return {
           stageId: parseInt(stageId, 10),
           name: stats.name,
-          averageScore,
-          expectedScore,
+          averageScore: parseFloat(averageScore.toFixed(2)), // Ensure proper rounding
+          expectedScore: parseFloat(expectedScore.toFixed(2)),
           artefactsHandledPercentage,
         };
       });
