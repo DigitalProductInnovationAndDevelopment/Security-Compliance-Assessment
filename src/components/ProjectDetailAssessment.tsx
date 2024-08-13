@@ -92,6 +92,9 @@ export default function ProjectDetailAssessment({
   const { mutateAsync: createAssessment, isPending: isSubmitting } =
     api.assessment.createAssessment.useMutation();
 
+  const { mutateAsync: createAreasScores } =
+    api.assessment.createAreasScores.useMutation();
+
   useEffect(() => {
     if (existingAssessment) {
       setAnswersArea(
@@ -240,6 +243,11 @@ export default function ProjectDetailAssessment({
         answersArtefact: finalAnswersArtefact || [],
         stageId: currentStage.id,
       });
+      await createAreasScores({
+        projectId: project.id,
+        stageId: currentStage.id,
+        answersArea: finalAnswersArea || [],
+      });
       setHasChanges(false); // Reset changes flag after successful submission
       toast({
         title: "Assessment created successfully",
@@ -358,14 +366,24 @@ export default function ProjectDetailAssessment({
                                   );
                                 }}
                               />
-                              <div className="flex justify-between w-full">
-                                {
-                                  ["sit", "crawl", "walk", "run", "jump", "fly"].map((activity) => (
-                                    <div key={activity} className="flex items-center gap-2">
-                                      <span className="text-sm font-medium">{activity}</span>
-                                    </div>
-                                  ))
-                                }
+                              <div className="flex w-full justify-between">
+                                {[
+                                  "sit",
+                                  "crawl",
+                                  "walk",
+                                  "run",
+                                  "jump",
+                                  "fly",
+                                ].map((activity) => (
+                                  <div
+                                    key={activity}
+                                    className="flex items-center gap-2"
+                                  >
+                                    <span className="text-sm font-medium">
+                                      {activity}
+                                    </span>
+                                  </div>
+                                ))}
                               </div>
                             </div>
 
