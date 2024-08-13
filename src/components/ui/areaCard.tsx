@@ -71,10 +71,13 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
     : ""; // if not loggedIn show no color coding
 
   useEffect(() => {
-    if (isAreaFetched && isScoreFetched) {
+    if (!userLoggedIn) {
       setLoading(false);
     }
-  }, [isAreaFetched, isScoreFetched]);
+    if (userLoggedIn && isAreaFetched && isScoreFetched) {
+      setLoading(false);
+    }
+  }, [isAreaFetched, isScoreFetched, userLoggedIn]);
 
   return (
     <>
