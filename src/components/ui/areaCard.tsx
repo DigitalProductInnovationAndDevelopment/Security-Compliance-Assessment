@@ -47,6 +47,7 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
       },
       {
         enabled: userLoggedIn && !!currentProject?.id && !!areaDetails?.id,
+        refetchOnWindowFocus: 'always',
       },
     );
 
