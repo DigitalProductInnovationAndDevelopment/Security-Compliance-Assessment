@@ -1,0 +1,778 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProjectDetailAssessmentSkeleton matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="relative h-full w-full rounded-lg sm:flex-1 sm:px-4"
+  >
+    <div
+      class="flex items-center gap-4"
+    >
+      <div
+        class="h-8 w-32 animate-pulse rounded bg-gray-300"
+      />
+      <button
+        aria-expanded="false"
+        aria-haspopup="menu"
+        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+        data-state="closed"
+        disabled=""
+        id="radix-:ro:"
+        type="button"
+      >
+        <div
+          class="h-4 w-20 animate-pulse rounded bg-gray-300"
+        />
+        <svg
+          class="lucide lucide-chevron-down ml-2 h-4 w-4"
+          fill="none"
+          height="24"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="m6 9 6 6 6-6"
+          />
+        </svg>
+      </button>
+    </div>
+    <div
+      class="my-4 h-full w-full rounded-lg bg-white p-4"
+    >
+      <div
+        class="flex h-full w-full justify-between gap-4"
+      >
+        <div
+          class="w-full border-black"
+        >
+          <div
+            class="relative overflow-hidden h-full"
+            dir="ltr"
+            style="position: relative; --radix-scroll-area-corner-width: 0px; --radix-scroll-area-corner-height: 0px;"
+          >
+            <style>
+              [data-radix-scroll-area-viewport]{scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;}[data-radix-scroll-area-viewport]::-webkit-scrollbar{display:none}
+            </style>
+            <div
+              class="h-full w-full rounded-[inherit]"
+              data-radix-scroll-area-viewport=""
+              style="overflow-x: hidden; overflow-y: scroll;"
+            >
+              <div
+                style="min-width: 100%; display: table;"
+              >
+                <div
+                  class="inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent text-primary-foreground shadow hover:bg-primary/80 h-4 w-16 animate-pulse rounded bg-gray-300"
+                />
+                <div
+                  data-orientation="vertical"
+                >
+                  <div
+                    class="border-b"
+                    data-orientation="vertical"
+                    data-state="open"
+                  >
+                    <h3
+                      class="flex"
+                      data-orientation="vertical"
+                      data-state="open"
+                    >
+                      <button
+                        aria-controls="radix-:rr:"
+                        aria-expanded="true"
+                        class="flex-1 items-center justify-between py-4 transition-all hover:underline [&[data-state=open]>svg]:rotate-180 text-md flex text-left font-bold"
+                        data-orientation="vertical"
+                        data-radix-collection-item=""
+                        data-state="open"
+                        id="radix-:rq:"
+                        type="button"
+                      >
+                        <div
+                          class="mb-2 h-4 w-32 animate-pulse rounded bg-gray-300"
+                        />
+                      </button>
+                    </h3>
+                    <div
+                      aria-labelledby="radix-:rq:"
+                      class="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
+                      data-orientation="vertical"
+                      data-state="open"
+                      id="radix-:rr:"
+                      role="region"
+                      style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width); transition-duration: 0s; animation-name: none;"
+                    >
+                      <div
+                        class="mb-8 space-y-4 p-4"
+                      >
+                        <div
+                          class="space-y-4"
+                        >
+                          <div
+                            class="h-4 w-full animate-pulse rounded bg-gray-300"
+                          />
+                          <div
+                            class="h-4 w-full animate-pulse rounded bg-gray-300"
+                          />
+                          <div
+                            class="h-4 w-3/4 animate-pulse rounded bg-gray-300"
+                          />
+                          <div
+                            class="h-4 w-2/4 animate-pulse rounded bg-gray-300"
+                          />
+                        </div>
+                        <div
+                          class="mt-4 h-16 w-full animate-pulse rounded bg-gray-200"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="border-b"
+                    data-orientation="vertical"
+                    data-state="open"
+                  >
+                    <h3
+                      class="flex"
+                      data-orientation="vertical"
+                      data-state="open"
+                    >
+                      <button
+                        aria-controls="radix-:rt:"
+                        aria-expanded="true"
+                        class="flex-1 items-center justify-between py-4 transition-all hover:underline [&[data-state=open]>svg]:rotate-180 text-md flex text-left font-bold"
+                        data-orientation="vertical"
+                        data-radix-collection-item=""
+                        data-state="open"
+                        id="radix-:rs:"
+                        type="button"
+                      >
+                        <div
+                          class="mb-2 h-4 w-32 animate-pulse rounded bg-gray-300"
+                        />
+                      </button>
+                    </h3>
+                    <div
+                      aria-labelledby="radix-:rs:"
+                      class="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
+                      data-orientation="vertical"
+                      data-state="open"
+                      id="radix-:rt:"
+                      role="region"
+                      style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width); transition-duration: 0s; animation-name: none;"
+                    >
+                      <div
+                        class="mb-8 space-y-4 p-4"
+                      >
+                        <div
+                          class="space-y-4"
+                        >
+                          <div
+                            class="h-4 w-full animate-pulse rounded bg-gray-300"
+                          />
+                          <div
+                            class="h-4 w-full animate-pulse rounded bg-gray-300"
+                          />
+                          <div
+                            class="h-4 w-3/4 animate-pulse rounded bg-gray-300"
+                          />
+                          <div
+                            class="h-4 w-2/4 animate-pulse rounded bg-gray-300"
+                          />
+                        </div>
+                        <div
+                          class="mt-4 h-16 w-full animate-pulse rounded bg-gray-200"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="border-b"
+                    data-orientation="vertical"
+                    data-state="open"
+                  >
+                    <h3
+                      class="flex"
+                      data-orientation="vertical"
+                      data-state="open"
+                    >
+                      <button
+                        aria-controls="radix-:rv:"
+                        aria-expanded="true"
+                        class="flex-1 items-center justify-between py-4 transition-all hover:underline [&[data-state=open]>svg]:rotate-180 text-md flex text-left font-bold"
+                        data-orientation="vertical"
+                        data-radix-collection-item=""
+                        data-state="open"
+                        id="radix-:ru:"
+                        type="button"
+                      >
+                        <div
+                          class="mb-2 h-4 w-32 animate-pulse rounded bg-gray-300"
+                        />
+                      </button>
+                    </h3>
+                    <div
+                      aria-labelledby="radix-:ru:"
+                      class="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
+                      data-orientation="vertical"
+                      data-state="open"
+                      id="radix-:rv:"
+                      role="region"
+                      style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width); transition-duration: 0s; animation-name: none;"
+                    >
+                      <div
+                        class="mb-8 space-y-4 p-4"
+                      >
+                        <div
+                          class="space-y-4"
+                        >
+                          <div
+                            class="h-4 w-full animate-pulse rounded bg-gray-300"
+                          />
+                          <div
+                            class="h-4 w-full animate-pulse rounded bg-gray-300"
+                          />
+                          <div
+                            class="h-4 w-3/4 animate-pulse rounded bg-gray-300"
+                          />
+                          <div
+                            class="h-4 w-2/4 animate-pulse rounded bg-gray-300"
+                          />
+                        </div>
+                        <div
+                          class="mt-4 h-16 w-full animate-pulse rounded bg-gray-200"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="border-b"
+                    data-orientation="vertical"
+                    data-state="open"
+                  >
+                    <h3
+                      class="flex"
+                      data-orientation="vertical"
+                      data-state="open"
+                    >
+                      <button
+                        aria-controls="radix-:r11:"
+                        aria-expanded="true"
+                        class="flex-1 items-center justify-between py-4 transition-all hover:underline [&[data-state=open]>svg]:rotate-180 text-md flex text-left font-bold"
+                        data-orientation="vertical"
+                        data-radix-collection-item=""
+                        data-state="open"
+                        id="radix-:r10:"
+                        type="button"
+                      >
+                        <div
+                          class="mb-2 h-4 w-32 animate-pulse rounded bg-gray-300"
+                        />
+                      </button>
+                    </h3>
+                    <div
+                      aria-labelledby="radix-:r10:"
+                      class="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
+                      data-orientation="vertical"
+                      data-state="open"
+                      id="radix-:r11:"
+                      role="region"
+                      style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width); transition-duration: 0s; animation-name: none;"
+                    >
+                      <div
+                        class="mb-8 space-y-4 p-4"
+                      >
+                        <div
+                          class="space-y-4"
+                        >
+                          <div
+                            class="h-4 w-full animate-pulse rounded bg-gray-300"
+                          />
+                          <div
+                            class="h-4 w-full animate-pulse rounded bg-gray-300"
+                          />
+                          <div
+                            class="h-4 w-3/4 animate-pulse rounded bg-gray-300"
+                          />
+                          <div
+                            class="h-4 w-2/4 animate-pulse rounded bg-gray-300"
+                          />
+                        </div>
+                        <div
+                          class="mt-4 h-16 w-full animate-pulse rounded bg-gray-200"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="border-b"
+                    data-orientation="vertical"
+                    data-state="open"
+                  >
+                    <h3
+                      class="flex"
+                      data-orientation="vertical"
+                      data-state="open"
+                    >
+                      <button
+                        aria-controls="radix-:r13:"
+                        aria-expanded="true"
+                        class="flex-1 items-center justify-between py-4 transition-all hover:underline [&[data-state=open]>svg]:rotate-180 text-md flex text-left font-bold"
+                        data-orientation="vertical"
+                        data-radix-collection-item=""
+                        data-state="open"
+                        id="radix-:r12:"
+                        type="button"
+                      >
+                        <div
+                          class="mb-2 h-4 w-32 animate-pulse rounded bg-gray-300"
+                        />
+                      </button>
+                    </h3>
+                    <div
+                      aria-labelledby="radix-:r12:"
+                      class="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
+                      data-orientation="vertical"
+                      data-state="open"
+                      id="radix-:r13:"
+                      role="region"
+                      style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width); transition-duration: 0s; animation-name: none;"
+                    >
+                      <div
+                        class="mb-8 space-y-4 p-4"
+                      >
+                        <div
+                          class="space-y-4"
+                        >
+                          <div
+                            class="h-4 w-full animate-pulse rounded bg-gray-300"
+                          />
+                          <div
+                            class="h-4 w-full animate-pulse rounded bg-gray-300"
+                          />
+                          <div
+                            class="h-4 w-3/4 animate-pulse rounded bg-gray-300"
+                          />
+                          <div
+                            class="h-4 w-2/4 animate-pulse rounded bg-gray-300"
+                          />
+                        </div>
+                        <div
+                          class="mt-4 h-16 w-full animate-pulse rounded bg-gray-200"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="border-b"
+                    data-orientation="vertical"
+                    data-state="open"
+                  >
+                    <h3
+                      class="flex"
+                      data-orientation="vertical"
+                      data-state="open"
+                    >
+                      <button
+                        aria-controls="radix-:r15:"
+                        aria-expanded="true"
+                        class="flex-1 items-center justify-between py-4 transition-all hover:underline [&[data-state=open]>svg]:rotate-180 text-md flex text-left font-bold"
+                        data-orientation="vertical"
+                        data-radix-collection-item=""
+                        data-state="open"
+                        id="radix-:r14:"
+                        type="button"
+                      >
+                        <div
+                          class="mb-2 h-4 w-32 animate-pulse rounded bg-gray-300"
+                        />
+                      </button>
+                    </h3>
+                    <div
+                      aria-labelledby="radix-:r14:"
+                      class="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
+                      data-orientation="vertical"
+                      data-state="open"
+                      id="radix-:r15:"
+                      role="region"
+                      style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width); transition-duration: 0s; animation-name: none;"
+                    >
+                      <div
+                        class="mb-8 space-y-4 p-4"
+                      >
+                        <div
+                          class="space-y-4"
+                        >
+                          <div
+                            class="h-4 w-full animate-pulse rounded bg-gray-300"
+                          />
+                          <div
+                            class="h-4 w-full animate-pulse rounded bg-gray-300"
+                          />
+                          <div
+                            class="h-4 w-3/4 animate-pulse rounded bg-gray-300"
+                          />
+                          <div
+                            class="h-4 w-2/4 animate-pulse rounded bg-gray-300"
+                          />
+                        </div>
+                        <div
+                          class="mt-4 h-16 w-full animate-pulse rounded bg-gray-200"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="border-b"
+                    data-orientation="vertical"
+                    data-state="open"
+                  >
+                    <h3
+                      class="flex"
+                      data-orientation="vertical"
+                      data-state="open"
+                    >
+                      <button
+                        aria-controls="radix-:r17:"
+                        aria-expanded="true"
+                        class="flex-1 items-center justify-between py-4 transition-all hover:underline [&[data-state=open]>svg]:rotate-180 text-md flex text-left font-bold"
+                        data-orientation="vertical"
+                        data-radix-collection-item=""
+                        data-state="open"
+                        id="radix-:r16:"
+                        type="button"
+                      >
+                        <div
+                          class="mb-2 h-4 w-32 animate-pulse rounded bg-gray-300"
+                        />
+                      </button>
+                    </h3>
+                    <div
+                      aria-labelledby="radix-:r16:"
+                      class="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
+                      data-orientation="vertical"
+                      data-state="open"
+                      id="radix-:r17:"
+                      role="region"
+                      style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width); transition-duration: 0s; animation-name: none;"
+                    >
+                      <div
+                        class="mb-8 space-y-4 p-4"
+                      >
+                        <div
+                          class="space-y-4"
+                        >
+                          <div
+                            class="h-4 w-full animate-pulse rounded bg-gray-300"
+                          />
+                          <div
+                            class="h-4 w-full animate-pulse rounded bg-gray-300"
+                          />
+                          <div
+                            class="h-4 w-3/4 animate-pulse rounded bg-gray-300"
+                          />
+                          <div
+                            class="h-4 w-2/4 animate-pulse rounded bg-gray-300"
+                          />
+                        </div>
+                        <div
+                          class="mt-4 h-16 w-full animate-pulse rounded bg-gray-200"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="border-b"
+                    data-orientation="vertical"
+                    data-state="open"
+                  >
+                    <h3
+                      class="flex"
+                      data-orientation="vertical"
+                      data-state="open"
+                    >
+                      <button
+                        aria-controls="radix-:r19:"
+                        aria-expanded="true"
+                        class="flex-1 items-center justify-between py-4 transition-all hover:underline [&[data-state=open]>svg]:rotate-180 text-md flex text-left font-bold"
+                        data-orientation="vertical"
+                        data-radix-collection-item=""
+                        data-state="open"
+                        id="radix-:r18:"
+                        type="button"
+                      >
+                        <div
+                          class="mb-2 h-4 w-32 animate-pulse rounded bg-gray-300"
+                        />
+                      </button>
+                    </h3>
+                    <div
+                      aria-labelledby="radix-:r18:"
+                      class="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
+                      data-orientation="vertical"
+                      data-state="open"
+                      id="radix-:r19:"
+                      role="region"
+                      style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width); transition-duration: 0s; animation-name: none;"
+                    >
+                      <div
+                        class="mb-8 space-y-4 p-4"
+                      >
+                        <div
+                          class="space-y-4"
+                        >
+                          <div
+                            class="h-4 w-full animate-pulse rounded bg-gray-300"
+                          />
+                          <div
+                            class="h-4 w-full animate-pulse rounded bg-gray-300"
+                          />
+                          <div
+                            class="h-4 w-3/4 animate-pulse rounded bg-gray-300"
+                          />
+                          <div
+                            class="h-4 w-2/4 animate-pulse rounded bg-gray-300"
+                          />
+                        </div>
+                        <div
+                          class="mt-4 h-16 w-full animate-pulse rounded bg-gray-200"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="w-full border-black"
+        >
+          <div
+            class="relative overflow-hidden h-full"
+            dir="ltr"
+            style="position: relative; --radix-scroll-area-corner-width: 0px; --radix-scroll-area-corner-height: 0px;"
+          >
+            <style>
+              [data-radix-scroll-area-viewport]{scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;}[data-radix-scroll-area-viewport]::-webkit-scrollbar{display:none}
+            </style>
+            <div
+              class="h-full w-full rounded-[inherit]"
+              data-radix-scroll-area-viewport=""
+              style="overflow-x: hidden; overflow-y: scroll;"
+            >
+              <div
+                style="min-width: 100%; display: table;"
+              >
+                <div
+                  class="inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent text-primary-foreground shadow hover:bg-primary/80 h-4 w-16 animate-pulse rounded bg-gray-300"
+                />
+                <div
+                  data-orientation="vertical"
+                >
+                  <div
+                    class="border-b"
+                    data-orientation="vertical"
+                    data-state="open"
+                  >
+                    <h3
+                      class="flex"
+                      data-orientation="vertical"
+                      data-state="open"
+                    >
+                      <button
+                        aria-controls="radix-:r1b:"
+                        aria-expanded="true"
+                        class="flex flex-1 items-center justify-between py-4 transition-all hover:underline [&[data-state=open]>svg]:rotate-180 text-md text-left font-bold"
+                        data-orientation="vertical"
+                        data-radix-collection-item=""
+                        data-state="open"
+                        id="radix-:r1a:"
+                        type="button"
+                      >
+                        <div
+                          class="mb-2 h-4 w-32 animate-pulse rounded bg-gray-300"
+                        />
+                      </button>
+                    </h3>
+                    <div
+                      aria-labelledby="radix-:r1a:"
+                      class="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
+                      data-orientation="vertical"
+                      data-state="open"
+                      id="radix-:r1b:"
+                      role="region"
+                      style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width); transition-duration: 0s; animation-name: none;"
+                    >
+                      <div
+                        class="mb-8 space-y-4 p-4"
+                      >
+                        <div
+                          class="flex justify-between space-y-4"
+                        >
+                          <div
+                            class="items-top flex space-x-2"
+                          >
+                            <div
+                              class="mr-2 h-4 w-4 animate-pulse rounded bg-gray-300"
+                            />
+                            <div
+                              class="grid gap-1.5 leading-none"
+                            >
+                              <div
+                                class="h-4 w-32 animate-pulse rounded bg-gray-300"
+                              />
+                              <div
+                                class="h-3 w-24 animate-pulse rounded bg-gray-300"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="mt-4 h-16 w-full animate-pulse rounded bg-gray-200"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="border-b"
+                    data-orientation="vertical"
+                    data-state="open"
+                  >
+                    <h3
+                      class="flex"
+                      data-orientation="vertical"
+                      data-state="open"
+                    >
+                      <button
+                        aria-controls="radix-:r1d:"
+                        aria-expanded="true"
+                        class="flex flex-1 items-center justify-between py-4 transition-all hover:underline [&[data-state=open]>svg]:rotate-180 text-md text-left font-bold"
+                        data-orientation="vertical"
+                        data-radix-collection-item=""
+                        data-state="open"
+                        id="radix-:r1c:"
+                        type="button"
+                      >
+                        <div
+                          class="mb-2 h-4 w-32 animate-pulse rounded bg-gray-300"
+                        />
+                      </button>
+                    </h3>
+                    <div
+                      aria-labelledby="radix-:r1c:"
+                      class="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
+                      data-orientation="vertical"
+                      data-state="open"
+                      id="radix-:r1d:"
+                      role="region"
+                      style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width); transition-duration: 0s; animation-name: none;"
+                    >
+                      <div
+                        class="mb-8 space-y-4 p-4"
+                      >
+                        <div
+                          class="flex justify-between space-y-4"
+                        >
+                          <div
+                            class="items-top flex space-x-2"
+                          >
+                            <div
+                              class="mr-2 h-4 w-4 animate-pulse rounded bg-gray-300"
+                            />
+                            <div
+                              class="grid gap-1.5 leading-none"
+                            >
+                              <div
+                                class="h-4 w-32 animate-pulse rounded bg-gray-300"
+                              />
+                              <div
+                                class="h-3 w-24 animate-pulse rounded bg-gray-300"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="mt-4 h-16 w-full animate-pulse rounded bg-gray-200"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="border-b"
+                    data-orientation="vertical"
+                    data-state="open"
+                  >
+                    <h3
+                      class="flex"
+                      data-orientation="vertical"
+                      data-state="open"
+                    >
+                      <button
+                        aria-controls="radix-:r1f:"
+                        aria-expanded="true"
+                        class="flex flex-1 items-center justify-between py-4 transition-all hover:underline [&[data-state=open]>svg]:rotate-180 text-md text-left font-bold"
+                        data-orientation="vertical"
+                        data-radix-collection-item=""
+                        data-state="open"
+                        id="radix-:r1e:"
+                        type="button"
+                      >
+                        <div
+                          class="mb-2 h-4 w-32 animate-pulse rounded bg-gray-300"
+                        />
+                      </button>
+                    </h3>
+                    <div
+                      aria-labelledby="radix-:r1e:"
+                      class="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
+                      data-orientation="vertical"
+                      data-state="open"
+                      id="radix-:r1f:"
+                      role="region"
+                      style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width); transition-duration: 0s; animation-name: none;"
+                    >
+                      <div
+                        class="mb-8 space-y-4 p-4"
+                      >
+                        <div
+                          class="flex justify-between space-y-4"
+                        >
+                          <div
+                            class="items-top flex space-x-2"
+                          >
+                            <div
+                              class="mr-2 h-4 w-4 animate-pulse rounded bg-gray-300"
+                            />
+                            <div
+                              class="grid gap-1.5 leading-none"
+                            >
+                              <div
+                                class="h-4 w-32 animate-pulse rounded bg-gray-300"
+                              />
+                              <div
+                                class="h-3 w-24 animate-pulse rounded bg-gray-300"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="mt-4 h-16 w-full animate-pulse rounded bg-gray-200"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

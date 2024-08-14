@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -449,7 +450,7 @@ export default function ProjectDetailAssessment({
                               onCheckedChange={(checked: boolean) => {
                                 handleArtefactChange(
                                   artefact.id,
-                                  checked,
+                                  Boolean(checked),
                                   existingAnswer?.answer || false,
                                   existingAnswer?.comment || "",
                                 );
