@@ -2,8 +2,8 @@
 import Link from "next/link";
 import React from "react";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
-import { Button } from "./ui/button";
-import { ArrowDown, LockKeyhole, LockKeyholeOpen, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
+import SecmoLogo from "../../public/secmo-full.png";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,11 +28,7 @@ export default function Header({ session }: { session: Session | null }) {
           href="#"
           className="flex items-center gap-2 text-lg font-semibold md:text-base"
         >
-          {session ? (
-            <LockKeyholeOpen className="h-8 w-8 text-muted-foreground" />
-          ) : (
-            <LockKeyhole className="h-8 w-8 text-muted-foreground" />
-          )}
+          <Image src={SecmoLogo} height={500} width={500} alt="Secmo Logo" />
         </Link>
 
         {/* Drop-down menu for Project */}
@@ -72,7 +68,13 @@ export default function Header({ session }: { session: Session | null }) {
               href="/"
               className="mr-12 flex w-44 items-center gap-2 text-lg font-semibold md:text-base"
             >
-              <LockKeyhole className="h-8 w-8 text-muted-foreground" />
+              <Image
+                src={SecmoLogo}
+                height={500}
+                width={500}
+                alt="Secmo Logo"
+              />
+              <span className="sr-only">Secmo</span>
             </Link>
             <Link href="/projects" className="hover:text-foreground">
               Projects

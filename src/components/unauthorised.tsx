@@ -10,14 +10,15 @@ import {
 import { Button } from "./ui/button";
 import { Icons } from "./icons";
 import { signIn } from "next-auth/react";
-import { LockKeyhole } from "lucide-react";
+import SecmoLogo from "../../public/secmo.png";
+import Image from "next/image";
 
 export default function Unauthorised() {
   return (
     <Card>
       <CardHeader className="flex h-full w-full justify-between">
         <CardTitle className="flex justify-center">
-          <LockKeyhole className="h-8 w-8 text-muted-foreground" />
+          <Image src={SecmoLogo} height={500} width={500} alt="Secmo Logo" />
         </CardTitle>
       </CardHeader>
       <CardDescription></CardDescription>
