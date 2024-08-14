@@ -20,6 +20,7 @@ import {
 } from "~/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
 import { useEffect } from "react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
 
 export interface ModelControlPanelProps {
   stages: Stage[];
@@ -82,13 +83,24 @@ const ModelControlPanel = React.forwardRef<
       {session ? (
         <div className="flex w-full">
           {allProjects?.length == 0 ? (
-            <div className="overflow-hidden">
+            <div className="overflow-hidden text-center font-semibold">
               This user has no projects assigned.
             </div>
           ) : (
             <div className="flex w-full flex-col items-center text-sm">
-              <div className="m-2 flex-shrink-0 overflow-hidden font-bold">
-                Current project:
+              <div className="m-2 flex-shrink-0 overflow-hidden font-bold hover:underline">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link href={`/projects/${currentProject?.id}`}>
+                      <Button variant={"outline"}>
+                        {currentProject?.name}
+                      </Button>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    Go to project details
+                  </TooltipContent>
+                </Tooltip>
               </div>
               <div className="mb-2">
                 <DropdownMenu>
