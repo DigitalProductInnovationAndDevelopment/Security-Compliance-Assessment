@@ -32,7 +32,7 @@ const CardWrapper = React.forwardRef<HTMLDivElement, CardWrapperProps>(
     );
 
     const areaClasses = cn(
-      "absolute w-full h-full inset-0 bg-white hover:opacity-50",
+      "absolute w-full h-full inset-0 bg-white hover:opacity-90",
       {
         "z-1": !artifactsView && isAreaVisible, //Area visible
         "z-[-1]": artifactsView || !isAreaVisible, //Area hidden
