@@ -279,6 +279,7 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
                 "text-bold absolute bottom-2 right-2 space-x-1 text-sm",
                 backgroundColor,
               )}
+              title={"Area maturity score"}
             >
               {maturityScore.toFixed(0)}%
             </div>
