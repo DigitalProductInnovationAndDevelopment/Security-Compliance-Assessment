@@ -37,7 +37,7 @@ const chartConfig = {
 export function ProjectCompletion() {
   return (
     <ChartContainer config={chartConfig}>
-      <RadarChart
+      <RadarChart data-testid="radar-chart"
         data={chartData}
         margin={{
           top: -40,
