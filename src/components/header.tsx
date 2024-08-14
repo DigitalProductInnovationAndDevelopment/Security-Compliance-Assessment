@@ -28,7 +28,7 @@ export default function Header({ session }: { session: Session | null }) {
           href="#"
           className="flex items-center gap-2 text-lg font-semibold md:text-base"
         >
-          <Image src={SecmoLogo} height={500} width={500} alt="Secmo Logo" />
+          <Image src={SecmoLogo} height={150} width={150} alt="Secmo Logo" />
         </Link>
 
         {/* Drop-down menu for Project */}
