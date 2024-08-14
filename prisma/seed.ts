@@ -58,6 +58,7 @@ async function handleStageData(data: any) {
     const {
       area_id,
       area_name,
+      area_type,
       question = "",
       assessors_guide = "",
       artefacts = [], // Default to an empty array if not provided
@@ -82,6 +83,7 @@ async function handleStageData(data: any) {
       create: {
         area_id,
         area_name,
+        area_type,
         question,
         assessors_guide,
         stage: { connect: { id: stageModel.id } },
@@ -95,6 +97,7 @@ async function handleStageData(data: any) {
       },
       update: {
         area_name,
+        area_type,
         question,
         assessors_guide,
         stage: { connect: { id: stageModel.id } },

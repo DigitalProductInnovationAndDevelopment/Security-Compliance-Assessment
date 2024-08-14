@@ -96,6 +96,7 @@ model Area {
   id                   Int         @id @default(autoincrement())
   area_id              String
   area_name            String
+  area_type            String
   people               String
   process              String
   technology           String

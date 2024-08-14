@@ -7,7 +7,7 @@ import { ArtifactCard } from "./artifactCard";
 import { AreaCard, AreaProps } from "./areaCard";
 import { ArtifactProps } from "./artifactCard";
 import useViewStore from "../../stores/useViewStore";
-import { ARTEFACT_VIEW } from "~/stores/viewTypes";
+import { ARTEFACT_VIEW, AREA_VIEW } from "~/stores/viewTypes";
 import { useState } from "react";
 
 type CardWrapperProps = {
@@ -19,6 +19,8 @@ type CardWrapperProps = {
 const CardWrapper = React.forwardRef<HTMLDivElement, CardWrapperProps>(
   ({ className, area, artifacts }, ref) => {
     const currentView = useViewStore((state) => state.currentView);
+    const setArtefactView = useViewStore((state) => state.setArtefactView);
+    const setAreaView = useViewStore((state) => state.setAreaView);
     const artifactsView = currentView === ARTEFACT_VIEW;
     const [isAreaVisible, setIsAreaVisible] = useState(true);
     const [isHovered, setIsHovered] = useState(false);
@@ -31,14 +33,11 @@ const CardWrapper = React.forwardRef<HTMLDivElement, CardWrapperProps>(
       },
     );
 
-    const areaClasses = cn(
-      "absolute w-full h-full inset-0 bg-white hover:opacity-50",
-      {
-        "z-1": !artifactsView && isAreaVisible, //Area visible
-        "z-[-1]": artifactsView || !isAreaVisible, //Area hidden
-        "z-10": !artifactsView && !isAreaVisible && isHovered,
-      },
-    );
+    const areaClasses = cn("absolute w-full h-full inset-0 bg-white", {
+      "z-1": !artifactsView && isAreaVisible, //Area visible
+      "z-[-1]": artifactsView || !isAreaVisible, //Area hidden
+      "z-10": !artifactsView && !isAreaVisible && isHovered,
+    });
 
     const toggleVisibility = () => {
       setIsAreaVisible(!isAreaVisible);
@@ -75,6 +74,7 @@ const CardWrapper = React.forwardRef<HTMLDivElement, CardWrapperProps>(
           <AreaCard
             id={area.id}
             name={area.name}
+            type={area.type}
             visible={isAreaVisible}
             toggleVisibility={toggleVisibility}
           />
