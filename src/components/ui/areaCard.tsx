@@ -38,17 +38,20 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
       area_id: area.id,
     });
 
-  const { data: areaScore, isFetched: isScoreFetched, refetch: refetchAreaScore } =
-    api.assessment.getAreaScore.useQuery(
-      {
-        projectId: currentProject?.id || -1,
-        areaId: areaDetails?.id || -1,
-      },
-      {
-        enabled: userLoggedIn && !!currentProject?.id && !!areaDetails?.id,
-        refetchOnWindowFocus: 'always',
-      },
-    );
+  const {
+    data: areaScore,
+    isFetched: isScoreFetched,
+    refetch: refetchAreaScore,
+  } = api.assessment.getAreaScore.useQuery(
+    {
+      projectId: currentProject?.id || -1,
+      areaId: areaDetails?.id || -1,
+    },
+    {
+      enabled: userLoggedIn && !!currentProject?.id && !!areaDetails?.id,
+      refetchOnWindowFocus: "always",
+    },
+  );
 
   const { data: areaAssessment, refetch: refetchAreaAssessment } =
     api.assessment.getAreaAssessment.useQuery({
@@ -131,16 +134,16 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
     ? maturityScore == null || maturityScore < 20
       ? "text-black bg-[hsl(var(--assessment-level-0))]"
       : maturityScore >= 20 && maturityScore < 40
-      ? "text-black bg-[hsl(var(--assessment-level-1))]"
-      : maturityScore >= 40 && maturityScore < 60
-      ? "text-white bg-[hsl(var(--assessment-level-2))]"
-      : maturityScore >= 60 && maturityScore < 80
-      ? "text-white bg-[hsl(var(--assessment-level-3))]"
-      : maturityScore >= 80 && maturityScore < 100
-      ? "text-white bg-[hsl(var(--assessment-level-4))]"
-      : maturityScore === 100
-      ? "text-white bg-[hsl(var(--assessment-level-5))]"
-      : ""
+        ? "text-black bg-[hsl(var(--assessment-level-1))]"
+        : maturityScore >= 40 && maturityScore < 60
+          ? "text-white bg-[hsl(var(--assessment-level-2))]"
+          : maturityScore >= 60 && maturityScore < 80
+            ? "text-white bg-[hsl(var(--assessment-level-3))]"
+            : maturityScore >= 80 && maturityScore < 100
+              ? "text-white bg-[hsl(var(--assessment-level-4))]"
+              : maturityScore === 100
+                ? "text-white bg-[hsl(var(--assessment-level-5))]"
+                : ""
     : ""; // if not loggedIn show no color coding
 
   useEffect(() => {
@@ -270,14 +273,16 @@ const AreaCard = React.forwardRef<HTMLDivElement, AreaProps>((area, ref) => {
               </Sheet>
             )}
           </div>
-          <div
-            className={cn(
-              "text-bold absolute bottom-2 right-2 space-x-1 text-sm",
-              backgroundColor,
-            )}
-          >
-            {maturityScore.toFixed(0)}%
-          </div>
+          {userLoggedIn && (
+            <div
+              className={cn(
+                "text-bold absolute bottom-2 right-2 space-x-1 text-sm",
+                backgroundColor,
+              )}
+            >
+              {maturityScore.toFixed(0)}%
+            </div>
+          )}
           <CardHeader
             className="flex flex-col items-center justify-center"
             title={area.name}
