@@ -23,8 +23,7 @@ const CardWrapper = React.forwardRef<HTMLDivElement, CardWrapperProps>(
     const setAreaView = useViewStore((state) => state.setAreaView);
     const artifactsView = currentView === ARTEFACT_VIEW;
     const [isAreaVisible, setIsAreaVisible] = useState(true);
-    // no hover effect
-    //const [isHovered, setIsHovered] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
 
     const artifactClasses = cn(
       "relative flex flex-col items-center gap-2 p-2",
@@ -37,8 +36,7 @@ const CardWrapper = React.forwardRef<HTMLDivElement, CardWrapperProps>(
     const areaClasses = cn("absolute w-full h-full inset-0 bg-white", {
       "z-1": !artifactsView && isAreaVisible, //Area visible
       "z-[-1]": artifactsView || !isAreaVisible, //Area hidden
-      // no hover effect
-      //"z-10": !artifactsView && !isAreaVisible && isHovered,
+      "z-10": !artifactsView && !isAreaVisible && isHovered,
     });
 
     const toggleVisibility = () => {
@@ -51,9 +49,12 @@ const CardWrapper = React.forwardRef<HTMLDivElement, CardWrapperProps>(
           `relative flex-grow ${artifactsView || !isAreaVisible ? "rounded-xl border-2 border-dashed" : ""}`,
           className,
         )}
-        // no hover effect
-        //onMouseEnter={() => {setIsHovered(true);}}
-        //onMouseLeave={() => {setIsHovered(false);}}
+        onMouseEnter={() => {
+          setIsHovered(true);
+        }}
+        onMouseLeave={() => {
+          setIsHovered(false);
+        }}
       >
         <div className={artifactClasses}>
           {artifacts.length === 0 ? (
