@@ -70,8 +70,8 @@ export default function Header({ session }: { session: Session | null }) {
             >
               <Image
                 src={SecmoLogo}
-                height={500}
-                width={500}
+                height={150}
+                width={150}
                 alt="Secmo Logo"
               />
               <span className="sr-only">Secmo</span>

@@ -18,7 +18,7 @@ export default function Unauthorised() {
     <Card>
       <CardHeader className="flex h-full w-full justify-between">
         <CardTitle className="flex justify-center">
-          <Image src={SecmoLogo} height={500} width={500} alt="Secmo Logo" />
+          <Image src={SecmoLogo} height={40} width={40} alt="Secmo Logo" />
         </CardTitle>
       </CardHeader>
       <CardDescription></CardDescription>
