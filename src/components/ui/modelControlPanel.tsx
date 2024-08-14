@@ -92,14 +92,10 @@ const ModelControlPanel = React.forwardRef<
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Link href={`/projects/${currentProject?.id}`}>
-                      <Button variant={"link"}>
-                        {currentProject?.name}
-                      </Button>
+                      <Button variant={"link"}>Current project</Button>
                     </Link>
                   </TooltipTrigger>
-                  <TooltipContent>
-                    Go to project details
-                  </TooltipContent>
+                  <TooltipContent>Go to project details</TooltipContent>
                 </Tooltip>
               </div>
               <div className="mb-2">
