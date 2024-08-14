@@ -17,12 +17,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Badge } from "~/components/ui/badge";
 import { Label } from "~/components/ui/label";
 
-const project_statuses = ["all-projects", "archived-projects"];
-const displayNames: Record<string, string> = {
-  "all-projects": "All",
-  "archived-projects": "Archived",
-};
-
 export default async function Page() {
   const session = await getServerAuthSession();
 
@@ -54,7 +48,7 @@ export default async function Page() {
   return (
     <div>
       <div className="-ml-3 flex min-w-full">
-        {project_statuses.map((project_status) => (
+        {/* {project_statuses.map((project_status) => (
           <div key={project_status} className="border-gray-200 py-4">
             <div className="flex flex-row">
               <span className="inline-flex items-center">
@@ -66,7 +60,7 @@ export default async function Page() {
               </span>
             </div>
           </div>
-        ))}
+        ))} */}
       </div>
       <div className="flex flex-wrap gap-4 py-10">
         {projects.map((project, index) => (
